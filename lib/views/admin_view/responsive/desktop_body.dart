@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:donite/controller/disaster_controller.dart';
 import 'package:donite/views/admin_view/constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
+import 'package:donite/views/admin_view/widgets/card_widget.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
@@ -9,7 +10,6 @@ import 'package:donite/views/admin_view/widgets/tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DesktopScaffold extends StatefulWidget {
@@ -226,7 +226,21 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
               ),
             ),
           ),
-          onPressed: () async {},
+          onPressed: () async {
+            _disasterController.createDisaster(
+                title: _titleController.text.trim(),
+                date: _dateController.text.trim(),
+                disasterType: _disasterTypeController.text.trim(),
+                location: _locationController.text.trim(),
+                information: _informationController.text.trim(),
+                imagePath: imageFile!.path.toString().trim());
+            _titleController.clear();
+            _dateController.clear();
+            _disasterTypeController.clear();
+            _locationController.clear();
+            _informationController.clear();
+            imageFile = null;
+          },
           child: const Text('SUBMIT'),
         ),
       ),

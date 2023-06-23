@@ -34,6 +34,8 @@ dependencies:
   image_picker: ^0.8.9
   syncfusion_flutter_datepicker: ^21.2.10
   syncfusion_flutter_core: ^21.2.10
+  cool_alert: ^2.0.1
+  sqflite_common_ffi: ^2.2.5
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +63,8 @@ flutter:
     - assets/welcome.json
     - assets/welcome2.json
     - assets/gallery.png
+    - assets/delete.json
+    - assets/delete2.json
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

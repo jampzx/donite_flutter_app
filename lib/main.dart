@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import 'controller/authentication_controller.dart';
-
 void main() {
   runApp(const MyApp());
 }
@@ -18,15 +16,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final token = box.read('token');
+    final token = box.read('token').toString().replaceAll('"', "");
 
     debugPrint(token.toString());
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: token == null
-      //     ? const LoginView()
-      //     : const AdminHomeView(), //remove constant after doing admin view
-      home: AdminHomeView(),
+      home: token != null ? const AdminHomeView() : const LoginView(),
     );
   }
 }

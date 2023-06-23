@@ -1,6 +1,5 @@
 import 'package:donite/views/admin_view/constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
-import 'package:donite/views/admin_view/widgets/tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class MobileScaffold extends StatefulWidget {

@@ -40,38 +40,145 @@ class _AlertDialogWidgetState extends State<AlertDialogWidget> {
   late DateTime _selectedDate = DateTime.now();
   File? imageFile;
 
-  // @override
-  // void dispose() {
-  //   _titleController.dispose();
-  //   _dateController.dispose();
-  //   _disasterTypeController.dispose();
-  //   _locationController.dispose();
-  //   _informationController.dispose();
-  //   super.dispose();
-  // }
-
   final DisasterController _disasterController = Get.put(DisasterController());
+
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.edit),
-      onPressed: () {
-        showDataAlert(
-            context,
-            _titleController,
-            _dateController,
-            _disasterTypeController,
-            _locationController,
-            _informationController,
-            _selectedDate,
-            imageFile,
-            widget.id,
-            widget.title,
-            widget.date,
-            widget.disasterType,
-            widget.location,
-            widget.information,
-            widget.path);
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    double dialogWidth = screenWidth * 0.5;
+    double dialogHeight = screenHeight * 0.7;
+    return StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                5.0,
+              ),
+            ),
+          ),
+          contentPadding: const EdgeInsets.only(
+            top: 8.0,
+          ),
+          title: const Text(
+            "EDIT DISASTER",
+            style: TextStyle(fontSize: 24.0),
+          ),
+          content: SizedBox(
+            width: dialogWidth,
+            height: dialogHeight,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
+                  children: [
+                    Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: imageFile != null
+                            ? Image.file(
+                                imageFile!,
+                              )
+                            : Image.network(
+                                '${baseImageUrl}storage/${widget.path}')),
+                    InputWidget(
+                      controller: _titleController,
+                      //initialValue: title,
+                      hintext: widget.title,
+                      prefixicon: const Icon(
+                        Icons.text_format,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    DateWidget(
+                      controller: _dateController,
+                      //initialValue: date,
+                      hintext: widget.date,
+                      showDatePicker: _showDatePicker,
+                      prefixicon:
+                          const Icon(Icons.calendar_month, color: Colors.grey),
+                    ),
+                    InputWidget(
+                      controller: _disasterTypeController,
+                      //initialValue: disasterType,
+                      hintext: widget.disasterType,
+                      prefixicon:
+                          const Icon(Icons.category, color: Colors.grey),
+                    ),
+                    InputWidget(
+                      controller: _locationController,
+                      //initialValue: location,
+                      hintext: widget.location,
+                      prefixicon:
+                          const Icon(Icons.location_on, color: Colors.grey),
+                    ),
+                    ImageWidget(
+                      hintext:
+                          imageFile != null ? 'Image Selected' : 'Select Image',
+                      pickImage: () {
+                        pickImage().then((pickedImage) {
+                          setState(() {
+                            imageFile = pickedImage;
+                          });
+                        });
+                      },
+                      prefixicon: imageFile != null
+                          ? const Icon(
+                              Icons.check_circle_outline,
+                              color: Colors.green,
+                            )
+                          : const Icon(
+                              Icons.upload,
+                              color: Colors.grey,
+                            ),
+                    ),
+                    InputWidget(
+                      controller: _informationController,
+                      //initialValue: information,
+                      hintext: widget.information,
+                      prefixicon: const Icon(Icons.info, color: Colors.grey),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(
+                                Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                            shape: MaterialStateProperty.all(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                          onPressed: () async {
+                            await _disasterController.updateDisaster(
+                                id: widget.id.toString(),
+                                title: _titleController.text.trim(),
+                                date: _dateController.text.trim(),
+                                disasterType:
+                                    _disasterTypeController.text.trim(),
+                                location: _locationController.text.trim(),
+                                information: _informationController.text.trim(),
+                                imagePath: imageFile != null
+                                    ? imageFile!.path.toString().trim()
+                                    : '');
+                            _disasterController.getAllDisasters();
+                            // ignore: use_build_context_synchronously
+                            Navigator.pop(context);
+                          },
+                          child: const Text('SUBMIT'),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
       },
     );
   }
@@ -223,6 +330,8 @@ class _AlertDialogWidgetState extends State<AlertDialogWidget> {
                                         ? imageFile!.path.toString().trim()
                                         : '');
                                 _disasterController.getAllDisasters();
+                                // ignore: use_build_context_synchronously
+                                Navigator.pop(context);
                               },
                               child: const Text('SUBMIT'),
                             ),

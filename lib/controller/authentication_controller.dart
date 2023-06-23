@@ -37,6 +37,11 @@ class AuthenticationController extends GetxController {
         token.value = json.encode(json.decode(jsonResponse)['token']);
         box.write('token', token.value);
         Get.offAll(() => const UserHomeView());
+        Get.snackbar(
+            'Success', json.encode(json.decode(jsonResponse)['message']),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.green,
+            colorText: Colors.white);
       } else {
         isLoading.value = false;
         var jsonResponse = await response.stream.bytesToString();
@@ -57,7 +62,7 @@ class AuthenticationController extends GetxController {
       var data = {'email': email, 'password': password};
 
       var response = await http.post(
-        Uri.parse(baseUrl + 'login'),
+        Uri.parse('${baseUrl}login'),
         headers: {
           'Accept': 'application/json',
         },
@@ -95,7 +100,7 @@ class AuthenticationController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 }
