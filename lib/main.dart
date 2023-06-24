@@ -21,7 +21,8 @@ class MyApp extends StatelessWidget {
     debugPrint(token.toString());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: token != null ? const AdminHomeView() : const LoginView(),
+      // home: token != null ? const AdminHomeView() : const LoginView(),
+      home: token != null ? const UserHomeView() : const LoginView(),
     );
   }
 }

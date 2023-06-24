@@ -30,7 +30,11 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2),
                   itemBuilder: (context, index) {
-                    return MyBox();
+                    return const MyBox(
+                        color: Colors.deepPurpleAccent,
+                        icon: Icons.people,
+                        textTitle: 'PENDING',
+                        textDetails: '1,000');
                   },
                 ),
               ),

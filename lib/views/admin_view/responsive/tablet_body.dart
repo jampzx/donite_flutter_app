@@ -1,6 +1,6 @@
 import 'package:donite/views/admin_view/constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
-import 'package:donite/views/admin_view/widgets/tile_widget.dart';
+import 'package:donite/views/user_view/widgets/tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class TabletScaffold extends StatefulWidget {
@@ -31,7 +31,11 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 4),
                   itemBuilder: (context, index) {
-                    return MyBox();
+                    return const MyBox(
+                        color: Colors.deepPurpleAccent,
+                        icon: Icons.people,
+                        textTitle: 'PENDING',
+                        textDetails: '1,000');
                   },
                 ),
               ),

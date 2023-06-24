@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 var defaultBackgroundColor = Colors.grey[300];
-var appBarColor = Colors.grey[900];
+var appBarColor = Colors.deepPurpleAccent;
 var myAppBar = AppBar(
   backgroundColor: appBarColor,
   title: Text(' '),
@@ -18,7 +18,7 @@ var myDrawer = Drawer(
     children: [
       const DrawerHeader(
         child: Icon(
-          Icons.favorite,
+          Icons.handshake,
           size: 64,
         ),
       ),

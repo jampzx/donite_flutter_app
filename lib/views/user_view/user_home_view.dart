@@ -1,5 +1,5 @@
+import 'package:donite/views/user_view/responsive/mobile_body.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 
 class UserHomeView extends StatefulWidget {
   const UserHomeView({super.key});
@@ -11,10 +11,10 @@ class UserHomeView extends StatefulWidget {
 class _UserHomeViewState extends State<UserHomeView> {
   @override
   Widget build(BuildContext context) {
-    final box = GetStorage();
-    var token = box.read('token');
-    return Scaffold(
-      body: Center(child: Text(token)),
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      //theme: ThemeData(primarySwatch: Colors.green),
+      home: MobileScaffold(),
     );
   }
 }

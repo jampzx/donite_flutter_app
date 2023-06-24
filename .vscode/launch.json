@@ -1,12 +1,19 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-      {
-        "name": "Flutter Desktop",
-        "request": "launch",
-        "type": "dart",
-        "program": "lib/main.dart",
-        "deviceType": "flutter-desktop"
-      }
-    ]
-  }
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Flutter Desktop",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceType": "flutter-desktop"
+    },
+    {
+      "name": "Flutter Mobile",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "deviceType": "flutter"
+    }
+  ]
+}

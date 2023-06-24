@@ -2,11 +2,11 @@ import 'dart:io';
 import 'package:donite/controller/disaster_controller.dart';
 import 'package:donite/views/admin_view/constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
-import 'package:donite/views/admin_view/widgets/card_widget.dart';
+import 'package:donite/views/admin_view/widgets/data_table_widget.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
-import 'package:donite/views/admin_view/widgets/tile_widget.dart';
+import 'package:donite/views/user_view/widgets/tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -49,128 +49,43 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
               child: Column(
                 children: [
                   // first 4 boxes in grid
-                  AspectRatio(
-                    aspectRatio: 4,
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: GridView.builder(
-                        itemCount: 4,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 4),
-                        itemBuilder: (context, index) {
-                          return MyBox();
-                        },
-                      ),
-                    ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      MyBox(
+                          color: Colors.orangeAccent,
+                          icon: Icons.people,
+                          textTitle: 'USERS',
+                          textDetails: '2,000'),
+                      MyBox(
+                          color: Colors.redAccent,
+                          icon: Icons.arrow_upward,
+                          textTitle: 'DONATIONS',
+                          textDetails: '1,000+'),
+                      MyBox(
+                          color: Colors.blueAccent,
+                          icon: Icons.verified,
+                          textTitle: 'VERIFIED',
+                          textDetails: '1,000'),
+                      MyBox(
+                          color: Colors.purpleAccent,
+                          icon: Icons.pending,
+                          textTitle: 'PENDING',
+                          textDetails: '1,000')
+                    ],
                   ),
-
+                  const SizedBox(
+                    height: 10,
+                  ),
                   // list of previous days
                   Expanded(
                     child: Obx(() {
                       return _disasterController.isLoading.value
                           ? const Center(child: CircularProgressIndicator())
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              itemCount:
-                                  _disasterController.disasters.value.length,
-                              itemBuilder: (context, index) {
-                                return MyTile(
-                                    disaster: _disasterController
-                                        .disasters.value[index]);
-                              });
+                          : const DataTableWidget();
                     }),
                   ),
                 ],
-              ),
-            ),
-            // second half of page
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                          //height: 400,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: Colors.grey[200],
-                          ),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: imageFile != null
-                                    ? Image.file(
-                                        imageFile!,
-                                        width: double.infinity,
-                                        height: 200,
-                                        fit: BoxFit.scaleDown,
-                                      )
-                                    : const FlutterLogo(
-                                        size: 200,
-                                      ),
-                              ),
-                              InputWidget(
-                                controller: _titleController,
-                                //initialValue: '',
-                                hintext: 'Title',
-                                prefixicon: const Icon(
-                                  Icons.text_format,
-                                  color: Colors.grey,
-                                ),
-                              ),
-                              DateWidget(
-                                controller: _dateController,
-                                //initialValue: '',
-                                hintext: 'Date',
-                                showDatePicker: _showDatePicker,
-                                prefixicon: const Icon(Icons.calendar_month,
-                                    color: Colors.grey),
-                              ),
-                              InputWidget(
-                                controller: _disasterTypeController,
-                                //initialValue: '',
-                                hintext: 'Disaster',
-                                prefixicon: const Icon(Icons.category,
-                                    color: Colors.grey),
-                              ),
-                              InputWidget(
-                                controller: _locationController,
-                                //initialValue: '',
-                                hintext: 'Location',
-                                prefixicon: const Icon(Icons.location_on,
-                                    color: Colors.grey),
-                              ),
-                              ImageWidget(
-                                hintext: imageFile != null
-                                    ? 'Image Selected'
-                                    : 'Select Image',
-                                pickImage: pickImage,
-                                prefixicon: imageFile != null
-                                    ? const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green,
-                                      )
-                                    : const Icon(
-                                        Icons.upload,
-                                        color: Colors.grey,
-                                      ),
-                              ),
-                              InputWidget(
-                                controller: _informationController,
-                                //initialValue: '',
-                                hintext: 'Information',
-                                prefixicon:
-                                    const Icon(Icons.info, color: Colors.grey),
-                              ),
-                              submitButton()
-                            ],
-                          )),
-                    ),
-                  ],
-                ),
               ),
             ),
           ],
