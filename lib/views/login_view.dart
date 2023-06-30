@@ -127,6 +127,7 @@ class _LoginViewState extends State<LoginView> {
                 children: [
                   /// email
                   InputWidget(
+                    keyboardType: TextInputType.text,
                     controller: _emailController,
                     hintext: 'email',
                     isObscure: false,
@@ -141,6 +142,7 @@ class _LoginViewState extends State<LoginView> {
 
                   /// password
                   InputWidget(
+                    keyboardType: TextInputType.text,
                     controller: _passwordController,
                     hintext: 'password',
                     isObscure: true,
@@ -206,8 +208,8 @@ class _LoginViewState extends State<LoginView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.deepPurpleAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

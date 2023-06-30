@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 TextStyle kLoginTitleStyle(Size size) => GoogleFonts.ubuntu(
-      fontSize: size.height * 0.060,
-      fontWeight: FontWeight.bold,
-    );
+    fontSize: size.height * 0.060, fontWeight: FontWeight.bold);
 
 TextStyle kLoginSubtitleStyle(Size size) => GoogleFonts.ubuntu(
       fontSize: size.height * 0.030,
@@ -20,9 +18,9 @@ TextStyle kLoginOrRegisterTextStyle(
   Size size,
 ) =>
     GoogleFonts.ubuntu(
-        fontSize: size.height * 0.022,
-        fontWeight: FontWeight.w500,
-        color: Colors.grey[900] //Colors.deepPurpleAccent,
-        );
+      fontSize: size.height * 0.022,
+      fontWeight: FontWeight.w500,
+      color: Colors.deepPurpleAccent,
+    );
 
 TextStyle kTextFormFieldStyle() => const TextStyle(color: Colors.black);

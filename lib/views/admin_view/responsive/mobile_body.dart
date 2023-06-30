@@ -1,4 +1,4 @@
-import 'package:donite/views/admin_view/constants.dart';
+import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
 import 'package:flutter/material.dart';
 

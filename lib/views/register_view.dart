@@ -135,6 +135,7 @@ class _RegisterViewState extends State<RegisterView> {
                 children: [
                   /// name
                   InputWidget(
+                      keyboardType: TextInputType.text,
                       controller: _nameController,
                       hintext: 'name',
                       isObscure: false,
@@ -148,6 +149,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                   /// email
                   InputWidget(
+                      keyboardType: TextInputType.text,
                       controller: _emailController,
                       hintext: 'email',
                       isObscure: false,
@@ -161,6 +163,7 @@ class _RegisterViewState extends State<RegisterView> {
 
                   /// password
                   InputWidget(
+                      keyboardType: TextInputType.text,
                       controller: _passwordController,
                       hintext: 'password',
                       isObscure: true,
@@ -277,8 +280,8 @@ class _RegisterViewState extends State<RegisterView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                      Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.deepPurpleAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

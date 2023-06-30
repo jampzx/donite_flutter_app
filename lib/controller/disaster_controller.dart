@@ -12,6 +12,7 @@ class DisasterController extends GetxController {
   Rx<List<DisasterModel>> disasters = Rx<List<DisasterModel>>([]);
   final isLoading = false.obs;
   final box = GetStorage();
+  String disasterCount = '';
 
   @override
   void onInit() {
@@ -25,13 +26,15 @@ class DisasterController extends GetxController {
       disasters.value.clear();
       isLoading.value = true;
       var response = await http.get(Uri.parse('${baseUrl}disaster'), headers: {
-        //'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
       if (response.statusCode == 200) {
         isLoading.value = false;
         final content = json.decode(response.body)['data'];
+        final disaster_count = json.decode(response.body)['total_disasters'];
+        disasterCount = disaster_count.toString();
         // debugPrint(json.encode(json.decode(response.body)));
         for (var item in content) {
           disasters.value.add(DisasterModel.fromJson(item));

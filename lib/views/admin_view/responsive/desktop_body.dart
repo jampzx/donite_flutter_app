@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:donite/controller/disaster_controller.dart';
-import 'package:donite/views/admin_view/constants.dart';
+import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
-import 'package:donite/views/admin_view/widgets/data_table_widget.dart';
+import 'package:donite/views/admin_view/widgets/disasters_data_table_widget.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
@@ -35,61 +35,58 @@ class _DesktopScaffoldState extends State<DesktopScaffold> {
     return Scaffold(
       backgroundColor: defaultBackgroundColor,
       appBar: myAppBar,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // open drawer
-            myDrawer,
+      body: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // open drawer
+          myDrawer,
 
-            // first half of page
-            Expanded(
-              flex: 2,
-              child: Column(
-                children: [
-                  // first 4 boxes in grid
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MyBox(
-                          color: Colors.orangeAccent,
-                          icon: Icons.people,
-                          textTitle: 'USERS',
-                          textDetails: '2,000'),
-                      MyBox(
-                          color: Colors.redAccent,
-                          icon: Icons.arrow_upward,
-                          textTitle: 'DONATIONS',
-                          textDetails: '1,000+'),
-                      MyBox(
-                          color: Colors.blueAccent,
-                          icon: Icons.verified,
-                          textTitle: 'VERIFIED',
-                          textDetails: '1,000'),
-                      MyBox(
-                          color: Colors.purpleAccent,
-                          icon: Icons.pending,
-                          textTitle: 'PENDING',
-                          textDetails: '1,000')
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  // list of previous days
-                  Expanded(
-                    child: Obx(() {
-                      return _disasterController.isLoading.value
-                          ? const Center(child: CircularProgressIndicator())
-                          : const DataTableWidget();
-                    }),
-                  ),
-                ],
-              ),
+          // first half of page
+          Expanded(
+            flex: 2,
+            child: Column(
+              children: [
+                // first 4 boxes in grid
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    MyBox(
+                        color: Colors.orangeAccent,
+                        icon: Icons.people,
+                        textTitle: 'USERS',
+                        textDetails: '2,000'),
+                    MyBox(
+                        color: Colors.redAccent,
+                        icon: Icons.arrow_upward,
+                        textTitle: 'DONATIONS',
+                        textDetails: '1,000+'),
+                    MyBox(
+                        color: Colors.blueAccent,
+                        icon: Icons.verified,
+                        textTitle: 'VERIFIED',
+                        textDetails: '1,000'),
+                    MyBox(
+                        color: Colors.purpleAccent,
+                        icon: Icons.pending,
+                        textTitle: 'PENDING',
+                        textDetails: '1,000')
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // list of previous days
+                Expanded(
+                  child: Obx(() {
+                    return _disasterController.isLoading.value
+                        ? const Center(child: CircularProgressIndicator())
+                        : const DisastersDataTableWidget();
+                  }),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

@@ -37,6 +37,11 @@ dependencies:
   cool_alert: ^2.0.1
   sqflite_common_ffi: ^2.2.5
   connectivity_plus: ^4.0.1
+  flutter_stripe: ^9.2.2
+  dropdown_button2: ^2.1.4
+  ionicons: ^0.2.2
+  excel: ^2.1.0
+  pdf: ^3.10.4
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +71,17 @@ flutter:
     - assets/gallery.png
     - assets/delete.json
     - assets/delete2.json
+    - assets/goods.jpg
+    - assets/heart.jpg
+    - assets/money.jpg
+    - assets/donation-box.json
+    - assets/donate2.json
+    - assets/thank-you.json
+    - assets/question-mark.json
+    - assets/successful.json
+
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

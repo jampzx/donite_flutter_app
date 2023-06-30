@@ -1,12 +1,17 @@
 import 'package:donite/views/admin_view/admin_home_view.dart';
 import 'package:donite/views/login_view.dart';
 import 'package:donite/views/user_view/user_home_view.dart';
-import 'package:donite/views/register_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  //Initialize Flutter Binding
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      "pk_test_51NMQupJMTi5c9Xd0ctcdFTKJWkBoN78QKszz9ZSOZQiV9H6Wk7sGUveRe1YhSD59nPjWJZHFtu4Xzk731BJV5NMT00Y5lAufwF";
+
   runApp(const MyApp());
 }
 
@@ -16,13 +21,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    final token = box.read('token').toString().replaceAll('"', "");
+    final token = box.read('token')?.toString().replaceAll('"', "");
+    final userType = box.read('userType')?.toString().replaceAll('"', "");
+    debugPrint(token);
+    debugPrint(userType);
+
+    Widget homeWidget;
+    if (token != null && userType == 'user') {
+      homeWidget = const UserHomeView();
+    } else if (token != null && userType == 'admin') {
+      homeWidget = const AdminHomeView();
+    } else {
+      homeWidget = const LoginView();
+    }
 
     debugPrint(token.toString());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: token != null ? const AdminHomeView() : const LoginView(),
-      home: token != null ? const UserHomeView() : const LoginView(),
+      home: homeWidget,
     );
   }
 }
