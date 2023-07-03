@@ -1,5 +1,8 @@
 import 'package:donite/views/admin_view/admin_home_view.dart';
 import 'package:donite/views/login_view.dart';
+import 'package:donite/views/user_view/forgot_password_view.dart';
+import 'package:donite/views/user_view/not_verified_view.dart';
+import 'package:donite/views/user_view/reset_password_success_view.dart';
 import 'package:donite/views/user_view/user_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -38,7 +41,8 @@ class MyApp extends StatelessWidget {
     debugPrint(token.toString());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: homeWidget,
+      // home: homeWidget,
+      home: UserHomeView(),
     );
   }
 }

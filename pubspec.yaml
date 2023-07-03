@@ -79,8 +79,10 @@ flutter:
     - assets/thank-you.json
     - assets/question-mark.json
     - assets/successful.json
-
-
+    - assets/change-passwords.json
+    - assets/forgot-password.json
+    - assets/forgot-password2.json
+    - assets/pending.json
 
 
   # The following line ensures that the Material Icons font is

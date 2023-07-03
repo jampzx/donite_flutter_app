@@ -4,6 +4,9 @@ import 'package:donite/constants/constants.dart';
 import 'package:donite/model/authentication_model.dart';
 import 'package:donite/views/admin_view/admin_home_view.dart';
 import 'package:donite/views/login_view.dart';
+import 'package:donite/views/user_view/not_verified_view.dart';
+import 'package:donite/views/user_view/reset_password_success_view.dart';
+import 'package:donite/views/user_view/reset_password_view.dart';
 import 'package:donite/views/user_view/user_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -66,7 +69,7 @@ class AuthenticationController extends GetxController {
     required bool verified,
   }) async {
     final token = box.read('token');
-    final url = Uri.parse('${baseUrl}donation/update/$id');
+    final url = Uri.parse('${baseUrl}user/update/$id');
     final headers = {
       'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
       'Content-Type': 'application/json',
@@ -195,6 +198,7 @@ class AuthenticationController extends GetxController {
               snackPosition: SnackPosition.TOP,
               backgroundColor: Colors.red,
               colorText: Colors.white);
+          Get.offAll(() => NotYetVerifiedView());
         }
       } else {
         isLoading.value = false;
@@ -229,6 +233,82 @@ class AuthenticationController extends GetxController {
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.redAccent,
           colorText: Colors.white);
+    }
+  }
+
+  Future sendResetEmail({required String email}) async {
+    try {
+      isLoading.value = true;
+      var data = {'email': email};
+
+      var response = await http.post(
+        Uri.parse('${baseUrl}forgot'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      debugPrint(response.statusCode.toString());
+      if (response.statusCode == 201) {
+        isLoading.value = false;
+        Get.offAll(() => ResetPasswordView(
+              email: email,
+            ));
+      } else {
+        isLoading.value = false;
+        Get.snackbar(
+            'Error', json.encode(json.decode(response.body)['message']),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
+    } catch (e) {
+      isLoading.value = false;
+      debugPrint(e.toString());
+    }
+  }
+
+  Future resetPassword(
+      {required String token,
+      required String email,
+      required String password,
+      required String confirmPassword}) async {
+    try {
+      isLoading.value = true;
+      var data = {'token': token, 'email': email, 'password': password};
+
+      var response = await http.post(
+        Uri.parse('${baseUrl}reset'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: data,
+      );
+
+      if (password != confirmPassword) {
+        isLoading.value = false;
+        Get.snackbar('Error', 'Password do not match!',
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      } else {
+        debugPrint(response.statusCode.toString());
+        if (response.statusCode == 201) {
+          isLoading.value = false;
+          Get.offAll(() => ResetPasswordSuccessView());
+        } else {
+          isLoading.value = false;
+          Get.snackbar(
+              'Error', json.encode(json.decode(response.body)['message']),
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        }
+      }
+    } catch (e) {
+      isLoading.value = false;
+      debugPrint(e.toString());
     }
   }
 }

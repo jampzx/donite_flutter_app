@@ -35,8 +35,8 @@ class DonationController extends GetxController {
       if (response.statusCode == 200) {
         isLoading.value = false;
         final content = json.decode(response.body)['data'];
-        final donations = json.decode(response.body)['total_donations'];
-        donationCount = donations.toString();
+        final donations_count = json.decode(response.body)['total_donations'];
+        donationCount = donations_count.toString();
         for (var item in content) {
           donations.value.add(DonationModel.fromJson(item));
         }

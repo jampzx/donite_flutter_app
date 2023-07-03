@@ -115,16 +115,16 @@ class _RegisterViewState extends State<RegisterView> {
               style: kLoginTitleStyle(size),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: Text(
-              'Create Account',
-              style: kLoginSubtitleStyle(size),
-            ),
-          ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.only(left: 20.0),
+          //   child: Text(
+          //     'Create Account',
+          //     style: kLoginSubtitleStyle(size),
+          //   ),
+          // ),
           SizedBox(
             height: size.height * 0.03,
           ),

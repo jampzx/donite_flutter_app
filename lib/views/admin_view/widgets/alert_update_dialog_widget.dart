@@ -45,6 +45,11 @@ class _AlertUpdateDialogWidgetState extends State<AlertUpdateDialogWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _titleController.text = widget.title.toString();
+    _dateController.text = widget.date.toString();
+    _disasterTypeController.text = widget.disasterType.toString();
+    _locationController.text = widget.location.toString();
+    _informationController.text = widget.information.toString();
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double dialogWidth = screenWidth * 0.3;

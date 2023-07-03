@@ -4,7 +4,7 @@ var defaultBackgroundColor = Colors.grey[300];
 var appBarColor = Colors.deepPurpleAccent;
 var myAppBar = AppBar(
   backgroundColor: appBarColor,
-  title: const Text('Donite'),
+  title: const Text('Donite Administration Panel'),
   centerTitle: false,
 );
 var drawerTextColor = const TextStyle(

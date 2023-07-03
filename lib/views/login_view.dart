@@ -1,5 +1,6 @@
 import 'package:donite/controller/authentication_controller.dart';
 import 'package:donite/views/register_view.dart';
+import 'package:donite/views/user_view/forgot_password_view.dart';
 import 'package:donite/views/user_view/widgets/input_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -148,6 +149,28 @@ class _LoginViewState extends State<LoginView> {
                     isObscure: true,
                     prefixicon: const Icon(Icons.lock_open, color: Colors.grey),
                   ),
+                  SizedBox(
+                    height: size.height * 0.01,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (ctx) => ForgotPasswordView()));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 5, bottom: 0, right: 0, top: 0),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Forgot password?',
+                          style: kForgotPasswordStyle(size),
+                        ),
+                      ),
+                    ),
+                  ),
 
                   SizedBox(
                     height: size.height * 0.01,
@@ -208,8 +231,7 @@ class _LoginViewState extends State<LoginView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

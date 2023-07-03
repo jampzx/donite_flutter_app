@@ -35,7 +35,7 @@ class DisasterController extends GetxController {
         final content = json.decode(response.body)['data'];
         final disaster_count = json.decode(response.body)['total_disasters'];
         disasterCount = disaster_count.toString();
-        // debugPrint(json.encode(json.decode(response.body)));
+        debugPrint(json.encode(json.decode(response.body)));
         for (var item in content) {
           disasters.value.add(DisasterModel.fromJson(item));
         }
@@ -269,11 +269,19 @@ class DisasterController extends GetxController {
         colorText: Colors.white,
       );
     } else {
+      createDisaster(
+          title: title,
+          date: date,
+          disasterType: disasterType,
+          location: location,
+          information: information,
+          imagePath: imagePath);
+      getAllDisasters();
       Get.snackbar(
-        'Error',
-        'You have internet connection available, please post online',
+        'Warning',
+        'You have internet connection available, the post was posted online',
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
+        backgroundColor: const Color.fromARGB(255, 228, 205, 0),
         colorText: Colors.white,
       );
     }
