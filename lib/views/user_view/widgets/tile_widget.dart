@@ -75,7 +75,7 @@ class _MyTileState extends State<MyTile> {
                               children: [
                                 const Icon(
                                   Icons.calendar_month,
-                                  color: Color(0xFF7C4DFF),
+                                  color: Colors.blueAccent,
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -84,7 +84,7 @@ class _MyTileState extends State<MyTile> {
                                 Text(
                                   widget.disaster.date!,
                                   style: const TextStyle(
-                                    color: Color(0xFF7C4DFF),
+                                    color: Colors.blueAccent,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -97,7 +97,7 @@ class _MyTileState extends State<MyTile> {
                               children: [
                                 const Icon(
                                   Icons.location_pin,
-                                  color: Color(0xFF7C4DFF),
+                                  color: Colors.blueAccent,
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -106,7 +106,7 @@ class _MyTileState extends State<MyTile> {
                                 Text(
                                   widget.disaster.location!,
                                   style: const TextStyle(
-                                    color: Color(0xFF7C4DFF),
+                                    color: Colors.blueAccent,
                                     fontSize: 12,
                                   ),
                                 ),
@@ -148,7 +148,7 @@ class _MyTileState extends State<MyTile> {
                 child: ElevatedButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.transparent,
-                    backgroundColor: const Color(0xFF7C4DFF),
+                    backgroundColor: Colors.blueAccent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),

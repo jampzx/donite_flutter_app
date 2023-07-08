@@ -152,7 +152,7 @@ class _AlertUpdateDialogWidgetState extends State<AlertUpdateDialogWidget> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                                Colors.blueAccent /*Colors.deepPurpleAccent*/),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),

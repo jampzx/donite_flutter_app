@@ -31,7 +31,7 @@ class _MobileScaffoldState extends State<MobileScaffold> {
                       crossAxisCount: 2),
                   itemBuilder: (context, index) {
                     return const MyBox(
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.blueAccent,
                         icon: Icons.people,
                         textTitle: 'PENDING',
                         textDetails: '1,000');

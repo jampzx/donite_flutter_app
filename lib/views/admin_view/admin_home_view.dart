@@ -1,4 +1,6 @@
 import 'package:donite/controller/authentication_controller.dart';
+import 'package:donite/controller/disaster_controller.dart';
+import 'package:donite/controller/donation_controller.dart';
 import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/disaster_management_view.dart';
 import 'package:donite/views/admin_view/donation_management_view.dart';
@@ -14,6 +16,14 @@ class AdminHomeView extends StatefulWidget {
 }
 
 class _AdminHomeViewState extends State<AdminHomeView> {
+  @override
+  void initState() {
+    super.initState();
+    // _authenticationController.getAllUsers();
+    // _disasterController.getAllDisasters();
+    // _donationController.getAllDonations();
+  }
+
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
@@ -25,6 +35,8 @@ class _AdminHomeViewState extends State<AdminHomeView> {
 
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
+  final DisasterController _disasterController = Get.put(DisasterController());
+  final DonationController _donationController = Get.put(DonationController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,16 +65,16 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 });
               },
               extended: isExpanded,
-              backgroundColor: Colors.deepPurpleAccent,
+              backgroundColor: Colors.blueAccent,
               unselectedIconTheme:
                   const IconThemeData(color: Colors.white, opacity: 1),
               unselectedLabelTextStyle: const TextStyle(
                 color: Colors.white,
               ),
               selectedIconTheme:
-                  IconThemeData(color: Colors.deepPurpleAccent.shade700),
+                  IconThemeData(color: Colors.blueAccent.shade700),
               selectedLabelTextStyle: TextStyle(
-                color: Colors.deepPurpleAccent.shade700,
+                color: Colors.blueAccent.shade700,
               ),
               destinations: const [
                 NavigationRailDestination(

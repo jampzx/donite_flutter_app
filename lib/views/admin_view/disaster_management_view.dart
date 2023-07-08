@@ -18,6 +18,12 @@ class DisasterManagementView extends StatefulWidget {
 }
 
 class _DisasterManagementViewState extends State<DisasterManagementView> {
+  @override
+  void initState() {
+    super.initState();
+    _disasterController.getAllDisasters();
+  }
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _disasterTypeController = TextEditingController();

@@ -41,7 +41,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: myAppBar,
+      appBar: AppBar(title: const Text('')),
       body: SingleChildScrollView(
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,8 +140,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

@@ -34,7 +34,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: myAppBar,
+      appBar: AppBar(title: const Text('')),
       body: SingleChildScrollView(
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,8 +126,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
@@ -136,7 +135,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 ),
                 onPressed: () async {
                   _authenticationController.sendResetEmail(
-                      email: emailController.text.trim());
+                      email: emailController.text.trim(), context: context);
                 },
                 child: const Text('NEXT'),
               );

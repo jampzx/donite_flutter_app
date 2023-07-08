@@ -28,7 +28,6 @@ class _AlertOfflineCreateDialogWidgetState
   final TextEditingController _informationController = TextEditingController();
   late DateTime _selectedDate = DateTime.now();
   File? imageFile;
-
   final DisasterController _disasterController = Get.put(DisasterController());
 
   @override
@@ -134,7 +133,7 @@ class _AlertOfflineCreateDialogWidgetState
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                                Colors.blueAccent /*Colors.deepPurpleAccent*/),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -142,16 +141,29 @@ class _AlertOfflineCreateDialogWidgetState
                             ),
                           ),
                           onPressed: () async {
-                            await _disasterController.saveLocally(
-                                title: _titleController.text.trim(),
-                                date: _dateController.text.trim(),
-                                disasterType:
-                                    _disasterTypeController.text.trim(),
-                                location: _locationController.text.trim(),
-                                information: _informationController.text.trim(),
-                                imagePath: imageFile!.path.toString().trim());
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
+                            if (imageFile == null ||
+                                _titleController.text == '' ||
+                                _dateController.text == '' ||
+                                _disasterTypeController.text == '' ||
+                                _disasterTypeController.text == '' ||
+                                _informationController.text == '') {
+                              Get.snackbar('Error', 'Please fill all fields',
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            } else {
+                              await _disasterController.saveLocally(
+                                  title: _titleController.text.trim(),
+                                  date: _dateController.text.trim(),
+                                  disasterType:
+                                      _disasterTypeController.text.trim(),
+                                  location: _locationController.text.trim(),
+                                  information:
+                                      _informationController.text.trim(),
+                                  imagePath: imageFile!.path.toString().trim());
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
                           },
                           child: const Text('SUBMIT'),
                         ),

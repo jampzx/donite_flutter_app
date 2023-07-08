@@ -24,6 +24,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
 
   cupertino_icons: ^1.0.2
   get: ^4.6.5
@@ -42,6 +45,7 @@ dependencies:
   ionicons: ^0.2.2
   excel: ^2.1.0
   pdf: ^3.10.4
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -83,6 +87,8 @@ flutter:
     - assets/forgot-password.json
     - assets/forgot-password2.json
     - assets/pending.json
+    - assets/thank-you2.json
+
 
 
   # The following line ensures that the Material Icons font is

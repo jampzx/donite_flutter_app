@@ -32,7 +32,7 @@ class _TabletScaffoldState extends State<TabletScaffold> {
                       crossAxisCount: 4),
                   itemBuilder: (context, index) {
                     return const MyBox(
-                        color: Colors.deepPurpleAccent,
+                        color: Colors.blueAccent,
                         icon: Icons.people,
                         textTitle: 'PENDING',
                         textDetails: '1,000');

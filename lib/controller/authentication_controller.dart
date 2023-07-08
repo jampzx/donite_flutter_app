@@ -21,6 +21,9 @@ class AuthenticationController extends GetxController {
   final box = GetStorage();
   String verifiedUser = '';
   String unverifiedUser = '';
+  String userId = '';
+  String userName = '';
+  String userEmail = '';
 
   @override
   void onInit() {
@@ -136,9 +139,8 @@ class AuthenticationController extends GetxController {
         var jsonResponse = await response.stream.bytesToString();
         token.value = json.encode(json.decode(jsonResponse)['token']);
         box.write('token', token.value);
-        Get.offAll(() => UserHomeView());
-        Get.snackbar(
-            'Success', json.encode(json.decode(jsonResponse)['message']),
+        Get.offAll(() => NotYetVerifiedView());
+        Get.snackbar('Success', 'Your account was created successfully!',
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.green,
             colorText: Colors.white);
@@ -176,6 +178,15 @@ class AuthenticationController extends GetxController {
         final responseData = json.decode(response.body);
         debugPrint(responseData['user']['user_type']);
         int isVerified = responseData['user']['verified'];
+
+        final userid = json.decode(response.body)['user']['id'];
+        userId = userid.toString();
+
+        final username = json.decode(response.body)['user']['name'];
+        userName = username.toString();
+
+        final useremail = json.decode(response.body)['user']['email'];
+        userEmail = useremail.toString();
 
         if (isVerified == 1 && responseData['user']['user_type'] == null) {
           debugPrint(isVerified.toString());
@@ -236,7 +247,8 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future sendResetEmail({required String email}) async {
+  Future sendResetEmail(
+      {required String email, required BuildContext context}) async {
     try {
       isLoading.value = true;
       var data = {'email': email};
@@ -252,9 +264,16 @@ class AuthenticationController extends GetxController {
       debugPrint(response.statusCode.toString());
       if (response.statusCode == 201) {
         isLoading.value = false;
-        Get.offAll(() => ResetPasswordView(
-              email: email,
-            ));
+        // Get.offAll(() => ResetPasswordView(
+        //       email: email,
+        //     ));
+        // ignore: use_build_context_synchronously
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (ctx) => ResetPasswordView(
+                      email: email,
+                    )));
       } else {
         isLoading.value = false;
         Get.snackbar(

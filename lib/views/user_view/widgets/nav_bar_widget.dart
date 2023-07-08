@@ -1,6 +1,6 @@
 import 'package:donite/views/admin_view/responsive/mobile_body.dart';
 import 'package:donite/views/user_view/donations_view.dart';
-import 'package:donite/views/user_view/profile_view.dart';
+import 'package:donite/views/user_view/about_us_view.dart';
 import 'package:flutter/material.dart';
 
 class NavBarWidget extends StatefulWidget {
@@ -13,9 +13,9 @@ class NavBarWidget extends StatefulWidget {
 class _NavBarWidgetState extends State<NavBarWidget> {
   int currentIndex = 0;
   List listOfPage = [
-    MobileScaffold(),
-    DonationsView(),
-    ProfileView(),
+    const MobileScaffold(),
+    const DonationsView(),
+    const AboutUsView(),
     Container(
       color: Colors.black,
     ),

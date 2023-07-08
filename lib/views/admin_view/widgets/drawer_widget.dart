@@ -19,7 +19,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.deepPurpleAccent,
+              color: Colors.blueAccent,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

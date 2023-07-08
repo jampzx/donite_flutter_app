@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 var defaultBackgroundColor = Colors.grey[300];
-var appBarColor = Colors.deepPurpleAccent;
+var appBarColor = Colors.blueAccent;
 var myAppBar = AppBar(
   backgroundColor: appBarColor,
-  title: const Text('Donite'),
+  title: const Text(
+    'Donite',
+    style: TextStyle(fontSize: 15),
+  ),
   centerTitle: false,
 );
 var drawerTextColor = TextStyle(

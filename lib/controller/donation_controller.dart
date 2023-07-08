@@ -15,6 +15,7 @@ class DonationController extends GetxController {
   final isLoading = false.obs;
   final box = GetStorage();
   String donationCount = '';
+  List<dynamic> donationsPerUser = [].obs;
 
   @override
   void onInit() {
@@ -51,6 +52,28 @@ class DonationController extends GetxController {
     } catch (e) {
       isLoading.value = false;
       debugPrint(e.toString());
+    }
+  }
+
+  Future<void> fetchDonationsPerUser(String userId) async {
+    isLoading.value = true;
+
+    var response = await http.get(
+      Uri.parse('${baseUrl}donation/user/$userId'),
+      headers: {
+        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
+      },
+    );
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+
+      var data = json.decode(response.body);
+      donationsPerUser = data['donation_of_user'];
+    } else {
+      isLoading.value = false;
+      throw Exception('Failed to fetch donations per user');
     }
   }
 

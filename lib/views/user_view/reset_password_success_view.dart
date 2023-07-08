@@ -51,8 +51,8 @@ class _ResetPasswordSuccessViewState extends State<ResetPasswordSuccessView> {
                 : Center(
                     child: Lottie.asset(
                       'assets/successful.json',
-                      height: size.width * 0.45,
-                      width: size.width * 0.45,
+                      height: size.width * 0.30,
+                      width: size.width * 0.30,
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -60,7 +60,7 @@ class _ResetPasswordSuccessViewState extends State<ResetPasswordSuccessView> {
               height: 10,
             ),
             Text(
-              'PASSWORD UPDATED',
+              'Password Updated',
               style: kForgotStyle(size),
             ),
             const SizedBox(
@@ -92,7 +92,7 @@ class _ResetPasswordSuccessViewState extends State<ResetPasswordSuccessView> {
         height: 45,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent),
+            backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

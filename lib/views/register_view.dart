@@ -280,8 +280,7 @@ class _RegisterViewState extends State<RegisterView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

@@ -59,8 +59,8 @@ class _NotYetVerifiedViewState extends State<NotYetVerifiedView> {
               height: 10,
             ),
             Text(
-              'PENDING VERIFICATION',
-              style: kForgotStyle(size),
+              'WAITING FOR VERIFICATION',
+              style: kWaitingVerificationStyle(size),
             ),
             const SizedBox(
               height: 5,
@@ -68,7 +68,7 @@ class _NotYetVerifiedViewState extends State<NotYetVerifiedView> {
             Padding(
               padding: const EdgeInsets.only(left: 13, right: 13),
               child: Text(
-                'Your account is still under verification',
+                'Your account is still under verification\n You can come back later',
                 style: kLoginTermsAndPrivacyStyle(size),
                 textAlign: TextAlign.center,
               ),
@@ -91,7 +91,7 @@ class _NotYetVerifiedViewState extends State<NotYetVerifiedView> {
         height: 45,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.deepPurpleAccent),
+            backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

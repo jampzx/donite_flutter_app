@@ -19,6 +19,12 @@ class DonationManagementView extends StatefulWidget {
 }
 
 class _DonationManagementViewState extends State<DonationManagementView> {
+  @override
+  void initState() {
+    super.initState();
+    _donationController.getAllDonations();
+  }
+
   final DisasterController _disasterController = Get.put(DisasterController());
   final DonationController _donationController = Get.put(DonationController());
   final AuthenticationController _authenticationController =

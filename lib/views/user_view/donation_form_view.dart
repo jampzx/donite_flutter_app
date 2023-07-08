@@ -1,5 +1,5 @@
 import 'package:donite/controller/donation_controller.dart';
-import 'package:donite/views/admin_view/admin_constants.dart';
+import 'package:donite/views/user_view/user_constants.dart';
 import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/widgets/input_widget.dart';
 import 'package:flutter/material.dart';
@@ -253,14 +253,13 @@ class _DonationFormViewState extends State<DonationFormView> {
   Widget confirmButton(String donationType) {
     return SizedBox(
       width: double.infinity,
-      height: 55,
+      height: 40,
       child: Obx(() {
         return _donationController.isLoading.value
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.deepPurpleAccent),
+                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

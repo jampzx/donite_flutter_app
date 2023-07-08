@@ -133,7 +133,7 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.grey[900] /*Colors.deepPurpleAccent*/),
+                                Colors.blueAccent /*Colors.deepPurpleAccent*/),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),
@@ -141,17 +141,30 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
                             ),
                           ),
                           onPressed: () async {
-                            await _disasterController.createDisaster(
-                                title: _titleController.text.trim(),
-                                date: _dateController.text.trim(),
-                                disasterType:
-                                    _disasterTypeController.text.trim(),
-                                location: _locationController.text.trim(),
-                                information: _informationController.text.trim(),
-                                imagePath: imageFile!.path.toString().trim());
-                            _disasterController.getAllDisasters();
-                            // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
+                            if (imageFile == null ||
+                                _titleController.text == '' ||
+                                _dateController.text == '' ||
+                                _disasterTypeController.text == '' ||
+                                _disasterTypeController.text == '' ||
+                                _informationController.text == '') {
+                              Get.snackbar('Error', 'Please fill all fields',
+                                  snackPosition: SnackPosition.TOP,
+                                  backgroundColor: Colors.red,
+                                  colorText: Colors.white);
+                            } else {
+                              await _disasterController.createDisaster(
+                                  title: _titleController.text.trim(),
+                                  date: _dateController.text.trim(),
+                                  disasterType:
+                                      _disasterTypeController.text.trim(),
+                                  location: _locationController.text.trim(),
+                                  information:
+                                      _informationController.text.trim(),
+                                  imagePath: imageFile!.path.toString().trim());
+                              _disasterController.getAllDisasters();
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
                           },
                           child: const Text('SUBMIT'),
                         ),
