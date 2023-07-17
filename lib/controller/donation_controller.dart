@@ -85,6 +85,7 @@ class DonationController extends GetxController {
     required String email,
     required String donationType,
     required String donationInfo,
+    required String goods_type,
     required BuildContext context,
   }) async {
     final url = Uri.parse('${baseUrl}donation/store');
@@ -105,6 +106,7 @@ class DonationController extends GetxController {
       request.fields['email'] = email;
       request.fields['donation_type'] = donationType;
       request.fields['donation_info'] = donationInfo;
+      request.fields['goods_type'] = goods_type;
 
       final response = await request.send();
       var jsonResponse = await response.stream.bytesToString();
@@ -156,7 +158,7 @@ class DonationController extends GetxController {
           Uri.parse('https://api.stripe.com/v1/payment_intents'),
           headers: {
             'Authorization':
-                'Bearer sk_test_51NMQupJMTi5c9Xd01KWvzvtXvubhE0cyQkb1vIZ1JmN9rqdJojo3XMrICx6j8ZyLFzx1cxlLzhNyMabAa7vVGvJV00nF6iKvem',
+                'Bearer sk_test_51NTT8ZHNNwXyy25HOUcd6OBlcvN9c3X5p7EAJUkznWsyYmovGZb1AsLWT9ych8D0RqaqKQLyXb4HjWvqz1JFoX5w00dgetEZyi',
             'Content-Type': 'application/x-www-form-urlencoded'
           },
           body: body,
@@ -257,4 +259,57 @@ class DonationController extends GetxController {
     final calculatedAmout = (int.parse(amount)) * 100;
     return calculatedAmout.toString();
   }
+
+  //test
+  Future<void> processGCashPayment(BuildContext context) async {
+    // Construct the API endpoint URL
+    final apiUrl = Uri.parse('https://api.paymongo.com/v1/payment_intents');
+
+    // Prepare the request body with GCash payment details
+    final requestBody = jsonEncode({
+      'data': {
+        'attributes': {
+          'payment_method_allowed': ['gcash'],
+          'payment_method_options': {
+            'gcash': {
+              'redirect': {
+                'success': 'yourapp://payment/success',
+                'failed': 'yourapp://payment/failed',
+              },
+            },
+          },
+          'amount': 1000, // Amount in cents
+          'currency': 'PHP',
+          'description': 'Example GCash Payment',
+          'statement_descriptor': 'Your Descriptor',
+        },
+      },
+    });
+
+    // Encode the API key using Base64
+    final apiKey = 'sk_test_rmP3tM2QUytiMyBLwrb2aTdL';
+    final encodedApiKey = base64.encode(utf8.encode('$apiKey:'));
+    debugPrint(apiKey);
+
+    // Send the POST request to create a payment intent
+    final response = await http.post(
+      apiUrl,
+      headers: {
+        'Authorization': 'Basic $encodedApiKey',
+        'Content-Type': 'application/json',
+      },
+      body: requestBody,
+    );
+
+    // Handle the response
+    if (response.statusCode == 200) {
+      // Process the payment response
+      // ...
+    } else {
+      print(
+          'Payment intent creation failed. Status code: ${response.statusCode}');
+      print('Response body: ${response.body}');
+    }
+  }
+//end test
 }

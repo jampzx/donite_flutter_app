@@ -6,21 +6,25 @@ import 'package:donite/views/user_view/widgets/active_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DisasterView extends StatefulWidget {
-  const DisasterView({Key? key}) : super(key: key);
+class DisasterActiveView extends StatefulWidget {
+  const DisasterActiveView({Key? key}) : super(key: key);
 
   @override
-  State<DisasterView> createState() => _DisasterViewState();
+  State<DisasterActiveView> createState() => _DisasterActiveViewState();
 }
 
-class _DisasterViewState extends State<DisasterView> {
+class _DisasterActiveViewState extends State<DisasterActiveView> {
   final DisasterController _disasterController = Get.put(DisasterController());
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
+  @override
+  void initState() {
+    super.initState();
+    _disasterController.getActiveDisasters();
+  }
 
   @override
   Widget build(BuildContext context) {
-    _disasterController.getAllDisasters();
     return Scaffold(
       // backgroundColor: defaultBackgroundColor,
       backgroundColor: Colors.white,
@@ -77,11 +81,12 @@ class _DisasterViewState extends State<DisasterView> {
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
-                        itemCount: _disasterController.disasters.value.length,
+                        itemCount:
+                            _disasterController.disastersActive.value.length,
                         itemBuilder: (context, index) {
                           return ActiveTileWidget(
-                            disaster:
-                                _disasterController.disasters.value[index],
+                            disaster: _disasterController
+                                .disastersActive.value[index],
                           );
                         },
                       );

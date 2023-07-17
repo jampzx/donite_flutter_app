@@ -1,34 +1,34 @@
 import 'package:donite/constants/constants.dart';
-import 'package:donite/controller/disaster_controller.dart';
-import 'package:donite/model/disaster_model.dart';
+import 'package:donite/controller/feed_controller.dart';
+import 'package:donite/model/feed_model.dart';
 import 'package:donite/views/user_view/donation_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
-class MyTile extends StatefulWidget {
-  MyTile({Key? key, required this.disaster}) : super(key: key);
+class FeedTileWidget extends StatefulWidget {
+  FeedTileWidget({Key? key, required this.feed}) : super(key: key);
 
-  final DisasterModel disaster;
+  final FeedModel feed;
 
   @override
-  _MyTileState createState() => _MyTileState();
+  _FeedTileWidgetState createState() => _FeedTileWidgetState();
 }
 
-class _MyTileState extends State<MyTile> {
-  final DisasterController _disasterController = Get.put(DisasterController());
+class _FeedTileWidgetState extends State<FeedTileWidget> {
+  final FeedController _feedController = Get.put(FeedController());
   bool isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
+    DateTime dateTime = DateTime.parse(widget.feed.createdAt.toString());
+    String formattedTime = DateFormat('h:mm:ss a').format(dateTime);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Card(
         elevation: 10,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
         clipBehavior: Clip.antiAliasWithSaveLayer,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,8 +36,7 @@ class _MyTileState extends State<MyTile> {
             GestureDetector(
               child: Stack(
                 children: [
-                  Image.network(
-                      '${baseImageUrl}storage/${widget.disaster.path!}'),
+                  Image.network('${baseImageUrl}storage/${widget.feed.path!}'),
                   Positioned(
                     bottom: 10,
                     left: 5,
@@ -46,7 +45,7 @@ class _MyTileState extends State<MyTile> {
                       padding: const EdgeInsets.all(8),
                       color: Colors.black.withOpacity(0.1),
                       child: Text(
-                        widget.disaster.title!,
+                        widget.feed.title!,
                         style: GoogleFonts.poppins(
                           color: const Color(0xFFFFFFFF),
                           fontSize: 22,
@@ -59,7 +58,7 @@ class _MyTileState extends State<MyTile> {
               ),
               onTap: () {
                 showFullSizeImage(
-                    '${baseImageUrl}storage/${widget.disaster.path!}', context);
+                    '${baseImageUrl}storage/${widget.feed.path!}', context);
               },
             ),
             Container(
@@ -82,7 +81,7 @@ class _MyTileState extends State<MyTile> {
                                   width: 3,
                                 ),
                                 Text(
-                                  widget.disaster.date!,
+                                  widget.feed.date!,
                                   style: const TextStyle(
                                     color: Colors.blueAccent,
                                     fontSize: 12,
@@ -91,7 +90,29 @@ class _MyTileState extends State<MyTile> {
                               ],
                             ),
                             const SizedBox(
-                              width: 12,
+                              width: 8,
+                            ),
+                            Row(
+                              children: [
+                                const Icon(
+                                  Icons.timer,
+                                  color: Colors.blueAccent,
+                                  size: 13,
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  formattedTime,
+                                  style: const TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 8,
                             ),
                             Row(
                               children: [
@@ -104,7 +125,7 @@ class _MyTileState extends State<MyTile> {
                                   width: 3,
                                 ),
                                 Text(
-                                  widget.disaster.location!,
+                                  widget.feed.location!,
                                   style: const TextStyle(
                                     color: Colors.blueAccent,
                                     fontSize: 12,
@@ -126,7 +147,7 @@ class _MyTileState extends State<MyTile> {
                         });
                       },
                       child: Text(
-                        widget.disaster.information!,
+                        widget.feed.information!,
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.grey[700],
@@ -135,41 +156,11 @@ class _MyTileState extends State<MyTile> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Divider(),
+                    const SizedBox(
+                      height: 20,
+                    ),
                   ]),
             ),
-            Center(
-              child: Container(
-                margin: EdgeInsets.only(left: 18, top: 0, right: 18, bottom: 8),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: ElevatedButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.transparent,
-                    backgroundColor: Colors.blueAccent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  child: const Text(
-                    "Help now",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (ctx) => DonationFormView(
-                              disaster_id: widget.disaster.id.toString())),
-                    );
-                  },
-                ),
-              ),
-            ),
-
-            // Add a small space between the card and the next widget
           ],
         ),
       ),

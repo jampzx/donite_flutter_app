@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:donite/constants/constants.dart';
+import 'package:donite/controller/disaster_controller.dart';
+import 'package:donite/controller/donation_controller.dart';
+import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/model/authentication_model.dart';
 import 'package:donite/views/admin_view/admin_home_view.dart';
 import 'package:donite/views/login_view.dart';
+import 'package:donite/views/register_view.dart';
 import 'package:donite/views/user_view/not_verified_view.dart';
 import 'package:donite/views/user_view/reset_password_success_view.dart';
 import 'package:donite/views/user_view/reset_password_view.dart';
@@ -14,16 +18,26 @@ import 'package:http/http.dart' as http;
 import 'package:get_storage/get_storage.dart';
 
 class AuthenticationController extends GetxController {
+  final DonationController _donationController = Get.put(DonationController());
+  final DisasterController _disasterController = Get.put(DisasterController());
+  final FeedController _feedController = Get.put(FeedController());
   Rx<List<AuthenticationModel>> users = Rx<List<AuthenticationModel>>([]);
   final isLoading = false.obs;
   final token = ''.obs;
   final userType = ''.obs;
   final box = GetStorage();
-  String verifiedUser = '';
-  String unverifiedUser = '';
-  String userId = '';
-  String userName = '';
-  String userEmail = '';
+  //test
+  final verifiedUser = ''.obs;
+  final unverifiedUser = ''.obs;
+  final userId = ''.obs;
+  final userName = ''.obs;
+  final userEmail = ''.obs;
+
+  // String verifiedUser = '';
+  // String unverifiedUser = '';
+  // String userId = '';
+  // String userName = '';
+  // String userEmail = '';
 
   @override
   void onInit() {
@@ -47,8 +61,10 @@ class AuthenticationController extends GetxController {
         final verified = json.decode(response.body)['verified_users'];
         final unverified = json.decode(response.body)['unverified_users'];
 
-        verifiedUser = verified.toString();
-        unverifiedUser = unverified.toString();
+        // verifiedUser = verified.toString();
+        // unverifiedUser = unverified.toString();
+        box.write('verifiedUser', verified.toString());
+        box.write('unverifiedUser', unverified.toString());
 
         for (var item in content) {
           users.value.add(AuthenticationModel.fromJson(item));
@@ -158,7 +174,12 @@ class AuthenticationController extends GetxController {
     }
   }
 
-  Future login({required String email, required String password}) async {
+  Future login(
+      {required String email,
+      required String password,
+      required BuildContext context}) async {
+    double deviceWidth = MediaQuery.of(context).size.width;
+
     try {
       isLoading.value = true;
       var data = {'email': email, 'password': password};
@@ -180,31 +201,78 @@ class AuthenticationController extends GetxController {
         int isVerified = responseData['user']['verified'];
 
         final userid = json.decode(response.body)['user']['id'];
-        userId = userid.toString();
+        //userId = userid.toString();
+        box.write('userId', userid.toString());
 
         final username = json.decode(response.body)['user']['name'];
-        userName = username.toString();
+        // userName = username.toString();
+        box.write('userName', username.toString());
 
         final useremail = json.decode(response.body)['user']['email'];
-        userEmail = useremail.toString();
+        // userEmail = useremail.toString();
+        box.write('userEmail', useremail.toString());
 
-        if (isVerified == 1 && responseData['user']['user_type'] == null) {
+        //VERIFIED USER AND IN MOBILE DEVICE
+        if (isVerified == 1 &&
+            responseData['user']['user_type'] == null &&
+            deviceWidth < 500) {
           debugPrint(isVerified.toString());
           debugPrint(json.encode(json.decode(response.body)['token']));
           token.value = json.encode(json.decode(response.body)['token']);
           box.write('token', token.value);
           userType.value = 'user';
           box.write('userType', userType.value);
-          Get.offAll(() => const UserHomeView());
-        } else if (responseData['user']['user_type'] == 'admin') {
+          _disasterController.getActiveDisasters();
+          _disasterController.getInactiveDisasters();
+          _donationController
+              .fetchDonationsPerUser(box.read('userId').replaceAll('"', ''));
+          _feedController.getAllFeeds();
+          getAllUsers();
+          Get.offAll(() => const UserHomeView(
+                pageID: 0,
+              ));
+        }
+        //VERIFIED USER AND IN NOT IN MOBILE DEVICE (MAYBE DESKTOP)
+        if (isVerified == 1 &&
+            responseData['user']['user_type'] == null &&
+            deviceWidth > 500) {
+          debugPrint(isVerified.toString());
+          debugPrint(json.encode(json.decode(response.body)['token']));
+          token.value = json.encode(json.decode(response.body)['token']);
+          box.write('token', token.value);
+          userType.value = 'user';
+          box.write('userType', userType.value);
+          Get.offAll(() => const LoginView());
+          Get.snackbar('Error', 'Please login using mobile device',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        }
+        //ADMIN IN DESKTOP DEVICE
+        if (responseData['user']['user_type'] == 'admin' && deviceWidth > 500) {
           token.value = json.encode(json.decode(response.body)['token']);
           box.write('token', token.value);
           userType.value = 'admin';
           box.write('userType', userType.value);
           Get.offAll(() => const AdminHomeView());
-        } else {
+          _disasterController.getAllDisasters();
+          _donationController.getAllDonations();
+          _feedController.getAllFeeds();
+        }
+        //ADMIN IN MOBILE DEVICE
+        if (responseData['user']['user_type'] == 'admin' && deviceWidth < 500) {
+          token.value = json.encode(json.decode(response.body)['token']);
+          box.write('token', token.value);
+          userType.value = 'admin';
+          box.write('userType', userType.value);
+          Get.offAll(() => const LoginView());
+          Get.snackbar('Error', 'Please login using desktop',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+        }
+        if (isVerified == 0 && responseData['user']['user_type'] == null) {
           debugPrint(isVerified.toString());
-
           Get.snackbar('Error', 'Your account is not yet verified',
               snackPosition: SnackPosition.TOP,
               backgroundColor: Colors.red,

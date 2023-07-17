@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:donite/constants/constants.dart';
 import 'package:donite/controller/disaster_controller.dart';
+import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
@@ -17,6 +18,7 @@ class AlertUpdateDialogWidget extends StatefulWidget {
   final String location;
   final String information;
   final String path;
+  final String alertFor;
   const AlertUpdateDialogWidget(
       {super.key,
       required this.id,
@@ -25,7 +27,8 @@ class AlertUpdateDialogWidget extends StatefulWidget {
       required this.disasterType,
       required this.location,
       required this.information,
-      required this.path});
+      required this.path,
+      required this.alertFor});
 
   @override
   State<AlertUpdateDialogWidget> createState() =>
@@ -42,9 +45,11 @@ class _AlertUpdateDialogWidgetState extends State<AlertUpdateDialogWidget> {
   File? imageFile;
 
   final DisasterController _disasterController = Get.put(DisasterController());
+  final FeedController _feedController = Get.put(FeedController());
 
   @override
   Widget build(BuildContext context) {
+    String alertType = widget.alertFor;
     _titleController.text = widget.title.toString();
     _dateController.text = widget.date.toString();
     _disasterTypeController.text = widget.disasterType.toString();
@@ -67,10 +72,15 @@ class _AlertUpdateDialogWidgetState extends State<AlertUpdateDialogWidget> {
           contentPadding: const EdgeInsets.only(
             top: 8.0,
           ),
-          title: const Text(
-            "EDIT DISASTER",
-            style: TextStyle(fontSize: 24.0),
-          ),
+          title: alertType == 'disaster'
+              ? const Text(
+                  "EDIT DISASTER",
+                  style: TextStyle(fontSize: 24.0),
+                )
+              : const Text(
+                  "EDIT FEED",
+                  style: TextStyle(fontSize: 24.0),
+                ),
           content: SizedBox(
             width: dialogWidth,
             height: dialogHeight,
@@ -160,18 +170,39 @@ class _AlertUpdateDialogWidgetState extends State<AlertUpdateDialogWidget> {
                             ),
                           ),
                           onPressed: () async {
-                            await _disasterController.updateDisaster(
-                                id: widget.id.toString(),
-                                title: _titleController.text.trim(),
-                                date: _dateController.text.trim(),
-                                disasterType:
-                                    _disasterTypeController.text.trim(),
-                                location: _locationController.text.trim(),
-                                information: _informationController.text.trim(),
-                                imagePath: imageFile != null
-                                    ? imageFile!.path.toString().trim()
-                                    : '');
-                            _disasterController.getAllDisasters();
+                            alertType == 'disaster'
+                                ? (
+                                    await _disasterController.updateDisaster(
+                                        id: widget.id.toString(),
+                                        title: _titleController.text.trim(),
+                                        date: _dateController.text.trim(),
+                                        disasterType:
+                                            _disasterTypeController.text.trim(),
+                                        location:
+                                            _locationController.text.trim(),
+                                        information:
+                                            _informationController.text.trim(),
+                                        imagePath: imageFile != null
+                                            ? imageFile!.path.toString().trim()
+                                            : ''),
+                                    _disasterController.getAllDisasters(),
+                                  )
+                                : (
+                                    await _feedController.updateFeed(
+                                        id: widget.id.toString(),
+                                        title: _titleController.text.trim(),
+                                        date: _dateController.text.trim(),
+                                        disasterType:
+                                            _disasterTypeController.text.trim(),
+                                        location:
+                                            _locationController.text.trim(),
+                                        information:
+                                            _informationController.text.trim(),
+                                        imagePath: imageFile != null
+                                            ? imageFile!.path.toString().trim()
+                                            : ''),
+                                    _feedController.getAllFeeds(),
+                                  );
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
                           },

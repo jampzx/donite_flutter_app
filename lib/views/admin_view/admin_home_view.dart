@@ -4,6 +4,7 @@ import 'package:donite/controller/donation_controller.dart';
 import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/disaster_management_view.dart';
 import 'package:donite/views/admin_view/donation_management_view.dart';
+import 'package:donite/views/admin_view/feed_management_view.dart';
 import 'package:donite/views/admin_view/user_management_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -28,6 +29,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
 
   final List<Widget> _pages = [
     const DisasterManagementView(),
+    const FeedManagementView(),
     const DonationManagementView(),
     const UserManagementView(),
   ];
@@ -55,7 +57,7 @@ class _AdminHomeViewState extends State<AdminHomeView> {
               selectedIndex: _selectedIndex,
               onDestinationSelected: (int index) {
                 setState(() {
-                  if (index == 3) {
+                  if (index == 4) {
                     _authenticationController.logout();
                   } else {
                     setState(() {
@@ -80,6 +82,10 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 NavigationRailDestination(
                   icon: Icon(Icons.home),
                   label: Text("D I S A S T E R S"),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.newspaper),
+                  label: Text("N E W S  F E E D"),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.bar_chart),

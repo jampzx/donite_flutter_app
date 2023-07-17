@@ -241,7 +241,8 @@ class _LoginViewState extends State<LoginView> {
                 onPressed: () async {
                   await _authenticationController.login(
                       email: _emailController.text.trim(),
-                      password: _passwordController.text.trim());
+                      password: _passwordController.text.trim(),
+                      context: context);
                 },
                 child: const Text('Log in'),
               );

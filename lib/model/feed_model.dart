@@ -1,15 +1,10 @@
-// To parse this JSON data, do
-//
-//final disasterModel = disasterModelFromJson(jsonString);
-
 import 'dart:convert';
 
-DisasterModel disasterModelFromJson(String str) =>
-    DisasterModel.fromJson(json.decode(str));
+FeedModel feedModelFromJson(String str) => FeedModel.fromJson(json.decode(str));
 
-String disasterModelToJson(DisasterModel data) => json.encode(data.toJson());
+String feedModelToJson(FeedModel data) => json.encode(data.toJson());
 
-class DisasterModel {
+class FeedModel {
   int? id;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -21,9 +16,8 @@ class DisasterModel {
   String? information;
   String? filename;
   String? path;
-  int? active;
 
-  DisasterModel({
+  FeedModel({
     required this.id,
     required this.createdAt,
     required this.updatedAt,
@@ -35,10 +29,9 @@ class DisasterModel {
     required this.information,
     required this.filename,
     required this.path,
-    required this.active,
   });
 
-  factory DisasterModel.fromJson(Map<String, dynamic> json) => DisasterModel(
+  factory FeedModel.fromJson(Map<String, dynamic> json) => FeedModel(
         id: json["id"],
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
@@ -50,7 +43,6 @@ class DisasterModel {
         information: json["information"],
         filename: json["filename"],
         path: json["path"],
-        active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -65,6 +57,5 @@ class DisasterModel {
         "information": information,
         "filename": filename,
         "path": path,
-        "active": active,
       };
 }

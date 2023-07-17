@@ -1,10 +1,14 @@
 import 'package:donite/controller/authentication_controller.dart';
 import 'package:donite/views/user_view/about_us_view.dart';
+import 'package:donite/views/user_view/disaster_inactive_view.dart';
 import 'package:donite/views/user_view/disasters_view.dart';
+import 'package:donite/views/user_view/donation_history_view.dart';
+import 'package:donite/views/user_view/feeds_view.dart';
 import 'package:donite/views/user_view/forgot_password_view.dart';
 import 'package:donite/views/user_view/user_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({Key? key});
@@ -16,6 +20,7 @@ class DrawerWidget extends StatefulWidget {
 class _DrawerWidgetState extends State<DrawerWidget> {
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  _authenticationController.userName,
+                  box.read('userName')!.toString().replaceAll('"', ''),
+                  // _authenticationController.userName,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 14,
@@ -46,7 +52,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   ),
                 ),
                 Text(
-                  _authenticationController.userEmail,
+                  // _authenticationController.userEmail,
+                  box.read('userEmail')!.toString().replaceAll('"', ''),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -60,16 +67,31 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             leading: const Icon(Icons.home),
             title: const Text("Home"),
             onTap: () {
-              Get.offAll(() => const UserHomeView());
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.newspaper),
+            title: const Text("News"),
+            onTap: () {
+              Navigator.pop(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text("History"),
+            onTap: () {
+              Navigator.pop(context);
             },
           ),
           ListTile(
             leading: const Icon(Icons.check_circle),
             title: const Text("Donations"),
             onTap: () {
-              Get.offAll(() => const UserHomeView());
+              Navigator.pop(context);
             },
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.lock),
             title: const Text("Change password"),
@@ -78,7 +100,6 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                   MaterialPageRoute(builder: (ctx) => ForgotPasswordView()));
             },
           ),
-          const Divider(),
           ListTile(
             leading: const Icon(Icons.help),
             title: const Text("About us"),

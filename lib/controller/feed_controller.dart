@@ -2,36 +2,31 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:donite/constants/constants.dart';
 import 'package:donite/model/disaster_model.dart';
+import 'package:donite/model/feed_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
-class DisasterController extends GetxController {
-  Rx<List<DisasterModel>> disasters = Rx<List<DisasterModel>>([]);
-  Rx<List<DisasterModel>> disastersActive = Rx<List<DisasterModel>>([]);
-  Rx<List<DisasterModel>> disastersInactive = Rx<List<DisasterModel>>([]);
+class FeedController extends GetxController {
+  Rx<List<FeedModel>> feeds = Rx<List<FeedModel>>([]);
   final isLoading = false.obs;
   final box = GetStorage();
-  String disasterCount = '';
+  String feedCount = '';
 
   @override
   void onInit() {
-    disasters.value.clear();
-    disastersActive.value.clear();
-    disastersInactive.value.clear();
-    getAllDisasters();
-    getActiveDisasters();
-    getInactiveDisasters();
+    feeds.value.clear();
+    getAllFeeds();
     super.onInit();
   }
 
-  Future getAllDisasters() async {
+  Future getAllFeeds() async {
     try {
-      disasters.value.clear();
+      feeds.value.clear();
       isLoading.value = true;
-      var response = await http.get(Uri.parse('${baseUrl}disaster'), headers: {
+      var response = await http.get(Uri.parse('${baseUrl}feed'), headers: {
         'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
@@ -39,11 +34,9 @@ class DisasterController extends GetxController {
       if (response.statusCode == 200) {
         isLoading.value = false;
         final content = json.decode(response.body)['data'];
-        final disaster_count = json.decode(response.body)['total_disasters'];
-        disasterCount = disaster_count.toString();
         debugPrint(json.encode(json.decode(response.body)));
         for (var item in content) {
-          disasters.value.add(DisasterModel.fromJson(item));
+          feeds.value.add(FeedModel.fromJson(item));
         }
       } else {
         isLoading.value = false;
@@ -54,11 +47,12 @@ class DisasterController extends GetxController {
             colorText: Colors.white);
       }
     } catch (e) {
+      isLoading.value = false;
       debugPrint(e.toString());
     }
   }
 
-  Future createDisaster({
+  Future createFeed({
     required String title,
     required String date,
     required String disasterType,
@@ -69,7 +63,7 @@ class DisasterController extends GetxController {
     debugPrint(title);
     debugPrint(box.read('token'));
     debugPrint(imagePath);
-    final url = Uri.parse('${baseUrl}disaster/store');
+    final url = Uri.parse('${baseUrl}feed/store');
     final headers = {
       'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
@@ -97,7 +91,6 @@ class DisasterController extends GetxController {
             snackPosition: SnackPosition.TOP,
             backgroundColor: Colors.green,
             colorText: Colors.white);
-        getAllDisasters();
       } else {
         debugPrint(json.encode(json.decode(jsonResponse)['message']));
         Get.snackbar(
@@ -108,12 +101,13 @@ class DisasterController extends GetxController {
           colorText: Colors.white,
         );
       }
+      getAllFeeds();
     } catch (e) {
       debugPrint('Error occurred during the API request: $e');
     }
   }
 
-  Future updateDisaster({
+  Future updateFeed({
     required String id,
     required String title,
     required String date,
@@ -126,7 +120,7 @@ class DisasterController extends GetxController {
     debugPrint(title);
     debugPrint(token.toString());
     debugPrint(imagePath);
-    final url = Uri.parse('${baseUrl}disaster/update/$id');
+    final url = Uri.parse('${baseUrl}feed/update/$id');
     final headers = {
       'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
@@ -172,11 +166,11 @@ class DisasterController extends GetxController {
     }
   }
 
-  Future<void> deleteDisaster({required String id}) async {
+  Future<void> deleteFeed({required String id}) async {
     try {
       isLoading.value = true;
       var response = await http.delete(
-        Uri.parse('${baseUrl}disaster/delete/$id'),
+        Uri.parse('${baseUrl}feed/delete/$id'),
         headers: {
           'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
           'Content-Type': 'application/json',
@@ -191,11 +185,11 @@ class DisasterController extends GetxController {
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
-        getAllDisasters();
+        getAllFeeds();
       } else if (response.statusCode == 404) {
         Get.snackbar(
           'Error',
-          'Disaster not found',
+          'Feed not found',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.red,
           colorText: Colors.white,
@@ -213,122 +207,6 @@ class DisasterController extends GetxController {
       isLoading.value = false;
       debugPrint(e.toString());
     }
-  }
-
-  Future getActiveDisasters() async {
-    try {
-      disastersActive.value.clear();
-      isLoading.value = true;
-      var response =
-          await http.get(Uri.parse('${baseUrl}disaster/active'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json'
-      });
-      debugPrint(
-          'Active Disasters Response: ${json.encode(json.decode(response.body))}');
-      if (response.statusCode == 200) {
-        isLoading.value = false;
-        final content = json.decode(response.body)['data'];
-        debugPrint(
-            'Active Disasters Response: ${json.encode(json.decode(response.body))}');
-        for (var item in content) {
-          disastersActive.value.add(DisasterModel.fromJson(item));
-        }
-        debugPrint('Active Disasters Count: ${disastersActive.value.length}');
-      } else {
-        isLoading.value = false;
-        Get.snackbar(
-            'Error', json.encode(json.decode(response.body)['message']),
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
-    } catch (e) {
-      isLoading.value = false;
-      debugPrint('Error fetching active disasters: $e');
-    }
-  }
-
-  Future getInactiveDisasters() async {
-    try {
-      disastersInactive.value.clear();
-      isLoading.value = true;
-      var response =
-          await http.get(Uri.parse('${baseUrl}disaster/inactive'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
-        'Content-Type': 'multipart/form-data',
-        'Accept': 'application/json'
-      });
-      if (response.statusCode == 200) {
-        isLoading.value = false;
-        final content = json.decode(response.body)['data'];
-        debugPrint(json.encode(json.decode(response.body)));
-        for (var item in content) {
-          disastersInactive.value.add(DisasterModel.fromJson(item));
-        }
-      } else {
-        isLoading.value = false;
-        Get.snackbar(
-            'Error', json.encode(json.decode(response.body)['message']),
-            snackPosition: SnackPosition.TOP,
-            backgroundColor: Colors.red,
-            colorText: Colors.white);
-      }
-    } catch (e) {
-      isLoading.value = false;
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<void> updateActiveDisaster({
-    required String id,
-    required bool active,
-  }) async {
-    final token = box.read('token');
-    final url = Uri.parse('${baseUrl}disaster/updateActive/$id');
-    final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
-      'Content-Type': 'application/json',
-      'Accept': 'application/json'
-    };
-
-    final body = {
-      'active': active == true ? 1 : 0,
-    };
-
-    try {
-      final response = await http.put(
-        url,
-        headers: headers,
-        body: jsonEncode(body),
-      );
-
-      if (response.statusCode == 201) {
-        var jsonResponse = utf8.decode(response.bodyBytes);
-        debugPrint('The post was updated successfully');
-        Get.snackbar(
-          'Success',
-          json.encode(json.decode(jsonResponse)['message']),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.green,
-          colorText: Colors.white,
-        );
-      } else {
-        var jsonResponse = utf8.decode(response.bodyBytes);
-        debugPrint(json.encode(json.decode(jsonResponse)['message']));
-        Get.snackbar(
-          'Error',
-          json.encode(json.decode(jsonResponse)['message']),
-          snackPosition: SnackPosition.TOP,
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      debugPrint('Error occurred during the API request: $e');
-    }
-    getAllDisasters();
   }
 
 // OFFLINE MODE
@@ -360,7 +238,7 @@ class DisasterController extends GetxController {
 
       // Create the "disasters" table if it doesn't exist
       await database.execute('''
-    CREATE TABLE IF NOT EXISTS disasters (
+    CREATE TABLE IF NOT EXISTS feeds (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT,
       date TEXT,
@@ -380,7 +258,7 @@ class DisasterController extends GetxController {
         'image': imagePath,
       };
 
-      await database.insert('disasters', disasterMap);
+      await database.insert('feeds', disasterMap);
       await database.close();
       Get.snackbar(
         'Success',
@@ -390,14 +268,14 @@ class DisasterController extends GetxController {
         colorText: Colors.white,
       );
     } else {
-      createDisaster(
+      createFeed(
           title: title,
           date: date,
           disasterType: disasterType,
           location: location,
           information: information,
           imagePath: imagePath);
-      getAllDisasters();
+      getAllFeeds();
       Get.snackbar(
         'Warning',
         'You have internet connection available, the post was posted online',
@@ -420,11 +298,10 @@ class DisasterController extends GetxController {
       final database =
           await databaseFactory.openDatabase('$databasePath/my_database.db');
 
-      final List<Map<String, dynamic>> results =
-          await database.query('disasters');
+      final List<Map<String, dynamic>> results = await database.query('feeds');
 
       for (final result in results) {
-        final url = Uri.parse('${baseUrl}disaster/store');
+        final url = Uri.parse('${baseUrl}feed/store');
         final headers = {
           'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
           'Content-Type': 'multipart/form-data',
@@ -454,10 +331,10 @@ class DisasterController extends GetxController {
               backgroundColor: Colors.green,
               colorText: Colors.white,
             );
-            getAllDisasters();
+            getAllFeeds();
             // Optionally, you can remove the uploaded data from the local database
-            await database.delete('disasters',
-                where: 'id = ?', whereArgs: [result['id']]);
+            await database
+                .delete('feeds', where: 'id = ?', whereArgs: [result['id']]);
           } else {
             Get.snackbar(
               'Error',

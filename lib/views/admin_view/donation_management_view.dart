@@ -9,6 +9,7 @@ import 'package:donite/views/admin_view/widgets/donations_data_table_widget%20.d
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DonationManagementView extends StatefulWidget {
@@ -29,6 +30,8 @@ class _DonationManagementViewState extends State<DonationManagementView> {
   final DonationController _donationController = Get.put(DonationController());
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
+  final box = GetStorage();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,12 +64,18 @@ class _DonationManagementViewState extends State<DonationManagementView> {
                           color: Colors.blueAccent,
                           icon: Icons.verified,
                           textTitle: 'VERIFIED',
-                          textDetails: _authenticationController.verifiedUser),
+                          textDetails: box
+                              .read('verifiedUser')!
+                              .toString()
+                              .replaceAll('"', '')),
                       MyBox(
                           color: Colors.purpleAccent,
                           icon: Icons.pending,
                           textTitle: 'PENDING',
-                          textDetails: _authenticationController.unverifiedUser)
+                          textDetails: box
+                              .read('unverifiedUser')!
+                              .toString()
+                              .replaceAll('"', ''))
                     ],
                   ),
                   const SizedBox(

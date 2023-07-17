@@ -20,12 +20,31 @@ class _DonationFormViewState extends State<DonationFormView> {
   final TextEditingController _donationTypeController = TextEditingController();
   final TextEditingController _donationInformationController =
       TextEditingController();
+  final TextEditingController _goodsTypeController = TextEditingController();
+
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _ageController = TextEditingController();
   final TextEditingController _contactNumberController =
       TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   List<String> dropdownItems = ['Cash donation', 'Goods donation', 'Volunteer'];
+  List<String> goodsTypeItems = [
+    'Shirts',
+    'Pants',
+    'Jackets',
+    'Blankets',
+    'Socks',
+    'Shoes',
+    'Slippers',
+    'Noodles',
+    'Can goods',
+    'Water',
+    'Survival kits',
+    'Medecine',
+    'Others'
+  ];
+  List<int> goodsQuantityItems = List<int>.generate(10, (index) => index + 1);
+
   final DonationController _donationController = Get.put(DonationController());
 
   @override
@@ -68,6 +87,9 @@ class _DonationFormViewState extends State<DonationFormView> {
                 child: Column(
                   children: [
                     dropDownWidget(),
+                    _donationTypeController.text.toString() == 'Goods donation'
+                        ? goodsTypeDropwDown()
+                        : Container(),
                     SizedBox(
                       height: size.height * 0.01,
                     ),
@@ -77,7 +99,7 @@ class _DonationFormViewState extends State<DonationFormView> {
                             _donationTypeController.text.toString()),
                     _donationInformationController.text == ''
                         ? Container()
-                        : formContainer()
+                        : formContainer(),
                   ],
                 ),
               ),
@@ -90,6 +112,10 @@ class _DonationFormViewState extends State<DonationFormView> {
 
   void updateControllerValue(String newValue) {
     _donationTypeController.text = newValue;
+  }
+
+  void updateGoodsTypeControllerValue(String newValue) {
+    _goodsTypeController.text = newValue;
   }
 
   Widget dropDownWidget() {
@@ -135,41 +161,109 @@ class _DonationFormViewState extends State<DonationFormView> {
     );
   }
 
+  Widget goodsTypeDropwDown() {
+    String selectedValue;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            'Goods Type',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        DropdownButtonFormField<String>(
+          style: kTextFormFieldStyle(),
+          //value: selectedValue,
+          onChanged: (newValue) {
+            setState(() {
+              selectedValue = newValue!;
+              updateGoodsTypeControllerValue(newValue);
+            });
+          },
+          items: goodsTypeItems.map((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+          hint: const Text('Please select goods type'),
+          decoration: const InputDecoration(
+            prefixIcon: Icon(Icons.info_rounded),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              borderSide: BorderSide(color: Colors.grey),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   Widget donationInformationContainer(String donationType) {
     var size = MediaQuery.of(context).size;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: donationType == 'Cash donation'
-              ? const Text(
-                  'Amount',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )
-              : const Text(
-                  'Donation information',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-        ),
-        InputWidget(
-            keyboardType: donationType == 'Cash donation'
-                ? TextInputType.number
-                : TextInputType.text,
-            controller: _donationInformationController,
-            hintext: donationType == 'Cash donation'
-                ? '₱0.00'
-                : 'Goods, cloths, man power...',
-            isObscure: false,
-            prefixicon: donationType == 'Cash donation'
-                ? const Icon(
-                    Icons.attach_money,
-                    color: Colors.grey,
-                  )
-                : const Icon(
-                    Icons.fastfood,
-                    color: Colors.grey,
-                  )),
+        //LABEL
+        if (donationType == 'Cash donation') ...[
+          const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Amount',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+        ] else if (donationType == 'Goods donation') ...[
+          const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Quantity',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+        ] else if (donationType == 'Volunteer') ...[
+          const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                'Additional information',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              )),
+        ],
+        //TEXT BOX
+        if (donationType == 'Cash donation') ...[
+          InputWidget(
+              keyboardType: TextInputType.text,
+              controller: _donationInformationController,
+              hintext: '₱100.00',
+              isObscure: false,
+              prefixicon: const Icon(
+                Icons.monetization_on,
+                color: Colors.grey,
+              )),
+        ] else if (donationType == 'Goods donation') ...[
+          InputWidget(
+              keyboardType: TextInputType.number,
+              controller: _donationInformationController,
+              hintext: '100 pcs.',
+              isObscure: false,
+              prefixicon: const Icon(
+                Icons.numbers,
+                color: Colors.grey,
+              )),
+        ] else if (donationType == 'Volunteer') ...[
+          InputWidget(
+              keyboardType: TextInputType.text,
+              controller: _donationInformationController,
+              hintext: 'Man power, red cross, etc.',
+              isObscure: false,
+              prefixicon: const Icon(
+                Icons.assignment_outlined,
+                color: Colors.grey,
+              )),
+        ],
         SizedBox(
           height: size.height * 0.01,
         ),
@@ -269,6 +363,10 @@ class _DonationFormViewState extends State<DonationFormView> {
                 onPressed: () async {
                   donationType == 'Cash donation'
                       ? (
+                          _donationController.payment(
+                              amount: _donationInformationController.text
+                                  .toString(),
+                              context: context),
                           _donationController.createDonation(
                               disasterId: widget.disaster_id,
                               name: _nameController.text.trim(),
@@ -279,11 +377,8 @@ class _DonationFormViewState extends State<DonationFormView> {
                               donationType: _donationTypeController.text.trim(),
                               donationInfo:
                                   _donationInformationController.text.trim(),
+                              goods_type: 'not applicable',
                               context: context),
-                          _donationController.payment(
-                              amount: _donationInformationController.text
-                                  .toString(),
-                              context: context)
                         )
                       : _donationController.createDonation(
                           disasterId: widget.disaster_id,
@@ -294,6 +389,9 @@ class _DonationFormViewState extends State<DonationFormView> {
                           donationType: _donationTypeController.text.trim(),
                           donationInfo:
                               _donationInformationController.text.trim(),
+                          goods_type: donationType == 'Goods donation'
+                              ? _goodsTypeController.text.trim()
+                              : 'not applicable',
                           context: context);
                 },
                 child: const Text('COMPLETE'),

@@ -1,6 +1,6 @@
 import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
-import 'package:donite/views/user_view/widgets/tile_widget.dart';
+import 'package:donite/views/user_view/widgets/active_tile_widget.dart';
 import 'package:flutter/material.dart';
 
 class TabletScaffold extends StatefulWidget {

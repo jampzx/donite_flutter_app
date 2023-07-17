@@ -6,7 +6,7 @@ import 'package:donite/views/admin_view/widgets/disasters_data_table_widget.dart
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
-import 'package:donite/views/user_view/widgets/tile_widget.dart';
+import 'package:donite/views/user_view/widgets/active_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

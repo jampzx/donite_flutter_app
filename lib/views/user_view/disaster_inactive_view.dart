@@ -3,24 +3,25 @@ import 'package:donite/controller/disaster_controller.dart';
 import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/user_constants.dart';
 import 'package:donite/views/user_view/widgets/active_tile_widget.dart';
+import 'package:donite/views/user_view/widgets/inactive_tile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DisasterView extends StatefulWidget {
-  const DisasterView({Key? key}) : super(key: key);
+class DisasterInactiveView extends StatefulWidget {
+  const DisasterInactiveView({Key? key}) : super(key: key);
 
   @override
-  State<DisasterView> createState() => _DisasterViewState();
+  State<DisasterInactiveView> createState() => _DisasterInactiveViewState();
 }
 
-class _DisasterViewState extends State<DisasterView> {
+class _DisasterInactiveViewState extends State<DisasterInactiveView> {
   final DisasterController _disasterController = Get.put(DisasterController());
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
 
   @override
   Widget build(BuildContext context) {
-    _disasterController.getAllDisasters();
+    _disasterController.getInactiveDisasters();
     return Scaffold(
       // backgroundColor: defaultBackgroundColor,
       backgroundColor: Colors.white,
@@ -33,23 +34,22 @@ class _DisasterViewState extends State<DisasterView> {
               ListView(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
-                children: [
+                children: const [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        top: 8.0, right: 10.0, left: 10.0),
+                    padding: EdgeInsets.only(top: 8.0, right: 10.0, left: 10.0),
                     child: Text(
-                      'Welcome ${_authenticationController.userName}',
-                      style: const TextStyle(
+                      'Events History',
+                      style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(right: 15.0, left: 12.0),
                     child: Text(
-                      'Every help matters, extend your helping hand with Donite',
+                      'This page display all past disasters',
                       style: TextStyle(
                         fontSize: 12,
                         color: Colors.grey,
@@ -57,11 +57,11 @@ class _DisasterViewState extends State<DisasterView> {
                       ),
                     ),
                   ),
-                  const Padding(
+                  Padding(
                     padding:
                         EdgeInsets.only(top: 18.0, right: 12.0, left: 12.0),
                     child: Text(
-                      'Featured posts',
+                      'Past events',
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.black,
@@ -77,11 +77,12 @@ class _DisasterViewState extends State<DisasterView> {
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: const BouncingScrollPhysics(),
-                        itemCount: _disasterController.disasters.value.length,
+                        itemCount:
+                            _disasterController.disastersInactive.value.length,
                         itemBuilder: (context, index) {
-                          return ActiveTileWidget(
-                            disaster:
-                                _disasterController.disasters.value[index],
+                          return InactiveTileWidget(
+                            disaster: _disasterController
+                                .disastersInactive.value[index],
                           );
                         },
                       );

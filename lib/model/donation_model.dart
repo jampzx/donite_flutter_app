@@ -18,6 +18,7 @@ class DonationModel {
   String? donationType;
   String? donationInfo;
   int? verified;
+  String? goodsType;
 
   DonationModel({
     required this.id,
@@ -32,6 +33,7 @@ class DonationModel {
     required this.donationType,
     required this.donationInfo,
     required this.verified,
+    required this.goodsType,
   });
 
   factory DonationModel.fromJson(Map<String, dynamic> json) => DonationModel(
@@ -47,6 +49,7 @@ class DonationModel {
         donationType: json["donation_type"],
         donationInfo: json["donation_info"],
         verified: json["verified"],
+        goodsType: json["goods_type"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -62,5 +65,6 @@ class DonationModel {
         "donation_type": donationType,
         "donation_info": donationInfo,
         "verified": verified,
+        "goods_type": goodsType
       };
 }

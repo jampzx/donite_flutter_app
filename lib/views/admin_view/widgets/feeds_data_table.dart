@@ -1,42 +1,41 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:donite/constants/constants.dart';
-import 'package:donite/controller/disaster_controller.dart';
-import 'package:donite/model/disaster_model.dart';
+import 'package:donite/controller/feed_controller.dart';
+import 'package:donite/model/feed_model.dart';
 import 'package:donite/views/admin_view/widgets/alert_create_dialog_widget.dart';
 import 'package:donite/views/admin_view/widgets/alert_offline_create_dialog_widget.dart';
 import 'package:donite/views/admin_view/widgets/alert_update_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class DisastersDataTableWidget extends StatefulWidget {
-  const DisastersDataTableWidget({Key? key}) : super(key: key);
+class FeedsDataTable extends StatefulWidget {
+  const FeedsDataTable({Key? key}) : super(key: key);
 
   @override
-  State<DisastersDataTableWidget> createState() =>
-      _DisastersDataTableWidgetState();
+  State<FeedsDataTable> createState() => _FeedsDataTableState();
 }
 
-class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
+class _FeedsDataTableState extends State<FeedsDataTable> {
   bool sort = true;
-  Rx<List<DisasterModel>> filterDisasters = Rx<List<DisasterModel>>([]);
-  final DisasterController _disasterController = Get.put(DisasterController());
+  Rx<List<FeedModel>> filterFeeds = Rx<List<FeedModel>>([]);
+  final FeedController _feedController = Get.put(FeedController());
   TextEditingController controller = TextEditingController();
 
   @override
   void initState() {
-    filterDisasters.value = _disasterController.disasters.value;
+    filterFeeds.value = _feedController.feeds.value;
     super.initState();
   }
 
   void searchDisasters(String keyword) {
     setState(() {
-      if (_disasterController.disasters.value.isEmpty) {
-        filterDisasters.value =
-            _disasterController.disasters.value; // Revert to the original list
+      if (_feedController.feeds.value.isEmpty) {
+        filterFeeds.value =
+            _feedController.feeds.value; // Revert to the original list
       } else if (keyword.isEmpty) {
-        filterDisasters.value = _disasterController.disasters.value;
+        filterFeeds.value = _feedController.feeds.value;
       } else {
-        filterDisasters.value = _disasterController.disasters.value
+        filterFeeds.value = _feedController.feeds.value
             .where((disaster) =>
                 disaster.title!.toLowerCase().contains(keyword.toLowerCase()))
             .toList();
@@ -121,7 +120,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       const AlertCreateDialogWidget(
-                                    alertFor: 'disaster',
+                                    alertFor: 'feed',
                                   ),
                                 );
                               },
@@ -144,7 +143,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                _disasterController.uploadDataToServer();
+                                _feedController.uploadDataToServer();
                               },
                             ),
                             const SizedBox(
@@ -165,7 +164,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                                 style: TextStyle(color: Colors.white),
                               ),
                               onPressed: () {
-                                _disasterController.getAllDisasters();
+                                _feedController.getAllFeeds();
                               },
                             ),
                             const SizedBox(
@@ -191,7 +190,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                                   context: context,
                                   builder: (BuildContext context) =>
                                       const AlertOfflineCreateDialogWidget(
-                                    alertFor: 'disaster',
+                                    alertFor: 'feed',
                                   ),
                                 );
                               },
@@ -200,9 +199,8 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                         )),
                     source: RowSource(
                       context: context,
-                      myData:
-                          filterDisasters.value, // Use the filtered list here
-                      count: filterDisasters
+                      myData: filterFeeds.value, // Use the filtered list here
+                      count: filterFeeds
                           .value.length, // Update the count accordingly
                     ),
                     rowsPerPage: 10,
@@ -286,24 +284,6 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                           ),
                         ),
                       ),
-                      const DataColumn(
-                        label: Text(
-                          "Status",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
-                      const DataColumn(
-                        label: Text(
-                          "Modify Status",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -320,9 +300,9 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
     if (columnIndex == 0) {
       setState(() {
         if (ascending) {
-          filterDisasters.value.sort((a, b) => a.title!.compareTo(b.title!));
+          filterFeeds.value.sort((a, b) => a.title!.compareTo(b.title!));
         } else {
-          filterDisasters.value.sort((a, b) => b.title!.compareTo(a.title!));
+          filterFeeds.value.sort((a, b) => b.title!.compareTo(a.title!));
         }
       });
     }
@@ -330,7 +310,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
 }
 
 class RowSource extends DataTableSource {
-  final List<DisasterModel> myData;
+  final List<FeedModel> myData;
   final int count;
   final BuildContext context;
 
@@ -355,8 +335,8 @@ class RowSource extends DataTableSource {
   int get selectedRowCount => 0;
 }
 
-DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
-  final DisasterController _disasterController = Get.put(DisasterController());
+DataRow recentFileDataRow(FeedModel data, BuildContext context) {
+  final FeedController _feedController = Get.put(FeedController());
 
   String info = data.information!.toString();
 
@@ -423,65 +403,7 @@ DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
                 width: MediaQuery.of(context).size.width * .18,
                 lottieAsset: "assets/delete2.json",
                 onConfirmBtnTap: () {
-                  _disasterController.deleteDisaster(id: data.id.toString());
-                },
-              );
-            },
-          ),
-        ],
-      )),
-      DataCell(data.active == 0
-          ? const Text(
-              'Inactive',
-              style: TextStyle(color: Color(0xFFFF5252)),
-            )
-          : const Text('Active',
-              style: TextStyle(color: Color.fromARGB(255, 77, 234, 82)))),
-      DataCell(Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-            icon: const Icon(
-              Icons.check_circle,
-              color: Color.fromARGB(255, 77, 234, 82),
-              size: 18,
-            ),
-            onPressed: () {
-              CoolAlert.show(
-                context: context,
-                type: CoolAlertType.confirm,
-                text: "Mark this disaster as active",
-                confirmBtnText: 'Yes',
-                cancelBtnText: 'No',
-                confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
-                width: MediaQuery.of(context).size.width * .18,
-                lottieAsset: "assets/question-mark.json",
-                onConfirmBtnTap: () {
-                  _disasterController.updateActiveDisaster(
-                      id: data.id.toString(), active: true);
-                },
-              );
-            },
-          ),
-          IconButton(
-            icon: const Icon(
-              Icons.cancel,
-              color: Colors.redAccent,
-              size: 18,
-            ),
-            onPressed: () {
-              CoolAlert.show(
-                context: context,
-                type: CoolAlertType.confirm,
-                text: "Mark this disaster as inactive",
-                confirmBtnText: 'Yes',
-                cancelBtnText: 'No',
-                confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
-                width: MediaQuery.of(context).size.width * .18,
-                lottieAsset: "assets/question-mark.json",
-                onConfirmBtnTap: () {
-                  _disasterController.updateActiveDisaster(
-                      id: data.id.toString(), active: false);
+                  _feedController.deleteFeed(id: data.id.toString());
                 },
               );
             },

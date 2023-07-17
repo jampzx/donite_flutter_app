@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:donite/constants/constants.dart';
 import 'package:donite/controller/disaster_controller.dart';
+import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
@@ -12,11 +12,14 @@ import 'package:image_picker/image_picker.dart';
 class AlertCreateDialogWidget extends StatefulWidget {
   const AlertCreateDialogWidget({
     super.key,
+    required this.alertFor,
   });
 
   @override
   State<AlertCreateDialogWidget> createState() =>
       _AlertCreateDialogWidgetState();
+
+  final String alertFor;
 }
 
 class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
@@ -29,9 +32,11 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
   File? imageFile;
 
   final DisasterController _disasterController = Get.put(DisasterController());
+  final FeedController _feedController = Get.put(FeedController());
 
   @override
   Widget build(BuildContext context) {
+    String alertType = widget.alertFor;
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     double dialogWidth = screenWidth * 0.3;
@@ -152,16 +157,42 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
                                   backgroundColor: Colors.red,
                                   colorText: Colors.white);
                             } else {
-                              await _disasterController.createDisaster(
-                                  title: _titleController.text.trim(),
-                                  date: _dateController.text.trim(),
-                                  disasterType:
-                                      _disasterTypeController.text.trim(),
-                                  location: _locationController.text.trim(),
-                                  information:
-                                      _informationController.text.trim(),
-                                  imagePath: imageFile!.path.toString().trim());
-                              _disasterController.getAllDisasters();
+                              alertType == 'disaster'
+                                  ? (
+                                      await _disasterController.createDisaster(
+                                          title: _titleController.text.trim(),
+                                          date: _dateController.text.trim(),
+                                          disasterType: _disasterTypeController
+                                              .text
+                                              .trim(),
+                                          location:
+                                              _locationController.text.trim(),
+                                          information: _informationController
+                                              .text
+                                              .trim(),
+                                          imagePath: imageFile!.path
+                                              .toString()
+                                              .trim()),
+                                      _disasterController.getAllDisasters(),
+                                      // ignore: use_build_context_synchronously
+                                    )
+                                  : (
+                                      await _feedController.createFeed(
+                                          title: _titleController.text.trim(),
+                                          date: _dateController.text.trim(),
+                                          disasterType: _disasterTypeController
+                                              .text
+                                              .trim(),
+                                          location:
+                                              _locationController.text.trim(),
+                                          information: _informationController
+                                              .text
+                                              .trim(),
+                                          imagePath: imageFile!.path
+                                              .toString()
+                                              .trim()),
+                                      _feedController.getAllFeeds(),
+                                    );
                               // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                             }
