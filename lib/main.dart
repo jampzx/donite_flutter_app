@@ -16,7 +16,7 @@ void main() async {
       "pk_test_51NTT8ZHNNwXyy25HCfjizutRjm7PEqDbIECCDkjndAAVkho5AbPSuojyo0yMwUaDd6z7LtfknSFBgRHbVNSGmkf400nx2OOQqI";
 
   // Initialize GetStorage
-  // await GetStorage.init();
+  await GetStorage.init();
 
   runApp(const MyApp());
 }

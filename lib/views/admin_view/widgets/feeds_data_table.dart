@@ -381,7 +381,7 @@ DataRow recentFileDataRow(FeedModel data, BuildContext context) {
                   location: data.location!,
                   information: data.information!,
                   path: data.path!,
-                  alertFor: 'disaster',
+                  alertFor: 'feed',
                 ),
               );
             },
