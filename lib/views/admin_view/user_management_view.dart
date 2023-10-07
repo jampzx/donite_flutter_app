@@ -61,7 +61,7 @@ class _UserManagementViewState extends State<UserManagementView> {
                           icon: Icons.verified,
                           textTitle: 'VERIFIED',
                           textDetails: box
-                              .read('verifiedUser')!
+                              .read('verifiedUser')
                               .toString()
                               .replaceAll('"', '')),
                       MyBox(
@@ -69,7 +69,7 @@ class _UserManagementViewState extends State<UserManagementView> {
                           icon: Icons.pending,
                           textTitle: 'PENDING',
                           textDetails: box
-                              .read('unverifiedUser')!
+                              .read('unverifiedUser')
                               .toString()
                               .replaceAll('"', ''))
                     ],

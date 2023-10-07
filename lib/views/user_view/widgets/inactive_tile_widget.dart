@@ -160,33 +160,36 @@ class _InactiveTileWidgetState extends State<InactiveTileWidget> {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    const Divider(),
+                    const SizedBox(
+                      height: 15,
+                    )
+                    // const Divider(),
                   ]),
             ),
-            Center(
-              child: Container(
-                margin: const EdgeInsets.only(
-                    left: 18, top: 0, right: 18, bottom: 8),
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: ElevatedButton(
-                  style: TextButton.styleFrom(
-                    foregroundColor: Colors.transparent,
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  child: const Text(
-                    "Help now",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-            ),
+            // Center(
+            //   child: Container(
+            //     margin: const EdgeInsets.only(
+            //         left: 18, top: 0, right: 18, bottom: 8),
+            //     width: double.infinity,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(15.0),
+            //     ),
+            //     child: ElevatedButton(
+            //       style: TextButton.styleFrom(
+            //         foregroundColor: Colors.transparent,
+            //         backgroundColor: Colors.grey,
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(30.0),
+            //         ),
+            //       ),
+            //       child: const Text(
+            //         "Help now",
+            //         style: TextStyle(color: Colors.white),
+            //       ),
+            //       onPressed: () {},
+            //     ),
+            //   ),
+            // ),
 
             // Add a small space between the card and the next widget
           ],

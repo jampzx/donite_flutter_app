@@ -75,7 +75,7 @@ class _FeedManagementViewState extends State<FeedManagementView> {
                           icon: Icons.verified,
                           textTitle: 'VERIFIED',
                           textDetails: box
-                              .read('verifiedUser')!
+                              .read('verifiedUser')
                               .toString()
                               .replaceAll('"', '')),
                       MyBox(
@@ -83,7 +83,7 @@ class _FeedManagementViewState extends State<FeedManagementView> {
                           icon: Icons.pending,
                           textTitle: 'PENDING',
                           textDetails: box
-                              .read('unverifiedUser')!
+                              .read('unverifiedUser')
                               .toString()
                               .replaceAll('"', ''))
                     ],

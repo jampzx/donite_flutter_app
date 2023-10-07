@@ -55,7 +55,7 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
             top: 8.0,
           ),
           title: const Text(
-            "EDIT DISASTER",
+            "POST DISASTER",
             style: TextStyle(fontSize: 24.0),
           ),
           content: SizedBox(

@@ -65,7 +65,7 @@ class _DonationManagementViewState extends State<DonationManagementView> {
                           icon: Icons.verified,
                           textTitle: 'VERIFIED',
                           textDetails: box
-                              .read('verifiedUser')!
+                              .read('verifiedUser')
                               .toString()
                               .replaceAll('"', '')),
                       MyBox(
@@ -73,7 +73,7 @@ class _DonationManagementViewState extends State<DonationManagementView> {
                           icon: Icons.pending,
                           textTitle: 'PENDING',
                           textDetails: box
-                              .read('unverifiedUser')!
+                              .read('unverifiedUser')
                               .toString()
                               .replaceAll('"', ''))
                     ],

@@ -55,8 +55,8 @@ class _AlertOfflineCreateDialogWidgetState
             top: 8.0,
           ),
           title: const Text(
-            "EDIT DISASTER",
-            style: TextStyle(fontSize: 24.0),
+            "POSTS MANAGEMENT",
+            style: TextStyle(fontSize: 18.0),
           ),
           content: SizedBox(
             width: dialogWidth,

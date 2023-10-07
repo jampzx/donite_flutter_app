@@ -302,6 +302,12 @@ class AuthenticationController extends GetxController {
 
     if (response.statusCode == 200) {
       box.remove('token');
+      box.remove('verifiedUser');
+      box.remove('unverifiedUser');
+      box.remove('userId');
+      box.remove('userName');
+      box.remove('userEmail');
+
       Get.snackbar('Success', 'Log out successful',
           snackPosition: SnackPosition.TOP,
           backgroundColor: Colors.green,

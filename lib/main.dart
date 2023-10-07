@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
     debugPrint(token.toString());
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      //home: LoginView(),
-      home: homeWidget,
+      home: LoginView(),
+      //home: homeWidget,
     );
   }
 }
