@@ -6,6 +6,10 @@ var myAppBar = AppBar(
   backgroundColor: appBarColor,
   title: const Text('Donite Administration Panel'),
   centerTitle: false,
+  leading: IconButton(
+    icon: Image.asset('assets/mdrrmo.png'),
+    onPressed: () {},
+  ),
 );
 var drawerTextColor = const TextStyle(
   color: Colors.white,

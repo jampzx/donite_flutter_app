@@ -51,7 +51,8 @@ class AuthenticationController extends GetxController {
       users.value.clear();
       isLoading.value = true;
       var response = await http.get(Uri.parse('${baseUrl}users'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -90,7 +91,8 @@ class AuthenticationController extends GetxController {
     final token = box.read('token');
     final url = Uri.parse('${baseUrl}user/update/$id');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
@@ -295,7 +297,8 @@ class AuthenticationController extends GetxController {
 
   Future<void> logout() async {
     var response = await http.post(Uri.parse('${baseUrl}logout'), headers: {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     });

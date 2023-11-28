@@ -29,7 +29,8 @@ class DonationController extends GetxController {
       donations.value.clear();
       isLoading.value = true;
       var response = await http.get(Uri.parse('${baseUrl}donation'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -61,7 +62,8 @@ class DonationController extends GetxController {
     var response = await http.get(
       Uri.parse('${baseUrl}donation/user/$userId'),
       headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       },
@@ -90,7 +92,8 @@ class DonationController extends GetxController {
   }) async {
     final url = Uri.parse('${baseUrl}donation/store');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     };
@@ -207,7 +210,8 @@ class DonationController extends GetxController {
     final token = box.read('token');
     final url = Uri.parse('${baseUrl}donation/update/$id');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };

@@ -32,7 +32,8 @@ class DisasterController extends GetxController {
       disasters.value.clear();
       isLoading.value = true;
       var response = await http.get(Uri.parse('${baseUrl}disaster'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -71,7 +72,8 @@ class DisasterController extends GetxController {
     debugPrint(imagePath);
     final url = Uri.parse('${baseUrl}disaster/store');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     };
@@ -128,7 +130,8 @@ class DisasterController extends GetxController {
     debugPrint(imagePath);
     final url = Uri.parse('${baseUrl}disaster/update/$id');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     };
@@ -178,7 +181,8 @@ class DisasterController extends GetxController {
       var response = await http.delete(
         Uri.parse('${baseUrl}disaster/delete/$id'),
         headers: {
-          'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+          'Authorization':
+              'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
           'Content-Type': 'application/json',
         },
       );
@@ -221,7 +225,8 @@ class DisasterController extends GetxController {
       isLoading.value = true;
       var response =
           await http.get(Uri.parse('${baseUrl}disaster/active'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -256,7 +261,8 @@ class DisasterController extends GetxController {
       isLoading.value = true;
       var response =
           await http.get(Uri.parse('${baseUrl}disaster/inactive'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -288,7 +294,8 @@ class DisasterController extends GetxController {
     final token = box.read('token');
     final url = Uri.parse('${baseUrl}disaster/updateActive/$id');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
@@ -426,7 +433,8 @@ class DisasterController extends GetxController {
       for (final result in results) {
         final url = Uri.parse('${baseUrl}disaster/store');
         final headers = {
-          'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+          'Authorization':
+              'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json'
         };

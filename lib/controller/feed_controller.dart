@@ -27,7 +27,8 @@ class FeedController extends GetxController {
       feeds.value.clear();
       isLoading.value = true;
       var response = await http.get(Uri.parse('${baseUrl}feed'), headers: {
-        'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
         'Content-Type': 'multipart/form-data',
         'Accept': 'application/json'
       });
@@ -65,7 +66,8 @@ class FeedController extends GetxController {
     debugPrint(imagePath);
     final url = Uri.parse('${baseUrl}feed/store');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     };
@@ -122,7 +124,8 @@ class FeedController extends GetxController {
     debugPrint(imagePath);
     final url = Uri.parse('${baseUrl}feed/update/$id');
     final headers = {
-      'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+      'Authorization':
+          'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
       'Content-Type': 'multipart/form-data',
       'Accept': 'application/json'
     };
@@ -172,7 +175,8 @@ class FeedController extends GetxController {
       var response = await http.delete(
         Uri.parse('${baseUrl}feed/delete/$id'),
         headers: {
-          'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+          'Authorization':
+              'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
           'Content-Type': 'application/json',
         },
       );
@@ -303,7 +307,8 @@ class FeedController extends GetxController {
       for (final result in results) {
         final url = Uri.parse('${baseUrl}feed/store');
         final headers = {
-          'Authorization': 'Bearer ${box.read('token').replaceAll('"', '')}',
+          'Authorization':
+              'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
           'Content-Type': 'multipart/form-data',
           'Accept': 'application/json'
         };
