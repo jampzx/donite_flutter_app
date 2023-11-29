@@ -92,11 +92,21 @@ class _LoginViewState extends State<LoginView> {
         children: [
           size.width > 600
               ? Container()
-              : Lottie.asset(
-                  'assets/wave2.json',
-                  height: size.height * 0.2,
-                  width: size.width,
-                  fit: BoxFit.fill,
+              : Column(
+                  children: [
+                    Image.asset(
+                      'assets/donitelogo.jpeg',
+                      height: 60,
+                      width: 60,
+                      fit: BoxFit.fill,
+                    ),
+                    Lottie.asset(
+                      'assets/wave2.json',
+                      height: size.height * 0.1,
+                      width: size.width,
+                      fit: BoxFit.fill,
+                    ),
+                  ],
                 ),
           SizedBox(
             height: size.height * 0.03,

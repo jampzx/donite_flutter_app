@@ -48,6 +48,7 @@ dependencies:
   intl: ^0.18.1
   webview_flutter: ^2.0.13
   sqlite3: ^2.0.0
+  open_file: ^3.2.1
 
 
 dev_dependencies:
@@ -92,6 +93,7 @@ flutter:
     - assets/pending.json
     - assets/thank-you2.json
     - assets/mdrrmo.png
+    - assets/donitelogo.jpeg
 
 
 

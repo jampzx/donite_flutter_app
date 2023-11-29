@@ -7,6 +7,15 @@ import 'package:donite/views/admin_view/widgets/alert_offline_create_dialog_widg
 import 'package:donite/views/admin_view/widgets/alert_update_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pdfLib;
+import 'package:path_provider/path_provider.dart';
+import 'package:intl/intl.dart';
+import 'dart:io';
+import 'package:open_file/open_file.dart';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 class DisastersDataTableWidget extends StatefulWidget {
   const DisastersDataTableWidget({Key? key}) : super(key: key);
@@ -304,6 +313,15 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                           ),
                         ),
                       ),
+                      const DataColumn(
+                        label: Text(
+                          "Download",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -488,6 +506,33 @@ DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
           ),
         ],
       )),
+      DataCell(Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          IconButton(
+            icon: const Icon(
+              Icons.download,
+              color: Colors.blueAccent,
+              size: 18,
+            ),
+            onPressed: () {
+              CoolAlert.show(
+                context: context,
+                type: CoolAlertType.confirm,
+                text: "Download PDF",
+                confirmBtnText: 'Yes',
+                cancelBtnText: 'No',
+                confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
+                width: MediaQuery.of(context).size.width * .18,
+                lottieAsset: "assets/question-mark.json",
+                onConfirmBtnTap: () {
+                  generatePDF(data);
+                },
+              );
+            },
+          ),
+        ],
+      )),
     ],
   );
 }
@@ -517,4 +562,130 @@ void showFullSizeImage(String imageUrl, BuildContext context) {
       );
     },
   );
+}
+
+Future<void> generatePDF(DisasterModel data) async {
+  final pdf = pdfLib.Document();
+
+  // Fetch the image bytes
+  final Uint8List imageBytes =
+      await _getImageBytes('${baseImageUrl}storage/${data.path!}');
+
+  final Uint8List imageLogo1 = await _getAssetImageBytes('assets/mdrrmo.png');
+  final Uint8List imageLogo2 =
+      await _getAssetImageBytes('assets/donitelogo.jpeg');
+
+  pdf.addPage(
+    pdfLib.Page(
+      build: (context) {
+        return pdfLib.Column(
+          crossAxisAlignment: pdfLib.CrossAxisAlignment.start,
+          children: [
+            pdfLib.Row(
+              mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+              children: [
+                pdfLib.Image(pdfLib.MemoryImage(imageLogo1),
+                    width: 60, height: 60),
+                pdfLib.Text(
+                  'DONITE: Donation & Volunteerism',
+                  style: pdfLib.TextStyle(
+                      fontWeight: pdfLib.FontWeight.bold, fontSize: 16),
+                ),
+                pdfLib.Image(pdfLib.MemoryImage(imageLogo2),
+                    width: 60, height: 60),
+              ],
+            ),
+            pdfLib.SizedBox(height: 40),
+
+            pdfLib.Row(
+              mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+              children: [
+                pdfLib.Text('Title: ${data.title ?? ''}'),
+                pdfLib.Text('Location: ${data.location ?? ''}'),
+              ],
+            ),
+            pdfLib.SizedBox(height: 10),
+
+            // Location and Date
+            pdfLib.Row(
+              mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+              children: [
+                pdfLib.Text('Date: ${data.date ?? ''}'),
+                pdfLib.Text('Type: ${data.disasterType ?? ''}'),
+              ],
+            ),
+            pdfLib.SizedBox(height: 10),
+
+            // Image
+            pdfLib.Center(
+              child: pdfLib.Image(
+                pdfLib.MemoryImage(imageBytes),
+              ),
+            ),
+            pdfLib.SizedBox(height: 10),
+
+            // Information
+            pdfLib.Text('Information: ${data.information ?? ''}'),
+
+            pdfLib.SizedBox(height: 30),
+
+            // Contact Information
+            pdfLib.Text(
+              'Contact Information',
+              style: pdfLib.TextStyle(
+                fontWeight: pdfLib.FontWeight.bold,
+                fontSize: 12,
+              ),
+            ),
+            pdfLib.SizedBox(height: 10),
+
+            pdfLib.Text(
+              'Email: donitemanagementsystem@gmail.com',
+              style: const pdfLib.TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            pdfLib.Text(
+              'Facebook: www.facebook.com/donite',
+              style: const pdfLib.TextStyle(
+                fontSize: 12,
+              ),
+            ),
+            pdfLib.Text(
+              'Address: Bauang La Union',
+              style: const pdfLib.TextStyle(
+                fontSize: 12,
+              ),
+            ),
+          ],
+        );
+      },
+    ),
+  );
+
+  // Get the application documents directory
+  final directory = await getApplicationDocumentsDirectory();
+  final String path = '${directory.path}/disasters_report.pdf';
+
+  // Save the PDF file
+  final File file = File(path);
+  await file.writeAsBytes(await pdf.save());
+
+  // Open the PDF file
+  OpenFile.open(file.path);
+}
+
+// Helper function to fetch image bytes from a URL
+Future<Uint8List> _getImageBytes(String imageUrl) async {
+  final response = await http.get(Uri.parse(imageUrl));
+  if (response.statusCode == 200) {
+    return response.bodyBytes;
+  } else {
+    throw Exception('Failed to load image');
+  }
+}
+
+Future<Uint8List> _getAssetImageBytes(String assetPath) async {
+  final ByteData data = await rootBundle.load(assetPath);
+  return data.buffer.asUint8List();
 }
