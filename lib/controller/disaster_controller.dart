@@ -21,9 +21,9 @@ class DisasterController extends GetxController {
     disasters.value.clear();
     disastersActive.value.clear();
     disastersInactive.value.clear();
-    getAllDisasters();
-    getActiveDisasters();
-    getInactiveDisasters();
+    // getAllDisasters();
+    // getActiveDisasters();
+    // getInactiveDisasters();
     super.onInit();
   }
 

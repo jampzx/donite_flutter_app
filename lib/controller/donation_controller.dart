@@ -20,7 +20,7 @@ class DonationController extends GetxController {
   @override
   void onInit() {
     donations.value.clear();
-    getAllDonations();
+    //getAllDonations();
     super.onInit();
   }
 
@@ -121,7 +121,7 @@ class DonationController extends GetxController {
           CoolAlert.show(
             context: context,
             type: CoolAlertType.success,
-            text: "Your donation was successful!",
+            text: "Your support is greatly appreciated!",
             // ignore: use_build_context_synchronously
             width: MediaQuery.of(context).size.width * .18,
             onConfirmBtnTap: () {

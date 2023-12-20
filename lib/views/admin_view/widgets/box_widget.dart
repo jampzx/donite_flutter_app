@@ -28,28 +28,28 @@ class MyBox extends StatelessWidget {
                 children: [
                   Icon(
                     icon,
-                    size: 26.0,
+                    size: 14.0,
                     color: const Color.fromARGB(255, 255, 255, 255),
                   ),
                   const SizedBox(
-                    width: 15.0,
+                    width: 10.0,
                   ),
                   Text(
                     textTitle,
                     style: const TextStyle(
-                        fontSize: 24.0,
+                        fontSize: 14.0,
                         fontWeight: FontWeight.bold,
                         color: Color.fromARGB(255, 255, 255, 255)),
                   )
                 ],
               ),
               const SizedBox(
-                height: 20.0,
+                height: 10.0,
               ),
               Text(
                 textDetails,
                 style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 14,
                     fontWeight: FontWeight.bold,
                     color: Color.fromARGB(255, 255, 255, 255)),
               )

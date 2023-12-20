@@ -18,7 +18,7 @@ class FeedController extends GetxController {
   @override
   void onInit() {
     feeds.value.clear();
-    getAllFeeds();
+    //getAllFeeds();
     super.onInit();
   }
 

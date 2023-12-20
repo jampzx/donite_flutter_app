@@ -95,12 +95,26 @@ class _DonationHistoryViewState extends State<DonationHistoryView> {
                                 CoolAlert.show(
                                   context: context,
                                   type: CoolAlertType.info,
-                                  text:
-                                      '${donation['name']} at age ${donation['age']} contributes ${donation['donation_info']}\n\n${donation['email']}\n${donation['contact_number']}\n \nDonation ID:${donation['id']}',
+                                  text: '''
+Date & time: ${formattedDateTime}
+Disaster: ${donation['disaster_info']['title']}
+Location: ${donation['disaster_info']['location']}
+
+Support Form
+Support Type: ${donation['donation_type']}
+Support Status: ${donation['verified'] == 0 ? 'Pending' : 'Verified'}
+Category: ${donation['goods_type']}
+Amount/Info: ${donation['donation_info']}
+
+Name: ${donation['name']}
+Age: ${donation['age']}
+Contact number: ${donation['contact_number']}
+Email: ${donation['email']}
+''',
                                   confirmBtnText: 'CONFIRM',
                                   confirmBtnColor: const Color(0xFF448AFF),
                                   lottieAsset: "assets/successful.json",
-                                  title: '${donation['donation_type']}',
+                                  title: 'Goods Donation',
                                 );
                               },
                             ),

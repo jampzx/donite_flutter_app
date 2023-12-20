@@ -8,6 +8,7 @@ import 'package:donite/model/authentication_model.dart';
 import 'package:donite/views/admin_view/admin_home_view.dart';
 import 'package:donite/views/login_view.dart';
 import 'package:donite/views/register_view.dart';
+import 'package:donite/views/user_view/declined_view.dart';
 import 'package:donite/views/user_view/not_verified_view.dart';
 import 'package:donite/views/user_view/reset_password_success_view.dart';
 import 'package:donite/views/user_view/reset_password_view.dart';
@@ -38,11 +39,13 @@ class AuthenticationController extends GetxController {
   // String userId = '';
   // String userName = '';
   // String userEmail = '';
+  String verifiedUserCount = '';
+  String unverifiedUserCount = '';
 
   @override
   void onInit() {
     users.value.clear();
-    getAllUsers();
+    //getAllUsers();
     super.onInit();
   }
 
@@ -61,6 +64,8 @@ class AuthenticationController extends GetxController {
         final content = json.decode(response.body)['data'];
         final verified = json.decode(response.body)['verified_users'];
         final unverified = json.decode(response.body)['unverified_users'];
+        verifiedUserCount = verified.toString();
+        unverifiedUserCount = unverified.toString();
 
         // verifiedUser = verified.toString();
         // unverifiedUser = unverified.toString();
@@ -86,7 +91,7 @@ class AuthenticationController extends GetxController {
 
   Future<void> updateUser({
     required String id,
-    required bool verified,
+    required int verified,
   }) async {
     final token = box.read('token');
     final url = Uri.parse('${baseUrl}user/update/$id');
@@ -98,7 +103,7 @@ class AuthenticationController extends GetxController {
     };
 
     final body = {
-      'verified': verified == true ? 1 : 0,
+      'verified': verified,
     };
 
     try {
@@ -215,9 +220,7 @@ class AuthenticationController extends GetxController {
         box.write('userEmail', useremail.toString());
 
         //VERIFIED USER AND IN MOBILE DEVICE
-        if (isVerified == 1 &&
-            responseData['user']['user_type'] == null &&
-            deviceWidth < 500) {
+        if (isVerified == 1 && responseData['user']['user_type'] == null) {
           debugPrint(isVerified.toString());
           debugPrint(json.encode(json.decode(response.body)['token']));
           token.value = json.encode(json.decode(response.body)['token']);
@@ -235,23 +238,23 @@ class AuthenticationController extends GetxController {
               ));
         }
         //VERIFIED USER AND IN NOT IN MOBILE DEVICE (MAYBE DESKTOP)
-        if (isVerified == 1 &&
-            responseData['user']['user_type'] == null &&
-            deviceWidth > 500) {
-          debugPrint(isVerified.toString());
-          debugPrint(json.encode(json.decode(response.body)['token']));
-          token.value = json.encode(json.decode(response.body)['token']);
-          box.write('token', token.value);
-          userType.value = 'user';
-          box.write('userType', userType.value);
-          Get.offAll(() => const LoginView());
-          Get.snackbar('Error', 'Please login using mobile device',
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
-        }
+        // if (isVerified == 1 &&
+        //     responseData['user']['user_type'] == null &&
+        //     deviceWidth > 500) {
+        //   debugPrint(isVerified.toString());
+        //   debugPrint(json.encode(json.decode(response.body)['token']));
+        //   token.value = json.encode(json.decode(response.body)['token']);
+        //   box.write('token', token.value);
+        //   userType.value = 'user';
+        //   box.write('userType', userType.value);
+        //   Get.offAll(() => const LoginView());
+        //   Get.snackbar('Error', 'Please login using mobile device',
+        //       snackPosition: SnackPosition.TOP,
+        //       backgroundColor: Colors.red,
+        //       colorText: Colors.white);
+        // }
         //ADMIN IN DESKTOP DEVICE
-        if (responseData['user']['user_type'] == 'admin' && deviceWidth > 500) {
+        if (responseData['user']['user_type'] == 'admin') {
           token.value = json.encode(json.decode(response.body)['token']);
           box.write('token', token.value);
           userType.value = 'admin';
@@ -262,17 +265,17 @@ class AuthenticationController extends GetxController {
           _feedController.getAllFeeds();
         }
         //ADMIN IN MOBILE DEVICE
-        if (responseData['user']['user_type'] == 'admin' && deviceWidth < 500) {
-          token.value = json.encode(json.decode(response.body)['token']);
-          box.write('token', token.value);
-          userType.value = 'admin';
-          box.write('userType', userType.value);
-          Get.offAll(() => const LoginView());
-          Get.snackbar('Error', 'Please login using desktop',
-              snackPosition: SnackPosition.TOP,
-              backgroundColor: Colors.red,
-              colorText: Colors.white);
-        }
+        // if (responseData['user']['user_type'] == 'admin' && deviceWidth < 500) {
+        //   token.value = json.encode(json.decode(response.body)['token']);
+        //   box.write('token', token.value);
+        //   userType.value = 'admin';
+        //   box.write('userType', userType.value);
+        //   Get.offAll(() => const LoginView());
+        //   Get.snackbar('Error', 'Please login using desktop',
+        //       snackPosition: SnackPosition.TOP,
+        //       backgroundColor: Colors.red,
+        //       colorText: Colors.white);
+        // }
         if (isVerified == 0 && responseData['user']['user_type'] == null) {
           debugPrint(isVerified.toString());
           Get.snackbar('Error', 'Your account is not yet verified',
@@ -280,6 +283,14 @@ class AuthenticationController extends GetxController {
               backgroundColor: Colors.red,
               colorText: Colors.white);
           Get.offAll(() => NotYetVerifiedView());
+        }
+        if (isVerified == 2 && responseData['user']['user_type'] == null) {
+          debugPrint(isVerified.toString());
+          Get.snackbar('Error', 'Your account did not pass verification',
+              snackPosition: SnackPosition.TOP,
+              backgroundColor: Colors.red,
+              colorText: Colors.white);
+          Get.offAll(() => DeclinedView());
         }
       } else {
         isLoading.value = false;

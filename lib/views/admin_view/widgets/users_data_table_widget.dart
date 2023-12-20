@@ -246,13 +246,24 @@ DataRow recentFileDataRow(AuthenticationModel data, BuildContext context) {
   return DataRow(
     cells: [
       DataCell(Text(data.name.toString())),
-      DataCell(verified == '0'
-          ? const Text(
-              'Unverified',
-              style: TextStyle(color: Color(0xFFFF5252)),
-            )
-          : const Text('Verified',
-              style: TextStyle(color: Color.fromARGB(255, 77, 234, 82)))),
+      DataCell(
+        verified == '0'
+            ? const Text(
+                'Unverified',
+                style: TextStyle(color: Color(0xFFFF5252)),
+              )
+            : verified == '1'
+                ? const Text(
+                    'Verified',
+                    style: TextStyle(color: Color.fromARGB(255, 77, 234, 82)),
+                  )
+                : verified == '2'
+                    ? const Text(
+                        'Declined',
+                        style: TextStyle(color: Color(0xFFFF5252)),
+                      )
+                    : const Text('Unknown Status'),
+      ),
       DataCell(Text(data.email.toString())),
       DataCell(
         GestureDetector(
@@ -288,7 +299,7 @@ DataRow recentFileDataRow(AuthenticationModel data, BuildContext context) {
                 lottieAsset: "assets/question-mark.json",
                 onConfirmBtnTap: () {
                   _authenticationController.updateUser(
-                      id: data.id.toString(), verified: true);
+                      id: data.id.toString(), verified: 1);
                 },
               );
             },
@@ -303,7 +314,7 @@ DataRow recentFileDataRow(AuthenticationModel data, BuildContext context) {
               CoolAlert.show(
                 context: context,
                 type: CoolAlertType.confirm,
-                text: "Revert this user",
+                text: "Decline verification",
                 confirmBtnText: 'Yes',
                 cancelBtnText: 'No',
                 confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
@@ -311,7 +322,7 @@ DataRow recentFileDataRow(AuthenticationModel data, BuildContext context) {
                 lottieAsset: "assets/question-mark.json",
                 onConfirmBtnTap: () {
                   _authenticationController.updateUser(
-                      id: data.id.toString(), verified: false);
+                      id: data.id.toString(), verified: 2);
                 },
               );
             },

@@ -70,19 +70,27 @@ class _DisasterManagementViewState extends State<DisasterManagementView> {
                       MyBox(
                           color: Colors.blueAccent,
                           icon: Icons.verified,
-                          textTitle: 'VERIFIED',
-                          textDetails: box
-                              .read('verifiedUser')
-                              .toString()
-                              .replaceAll('"', '')),
+                          textTitle: 'VERIFIED USERS',
+                          textDetails:
+                              _authenticationController.verifiedUserCount),
+                      MyBox(
+                          color: Colors.blueAccent,
+                          icon: Icons.pending,
+                          textTitle: 'UNVERIFIED USERS',
+                          textDetails:
+                              _authenticationController.unverifiedUserCount),
+                      MyBox(
+                          color: Colors.purpleAccent,
+                          icon: Icons.verified,
+                          textTitle: 'VERIFIED SUPPORT',
+                          textDetails:
+                              _authenticationController.unverifiedUserCount),
                       MyBox(
                           color: Colors.purpleAccent,
                           icon: Icons.pending,
-                          textTitle: 'PENDING',
-                          textDetails: box
-                              .read('unverifiedUser')
-                              .toString()
-                              .replaceAll('"', ''))
+                          textTitle: 'UNVERIFIED SUPPORT',
+                          textDetails:
+                              _authenticationController.unverifiedUserCount)
                     ],
                   ),
                   const SizedBox(

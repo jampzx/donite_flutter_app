@@ -60,18 +60,14 @@ class _UserManagementViewState extends State<UserManagementView> {
                           color: Colors.blueAccent,
                           icon: Icons.verified,
                           textTitle: 'VERIFIED',
-                          textDetails: box
-                              .read('verifiedUser')
-                              .toString()
-                              .replaceAll('"', '')),
+                          textDetails:
+                              _authenticationController.verifiedUserCount),
                       MyBox(
                           color: Colors.purpleAccent,
                           icon: Icons.pending,
                           textTitle: 'PENDING',
-                          textDetails: box
-                              .read('unverifiedUser')
-                              .toString()
-                              .replaceAll('"', ''))
+                          textDetails:
+                              _authenticationController.unverifiedUserCount)
                     ],
                   ),
                   const SizedBox(
