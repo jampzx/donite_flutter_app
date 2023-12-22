@@ -43,32 +43,45 @@ class _UserManagementViewState extends State<UserManagementView> {
               child: Column(
                 children: [
                   // first 4 boxes in grid
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MyBox(
-                          color: Colors.orangeAccent,
-                          icon: Icons.post_add_sharp,
-                          textTitle: 'POSTS',
-                          textDetails: _disasterController.disasterCount),
-                      MyBox(
-                          color: Colors.redAccent,
-                          icon: Icons.attach_money,
-                          textTitle: 'DONATIONS',
-                          textDetails: _donationController.donationCount),
-                      MyBox(
-                          color: Colors.blueAccent,
-                          icon: Icons.verified,
-                          textTitle: 'VERIFIED',
-                          textDetails:
-                              _authenticationController.verifiedUserCount),
-                      MyBox(
-                          color: Colors.purpleAccent,
-                          icon: Icons.pending,
-                          textTitle: 'PENDING',
-                          textDetails:
-                              _authenticationController.unverifiedUserCount)
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MyBox(
+                            color: Colors.orangeAccent,
+                            icon: Icons.post_add_sharp,
+                            textTitle: 'POSTS',
+                            textDetails: _disasterController.disasterCount),
+                        MyBox(
+                            color: Colors.redAccent,
+                            icon: Icons.attach_money,
+                            textTitle: 'DONATIONS',
+                            textDetails: _donationController.donationCount),
+                        MyBox(
+                            color: Colors.blueAccent,
+                            icon: Icons.verified,
+                            textTitle: 'VERIFIED USERS',
+                            textDetails:
+                                _authenticationController.verifiedUserCount),
+                        MyBox(
+                            color: Colors.blueAccent,
+                            icon: Icons.pending,
+                            textTitle: 'UNVERIFIED USERS',
+                            textDetails:
+                                _authenticationController.unverifiedUserCount),
+                        MyBox(
+                            color: Colors.purpleAccent,
+                            icon: Icons.verified,
+                            textTitle: 'VERIFIED SUPPORT',
+                            textDetails: _donationController.verifiedCount),
+                        MyBox(
+                            color: Colors.purpleAccent,
+                            icon: Icons.pending,
+                            textTitle: 'UNVERIFIED SUPPORT',
+                            textDetails: _donationController.unverifiedCount)
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 5,

@@ -1,6 +1,7 @@
 import 'package:donite/constants/constants.dart';
 import 'package:donite/controller/disaster_controller.dart';
 import 'package:donite/model/disaster_model.dart';
+import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/donation_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -76,9 +77,9 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.calendar_month,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -86,8 +87,8 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                 ),
                                 Text(
                                   widget.disaster.date!,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -98,9 +99,9 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.timer,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -108,8 +109,8 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                 ),
                                 Text(
                                   formattedTime,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -120,9 +121,9 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.location_pin,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -130,8 +131,8 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                                 ),
                                 Text(
                                   widget.disaster.location!,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -173,7 +174,7 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                 child: ElevatedButton(
                   style: TextButton.styleFrom(
                     foregroundColor: Colors.transparent,
-                    backgroundColor: Colors.blueAccent,
+                    backgroundColor: foregroundColor(),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),

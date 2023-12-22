@@ -1,7 +1,8 @@
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 
 var defaultBackgroundColor = Colors.grey[300];
-var appBarColor = Colors.blueAccent;
+var appBarColor = foregroundColor();
 var myAppBar = AppBar(
   backgroundColor: appBarColor,
   title: const Text(

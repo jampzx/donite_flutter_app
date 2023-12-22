@@ -6,6 +6,7 @@ import 'package:donite/views/admin_view/disaster_management_view.dart';
 import 'package:donite/views/admin_view/donation_management_view.dart';
 import 'package:donite/views/admin_view/feed_management_view.dart';
 import 'package:donite/views/admin_view/user_management_view.dart';
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -67,16 +68,15 @@ class _AdminHomeViewState extends State<AdminHomeView> {
                 });
               },
               extended: isExpanded,
-              backgroundColor: Colors.blueAccent,
+              backgroundColor: foregroundColor(),
               unselectedIconTheme:
                   const IconThemeData(color: Colors.white, opacity: 1),
               unselectedLabelTextStyle: const TextStyle(
                 color: Colors.white,
               ),
-              selectedIconTheme:
-                  IconThemeData(color: Colors.blueAccent.shade700),
+              selectedIconTheme: const IconThemeData(color: Colors.orange),
               selectedLabelTextStyle: TextStyle(
-                color: Colors.blueAccent.shade700,
+                color: Colors.orange,
               ),
               destinations: const [
                 NavigationRailDestination(

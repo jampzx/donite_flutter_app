@@ -1,6 +1,7 @@
 import 'package:donite/constants/constants.dart';
 import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/model/feed_model.dart';
+import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/donation_form_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,9 +73,9 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.calendar_month,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -82,8 +83,8 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                                 ),
                                 Text(
                                   widget.feed.date!,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -94,9 +95,9 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.timer,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -104,8 +105,8 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                                 ),
                                 Text(
                                   formattedTime,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -116,9 +117,9 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                             ),
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.location_pin,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                   size: 13,
                                 ),
                                 const SizedBox(
@@ -126,8 +127,8 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
                                 ),
                                 Text(
                                   widget.feed.location!,
-                                  style: const TextStyle(
-                                    color: Colors.blueAccent,
+                                  style: TextStyle(
+                                    color: foregroundColor(),
                                     fontSize: 12,
                                   ),
                                 ),

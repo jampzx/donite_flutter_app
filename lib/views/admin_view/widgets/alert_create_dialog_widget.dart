@@ -4,6 +4,7 @@ import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/views/admin_view/widgets/date_widget.dart';
 import 'package:donite/views/admin_view/widgets/image_widget.dart';
 import 'package:donite/views/admin_view/widgets/input_widget.dart';
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -138,7 +139,7 @@ class _AlertCreateDialogWidgetState extends State<AlertCreateDialogWidget> {
                         child: ElevatedButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all(
-                                Colors.blueAccent /*Colors.deepPurpleAccent*/),
+                                foregroundColor() /*Colors.deepPurpleAccent*/),
                             shape: MaterialStateProperty.all(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(8),

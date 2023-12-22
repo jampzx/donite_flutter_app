@@ -30,16 +30,16 @@ class _InputWidgetState extends State<InputWidget> {
       controller: widget.controller,
       obscureText: widget.isObscure,
       decoration: InputDecoration(
-        prefixIcon: widget.prefixicon,
-        hintText: widget.hintext,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.grey),
-        ),
-      ),
+          prefixIcon: widget.prefixicon,
+          hintText: widget.hintext,
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          focusedBorder: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          prefixIconColor: foregroundColor()),
     );
   }
 }

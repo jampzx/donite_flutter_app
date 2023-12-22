@@ -1,7 +1,8 @@
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 
 var defaultBackgroundColor = Colors.grey[300];
-var appBarColor = Colors.blueAccent;
+var appBarColor = foregroundColor();
 var myAppBar = AppBar(
   backgroundColor: appBarColor,
   title: const Text('Donite Administration Panel'),
@@ -16,7 +17,7 @@ var drawerTextColor = const TextStyle(
 );
 var tilePadding = const EdgeInsets.only(left: 8.0, right: 8, top: 8);
 var myDrawer = Drawer(
-  backgroundColor: Colors.blueAccent,
+  backgroundColor: foregroundColor(),
   elevation: 0,
   child: Column(
     children: [

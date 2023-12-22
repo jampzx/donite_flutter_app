@@ -1,6 +1,7 @@
 import 'package:donite/views/admin_view/disaster_management_view.dart';
 import 'package:donite/views/admin_view/donation_management_view.dart';
 import 'package:donite/views/admin_view/user_management_view.dart';
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 
 class DrawerWidget extends StatefulWidget {
@@ -17,11 +18,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
+          DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blueAccent,
+              color: foregroundColor(),
             ),
-            child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

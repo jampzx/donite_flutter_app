@@ -34,7 +34,10 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text('')),
+      appBar: AppBar(
+        title: const Text(''),
+        backgroundColor: foregroundColor(),
+      ),
       body: SingleChildScrollView(
         child: Column(
           // crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,16 +94,17 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                       style: kTextFormFieldStyle(),
                       controller: emailController,
                       obscureText: false,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         prefixIcon: Icon(Icons.email),
                         hintText: 'email',
-                        border: OutlineInputBorder(
+                        border: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
-                        focusedBorder: OutlineInputBorder(
+                        focusedBorder: const OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           borderSide: BorderSide(color: Colors.grey),
                         ),
+                        prefixIconColor: foregroundColor(),
                       ),
                     ),
                     SizedBox(
@@ -126,7 +130,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                  backgroundColor: MaterialStateProperty.all(foregroundColor()),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),

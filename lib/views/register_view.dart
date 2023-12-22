@@ -97,14 +97,14 @@ class _RegisterViewState extends State<RegisterView> {
             ? MainAxisAlignment.center
             : MainAxisAlignment.start,
         children: [
-          size.width > 600
-              ? Container()
-              : Lottie.asset(
-                  'assets/wave2.json',
-                  height: size.height * 0.12,
-                  width: size.width,
-                  fit: BoxFit.fill,
-                ),
+          // size.width > 600
+          //     ? Container()
+          //     : Lottie.asset(
+          //         'assets/wave2.json',
+          //         height: size.height * 0.12,
+          //         width: size.width,
+          //         fit: BoxFit.fill,
+          //       ),
           SizedBox(
             height: size.height * 0.03,
           ),
@@ -280,7 +280,7 @@ class _RegisterViewState extends State<RegisterView> {
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                  backgroundColor: MaterialStateProperty.all(foregroundColor()),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

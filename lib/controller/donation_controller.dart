@@ -13,8 +13,12 @@ class DonationController extends GetxController {
   Map<String, dynamic>? paymentIntent;
   Rx<List<DonationModel>> donations = Rx<List<DonationModel>>([]);
   final isLoading = false.obs;
+  final isLoadingVerified = false.obs;
+  final isLoadingUnverified = false.obs;
   final box = GetStorage();
   String donationCount = '';
+  String verifiedCount = '';
+  String unverifiedCount = '';
   List<dynamic> donationsPerUser = [].obs;
 
   @override
@@ -52,6 +56,64 @@ class DonationController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
+      debugPrint(e.toString());
+    }
+  }
+
+  Future getVerified() async {
+    try {
+      donations.value.clear();
+      isLoadingVerified.value = true;
+      var response = await http.get(Uri.parse('${baseUrl}verified'), headers: {
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
+      });
+      if (response.statusCode == 200) {
+        isLoadingVerified.value = false;
+        final verified_donations_count = json.decode(response.body)['verified'];
+        verifiedCount = verified_donations_count.toString();
+      } else {
+        isLoadingVerified.value = false;
+        Get.snackbar(
+            'Error', json.encode(json.decode(response.body)['message']),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
+    } catch (e) {
+      isLoadingVerified.value = false;
+      debugPrint(e.toString());
+    }
+  }
+
+  Future getUnverified() async {
+    try {
+      donations.value.clear();
+      isLoadingUnverified.value = true;
+      var response =
+          await http.get(Uri.parse('${baseUrl}unverified'), headers: {
+        'Authorization':
+            'Bearer ${box.read('token')?.toString().replaceAll('"', '')}',
+        'Content-Type': 'multipart/form-data',
+        'Accept': 'application/json'
+      });
+      if (response.statusCode == 200) {
+        isLoadingUnverified.value = false;
+        final unverified_donations_count =
+            json.decode(response.body)['unverified'];
+        unverifiedCount = unverified_donations_count.toString();
+      } else {
+        isLoadingUnverified.value = false;
+        Get.snackbar(
+            'Error', json.encode(json.decode(response.body)['message']),
+            snackPosition: SnackPosition.TOP,
+            backgroundColor: Colors.red,
+            colorText: Colors.white);
+      }
+    } catch (e) {
+      isLoadingUnverified.value = false;
       debugPrint(e.toString());
     }
   }

@@ -24,6 +24,7 @@ class AuthenticationController extends GetxController {
   final FeedController _feedController = Get.put(FeedController());
   Rx<List<AuthenticationModel>> users = Rx<List<AuthenticationModel>>([]);
   final isLoading = false.obs;
+  final isLoadingLogin = false.obs;
   final token = ''.obs;
   final userType = ''.obs;
   final box = GetStorage();
@@ -188,7 +189,7 @@ class AuthenticationController extends GetxController {
     double deviceWidth = MediaQuery.of(context).size.width;
 
     try {
-      isLoading.value = true;
+      isLoadingLogin.value = true;
       var data = {'email': email, 'password': password};
 
       var response = await http.post(
@@ -201,7 +202,7 @@ class AuthenticationController extends GetxController {
 
       debugPrint(response.statusCode.toString());
       if (response.statusCode == 200) {
-        isLoading.value = false;
+        isLoadingLogin.value = false;
 
         final responseData = json.decode(response.body);
         debugPrint(responseData['user']['user_type']);
@@ -293,7 +294,7 @@ class AuthenticationController extends GetxController {
           Get.offAll(() => DeclinedView());
         }
       } else {
-        isLoading.value = false;
+        isLoadingLogin.value = false;
         Get.snackbar(
             'Error', json.encode(json.decode(response.body)['message']),
             snackPosition: SnackPosition.TOP,
@@ -301,7 +302,7 @@ class AuthenticationController extends GetxController {
             colorText: Colors.white);
       }
     } catch (e) {
-      isLoading.value = false;
+      isLoadingLogin.value = false;
       debugPrint(e.toString());
     }
   }

@@ -94,18 +94,23 @@ class _LoginViewState extends State<LoginView> {
               ? Container()
               : Column(
                   children: [
-                    Image.asset(
-                      'assets/donitelogo.jpeg',
-                      height: 60,
-                      width: 60,
-                      fit: BoxFit.fill,
+                    Center(
+                      child: Image.asset(
+                        'assets/donitelogo.jpeg',
+                        height: 60,
+                        width: 60,
+                        fit: BoxFit.fill,
+                      ),
                     ),
-                    Lottie.asset(
-                      'assets/wave2.json',
-                      height: size.height * 0.1,
-                      width: size.width,
-                      fit: BoxFit.fill,
+                    SizedBox(
+                      height: size.height * 0.075,
                     ),
+                    // Lottie.asset(
+                    //   'assets/wave2.json',
+                    //   height: size.height * 0.1,
+                    //   width: size.width,
+                    //   fit: BoxFit.fill,
+                    // ),
                   ],
                 ),
           SizedBox(
@@ -237,11 +242,11 @@ class _LoginViewState extends State<LoginView> {
       width: double.infinity,
       height: 55,
       child: Obx(() {
-        return _authenticationController.isLoading.value
+        return _authenticationController.isLoadingLogin.value
             ? const Center(child: CircularProgressIndicator())
             : ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+                  backgroundColor: MaterialStateProperty.all(foregroundColor()),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),

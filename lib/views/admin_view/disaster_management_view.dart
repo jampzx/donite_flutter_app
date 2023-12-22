@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:donite/controller/authentication_controller.dart';
 import 'package:donite/controller/disaster_controller.dart';
 import 'package:donite/controller/donation_controller.dart';
+import 'package:donite/controller/feed_controller.dart';
 import 'package:donite/views/admin_view/admin_constants.dart';
 import 'package:donite/views/admin_view/widgets/box_widget.dart';
 import 'package:donite/views/admin_view/widgets/disasters_data_table_widget.dart';
@@ -23,6 +24,10 @@ class _DisasterManagementViewState extends State<DisasterManagementView> {
   void initState() {
     super.initState();
     _disasterController.getAllDisasters();
+    _donationController.getAllDonations();
+    _authenticationController.getAllUsers();
+    _donationController.getVerified();
+    _donationController.getUnverified();
   }
 
   final TextEditingController _titleController = TextEditingController();
@@ -35,6 +40,7 @@ class _DisasterManagementViewState extends State<DisasterManagementView> {
 
   final DisasterController _disasterController = Get.put(DisasterController());
   final DonationController _donationController = Get.put(DonationController());
+  final FeedController _feedController = Get.put(FeedController());
   final AuthenticationController _authenticationController =
       Get.put(AuthenticationController());
   final box = GetStorage();
@@ -54,44 +60,45 @@ class _DisasterManagementViewState extends State<DisasterManagementView> {
               child: Column(
                 children: [
                   // first 4 boxes in grid
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      MyBox(
-                          color: Colors.orangeAccent,
-                          icon: Icons.post_add_sharp,
-                          textTitle: 'POSTS',
-                          textDetails: _disasterController.disasterCount),
-                      MyBox(
-                          color: Colors.redAccent,
-                          icon: Icons.attach_money,
-                          textTitle: 'DONATIONS',
-                          textDetails: _donationController.donationCount),
-                      MyBox(
-                          color: Colors.blueAccent,
-                          icon: Icons.verified,
-                          textTitle: 'VERIFIED USERS',
-                          textDetails:
-                              _authenticationController.verifiedUserCount),
-                      MyBox(
-                          color: Colors.blueAccent,
-                          icon: Icons.pending,
-                          textTitle: 'UNVERIFIED USERS',
-                          textDetails:
-                              _authenticationController.unverifiedUserCount),
-                      MyBox(
-                          color: Colors.purpleAccent,
-                          icon: Icons.verified,
-                          textTitle: 'VERIFIED SUPPORT',
-                          textDetails:
-                              _authenticationController.unverifiedUserCount),
-                      MyBox(
-                          color: Colors.purpleAccent,
-                          icon: Icons.pending,
-                          textTitle: 'UNVERIFIED SUPPORT',
-                          textDetails:
-                              _authenticationController.unverifiedUserCount)
-                    ],
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MyBox(
+                            color: Colors.orangeAccent,
+                            icon: Icons.post_add_sharp,
+                            textTitle: 'POSTS',
+                            textDetails: _disasterController.disasterCount),
+                        MyBox(
+                            color: Colors.redAccent,
+                            icon: Icons.attach_money,
+                            textTitle: 'DONATIONS',
+                            textDetails: _donationController.donationCount),
+                        MyBox(
+                            color: Colors.blueAccent,
+                            icon: Icons.verified,
+                            textTitle: 'VERIFIED USERS',
+                            textDetails:
+                                _authenticationController.verifiedUserCount),
+                        MyBox(
+                            color: Colors.blueAccent,
+                            icon: Icons.pending,
+                            textTitle: 'UNVERIFIED USERS',
+                            textDetails:
+                                _authenticationController.unverifiedUserCount),
+                        MyBox(
+                            color: Colors.purpleAccent,
+                            icon: Icons.verified,
+                            textTitle: 'VERIFIED SUPPORT',
+                            textDetails: _donationController.verifiedCount),
+                        MyBox(
+                            color: Colors.purpleAccent,
+                            icon: Icons.pending,
+                            textTitle: 'UNVERIFIED SUPPORT',
+                            textDetails: _donationController.unverifiedCount)
+                      ],
+                    ),
                   ),
                   const SizedBox(
                     height: 5,

@@ -69,55 +69,62 @@ class _UsersDataTableWidgetState extends State<UsersDataTableWidget> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 300.0,
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  hintText: "Type name...",
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    color: Colors.black26,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 300.0,
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Type name...",
+                                    prefixIcon: Icon(
+                                      Icons.search,
                                       color: Colors.black26,
                                     ),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.black26,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical:
+                                            10), // Adjust the vertical padding
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)),
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical:
-                                          10), // Adjust the vertical padding
+                                  onChanged: searchUsers,
                                 ),
-                                onChanged: searchUsers,
                               ),
-                            ),
-                            const Spacer(),
-                            TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 211, 226, 4)),
-                              icon: const Icon(
-                                Icons.refresh,
-                                color: Colors.white,
-                                size: 16,
+                              //const Spacer(),
+                              const SizedBox(
+                                width: 10,
                               ),
-                              label: const Text(
-                                "REFRESH",
-                                style: TextStyle(color: Colors.white),
+                              TextButton.icon(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 211, 226, 4)),
+                                icon: const Icon(
+                                  Icons.refresh,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                label: const Text(
+                                  "REFRESH",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  _authenticationController.getAllUsers();
+                                },
                               ),
-                              onPressed: () {
-                                _authenticationController.getAllUsers();
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         )),
                     source: RowSource(
                       context: context,

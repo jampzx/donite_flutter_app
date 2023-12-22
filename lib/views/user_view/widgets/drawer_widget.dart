@@ -1,4 +1,5 @@
 import 'package:donite/controller/authentication_controller.dart';
+import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/about_us_view.dart';
 import 'package:donite/views/user_view/disaster_inactive_view.dart';
 import 'package:donite/views/user_view/disasters_view.dart';
@@ -29,8 +30,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blueAccent,
+            decoration: BoxDecoration(
+              color: foregroundColor(),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -5,6 +5,7 @@ import 'package:donite/model/feed_model.dart';
 import 'package:donite/views/admin_view/widgets/alert_create_dialog_widget.dart';
 import 'package:donite/views/admin_view/widgets/alert_offline_create_dialog_widget.dart';
 import 'package:donite/views/admin_view/widgets/alert_update_dialog_widget.dart';
+import 'package:donite/views/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pdf/pdf.dart';
@@ -80,131 +81,137 @@ class _FeedsDataTableState extends State<FeedsDataTable> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            SizedBox(
-                              width: 300.0,
-                              child: TextField(
-                                decoration: const InputDecoration(
-                                  hintText: "Type title...",
-                                  prefixIcon: Icon(
-                                    Icons.search,
-                                    color: Colors.black26,
-                                  ),
-                                  border: OutlineInputBorder(
-                                    borderSide: BorderSide(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              SizedBox(
+                                width: 300.0,
+                                child: TextField(
+                                  decoration: const InputDecoration(
+                                    hintText: "Type title...",
+                                    prefixIcon: Icon(
+                                      Icons.search,
                                       color: Colors.black26,
                                     ),
+                                    border: OutlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Colors.black26,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6)),
+                                      borderSide:
+                                          BorderSide(color: Colors.grey),
+                                    ),
+                                    contentPadding: EdgeInsets.symmetric(
+                                        vertical:
+                                            10), // Adjust the vertical padding
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(6)),
-                                    borderSide: BorderSide(color: Colors.grey),
-                                  ),
-                                  contentPadding: EdgeInsets.symmetric(
-                                      vertical:
-                                          10), // Adjust the vertical padding
+                                  onChanged: searchDisasters,
                                 ),
-                                onChanged: searchDisasters,
                               ),
-                            ),
-                            const Spacer(),
-                            TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 77, 234, 82)),
-                              icon: const Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 16,
+                              const SizedBox(
+                                width: 10,
                               ),
-                              label: const Text(
-                                "POST",
-                                style: TextStyle(color: Colors.white),
+                              TextButton.icon(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 77, 234, 82)),
+                                icon: const Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                label: const Text(
+                                  "POST",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const AlertCreateDialogWidget(
+                                      alertFor: 'feed',
+                                    ),
+                                  );
+                                },
                               ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      const AlertCreateDialogWidget(
-                                    alertFor: 'feed',
-                                  ),
-                                );
-                              },
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 86, 118, 247)),
-                              icon: const Icon(
-                                Icons.sync,
-                                color: Colors.white,
-                                size: 16,
+                              const SizedBox(
+                                width: 10,
                               ),
-                              label: const Text(
-                                "SYNC",
-                                style: TextStyle(color: Colors.white),
+                              TextButton.icon(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: const Color.fromARGB(
+                                        255, 86, 118, 247)),
+                                icon: const Icon(
+                                  Icons.sync,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                label: const Text(
+                                  "SYNC",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  _feedController.uploadDataToServer();
+                                },
                               ),
-                              onPressed: () {
-                                _feedController.uploadDataToServer();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 211, 226, 4)),
-                              icon: const Icon(
-                                Icons.refresh,
-                                color: Colors.white,
-                                size: 16,
+                              const SizedBox(
+                                width: 10,
                               ),
-                              label: const Text(
-                                "REFRESH",
-                                style: TextStyle(color: Colors.white),
+                              TextButton.icon(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 211, 226, 4)),
+                                icon: const Icon(
+                                  Icons.refresh,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                label: const Text(
+                                  "REFRESH",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  _feedController.getAllFeeds();
+                                },
                               ),
-                              onPressed: () {
-                                _feedController.getAllFeeds();
-                              },
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            TextButton.icon(
-                              style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 57, 56, 59)),
-                              icon: const Icon(
-                                Icons
-                                    .signal_wifi_connected_no_internet_4_outlined,
-                                color: Colors.white,
-                                size: 16,
+                              const SizedBox(
+                                width: 10,
                               ),
-                              label: const Text(
-                                "OFFLINE POST",
-                                style: TextStyle(color: Colors.white),
+                              TextButton.icon(
+                                style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor:
+                                        const Color.fromARGB(255, 57, 56, 59)),
+                                icon: const Icon(
+                                  Icons
+                                      .signal_wifi_connected_no_internet_4_outlined,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                                label: const Text(
+                                  "OFFLINE POST",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        const AlertOfflineCreateDialogWidget(
+                                      alertFor: 'feed',
+                                    ),
+                                  );
+                                },
                               ),
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      const AlertOfflineCreateDialogWidget(
-                                    alertFor: 'feed',
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
+                            ],
+                          ),
                         )),
                     source: RowSource(
                       context: context,
@@ -432,9 +439,9 @@ DataRow recentFileDataRow(FeedModel data, BuildContext context) {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           IconButton(
-            icon: const Icon(
+            icon: Icon(
               Icons.download,
-              color: Colors.blueAccent,
+              color: foregroundColor(),
               size: 18,
             ),
             onPressed: () {

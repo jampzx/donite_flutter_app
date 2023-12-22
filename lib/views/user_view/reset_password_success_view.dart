@@ -92,7 +92,7 @@ class _ResetPasswordSuccessViewState extends State<ResetPasswordSuccessView> {
         height: 45,
         child: ElevatedButton(
           style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(Colors.blueAccent),
+            backgroundColor: MaterialStateProperty.all(foregroundColor()),
             shape: MaterialStateProperty.all(
               RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),

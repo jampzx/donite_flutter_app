@@ -1,4 +1,5 @@
 import 'package:donite/controller/authentication_controller.dart';
+import 'package:donite/views/constants.dart';
 import 'package:donite/views/user_view/disaster_inactive_view.dart';
 import 'package:donite/views/user_view/disasters_active.dart';
 import 'package:donite/views/user_view/donation_history_view.dart';
@@ -51,7 +52,7 @@ class _UserHomeViewState extends State<UserHomeView> {
         backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         currentIndex: currentIndex,
         unselectedItemColor: const Color.fromARGB(255, 178, 178, 178),
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: foregroundColor(),
         type: BottomNavigationBarType.fixed,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),

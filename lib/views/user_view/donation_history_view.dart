@@ -1,6 +1,7 @@
 import 'package:cool_alert/cool_alert.dart';
 import 'package:donite/controller/authentication_controller.dart';
 import 'package:donite/controller/donation_controller.dart';
+import 'package:donite/views/constants.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
@@ -62,9 +63,9 @@ class _DonationHistoryViewState extends State<DonationHistoryView> {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                const Icon(
+                                Icon(
                                   Icons.history,
-                                  color: Colors.blueAccent,
+                                  color: foregroundColor(),
                                 )
                               ],
                             )),
@@ -112,7 +113,7 @@ Contact number: ${donation['contact_number']}
 Email: ${donation['email']}
 ''',
                                   confirmBtnText: 'CONFIRM',
-                                  confirmBtnColor: const Color(0xFF448AFF),
+                                  confirmBtnColor: foregroundColor(),
                                   lottieAsset: "assets/successful.json",
                                   title: 'Goods Donation',
                                 );
