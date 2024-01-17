@@ -31,10 +31,50 @@ class _FeedsDataTableState extends State<FeedsDataTable> {
   final FeedController _feedController = Get.put(FeedController());
   TextEditingController controller = TextEditingController();
 
+  List<String> combinedFilterOptions = [
+    'All',
+    'Ashfall',
+    'Earthquake',
+    'El Nino',
+    'Flash floods',
+    'Flood',
+    'Flood due to heavy rainfall',
+    'Heatwaves',
+    'Landslide',
+    'Lava Flow',
+    'La Nina',
+    'Mudflow/Rockfall',
+    'Thunderstorm',
+    'Tornado',
+    'Tropical Cyclone',
+    'Tropical Depressions',
+    'Tropical Storms',
+    'Tsunami',
+    'Typhoon',
+    'Volcanic ashfall',
+    'Volcanic eruption',
+    'Wave/surge',
+    'Wind storm',
+    'Wildfire',
+  ];
+  String selectedFilter = 'All'; // Default value
+
   @override
   void initState() {
     filterFeeds.value = _feedController.feeds.value;
     super.initState();
+  }
+
+  void filterData() {
+    setState(() {
+      if (selectedFilter == 'All') {
+        filterFeeds.value = _feedController.feeds.value;
+      } else {
+        filterFeeds.value = _feedController.feeds.value
+            .where((feed) => feed.disasterType == selectedFilter)
+            .toList();
+      }
+    });
   }
 
   void searchDisasters(String keyword) {
@@ -115,6 +155,35 @@ class _FeedsDataTableState extends State<FeedsDataTable> {
                               ),
                               const SizedBox(
                                 width: 10,
+                              ),
+                              SizedBox(
+                                width: 250,
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedFilter,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedFilter = newValue!;
+                                      filterData();
+                                    });
+                                  },
+                                  items: combinedFilterOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  decoration: const InputDecoration(
+                                    fillColor: Colors.white,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 40,
                               ),
                               TextButton.icon(
                                 style: TextButton.styleFrom(
@@ -282,15 +351,15 @@ class _FeedsDataTableState extends State<FeedsDataTable> {
                           ),
                         ),
                       ),
-                      const DataColumn(
-                        label: Text(
-                          "ID",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+                      // const DataColumn(
+                      //   label: Text(
+                      //     "ID",
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.w600,
+                      //       fontSize: 14,
+                      //     ),
+                      //   ),
+                      // ),
                       const DataColumn(
                         label: Text(
                           "Function",
@@ -372,28 +441,86 @@ DataRow recentFileDataRow(FeedModel data, BuildContext context) {
       DataCell(InformationTrimmed(info)),
       DataCell(Text(data.location.toString())),
       DataCell(Text(data.disasterType.toString())),
-      DataCell(
-        GestureDetector(
-          onTap: () {
-            showFullSizeImage('${baseImageUrl}storage/${data.path}', context);
-          },
-          child: Image.network(
-            '${baseImageUrl}storage/${data.path}',
-            width: 30,
-            height: 30,
-          ),
-        ),
-      ),
+      DataCell(data.path != 'none'
+          ? GestureDetector(
+              onTap: () {
+                showFullSizeImage(
+                    '${baseImageUrl}storage/${data.path}', context);
+              },
+              child: Image.network(
+                '${baseImageUrl}storage/${data.path}',
+                width: 30,
+                height: 30,
+              ),
+            )
+          : const Text('No Image')),
+
       // ignore: unrelated_type_equality_checks
-      DataCell(Text(data.id.toString())),
+      //DataCell(Text(data.id.toString())),
       DataCell(Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.edit,
+          //     color: Color.fromARGB(255, 77, 234, 82),
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) => AlertUpdateDialogWidget(
+          //         id: data.id!,
+          //         title: data.title!,
+          //         date: data.date!,
+          //         disasterType: data.disasterType!,
+          //         location: data.location!,
+          //         information: data.information!,
+          //         path: data.path!,
+          //         alertFor: 'feed',
+          //       ),
+          //     );
+          //   },
+          // ),
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.delete,
+          //     color: Colors.redAccent,
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     CoolAlert.show(
+          //       context: context,
+          //       type: CoolAlertType.confirm,
+          //       text: "Delete this post",
+          //       confirmBtnText: 'Yes',
+          //       cancelBtnText: 'No',
+          //       confirmBtnColor: const Color(0xFFFF5252),
+          //       width: MediaQuery.of(context).size.width * .18,
+          //       lottieAsset: "assets/delete2.json",
+          //       onConfirmBtnTap: () {
+          //         _feedController.deleteFeed(id: data.id.toString());
+          //       },
+          //     );
+          //   },
+          // ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(20), // Adjust the value as needed
+              ),
+              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 77, 234, 82),
+            ),
             icon: const Icon(
               Icons.edit,
-              color: Color.fromARGB(255, 77, 234, 82),
-              size: 18,
+              color: Colors.white,
+              size: 12,
+            ),
+            label: const Text(
+              "Edit",
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
             onPressed: () {
               showDialog(
@@ -411,11 +538,27 @@ DataRow recentFileDataRow(FeedModel data, BuildContext context) {
               );
             },
           ),
-          IconButton(
+
+          const SizedBox(
+            width: 5,
+          ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(20), // Adjust the value as needed
+              ),
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.redAccent,
+            ),
             icon: const Icon(
               Icons.delete,
-              color: Colors.redAccent,
-              size: 18,
+              color: Colors.white,
+              size: 12,
+            ),
+            label: const Text(
+              "Delete",
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
             onPressed: () {
               CoolAlert.show(
@@ -497,9 +640,10 @@ Future<void> generatePDF(FeedModel data) async {
   final pdf = pdfLib.Document();
 
   // Fetch the image bytes
-  final Uint8List imageBytes =
-      await _getImageBytes('${baseImageUrl}storage/${data.path!}');
-
+  Uint8List? imageBytes;
+  if (data.path != 'none') {
+    imageBytes = await _getImageBytes('${baseImageUrl}storage/${data.path!}');
+  }
   final Uint8List imageLogo1 = await _getAssetImageBytes('assets/mdrrmo.png');
   final Uint8List imageLogo2 =
       await _getAssetImageBytes('assets/donitelogo.jpeg');
@@ -546,11 +690,12 @@ Future<void> generatePDF(FeedModel data) async {
             pdfLib.SizedBox(height: 10),
 
             // Image
-            pdfLib.Center(
-              child: pdfLib.Image(
-                pdfLib.MemoryImage(imageBytes),
+            if (imageBytes != null)
+              pdfLib.Center(
+                child: pdfLib.Image(
+                  pdfLib.MemoryImage(imageBytes),
+                ),
               ),
-            ),
             pdfLib.SizedBox(height: 10),
 
             // Information

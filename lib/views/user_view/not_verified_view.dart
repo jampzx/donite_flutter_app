@@ -68,7 +68,7 @@ class _NotYetVerifiedViewState extends State<NotYetVerifiedView> {
             Padding(
               padding: const EdgeInsets.only(left: 13, right: 13),
               child: Text(
-                'Your account is still under verification\n You can come back later',
+                'Your account is still under verification\n Try to login within 24 hours',
                 style: kLoginTermsAndPrivacyStyle(size),
                 textAlign: TextAlign.center,
               ),
@@ -102,7 +102,7 @@ class _NotYetVerifiedViewState extends State<NotYetVerifiedView> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (ctx) => LoginView()));
           },
-          child: const Text('CONFIRM'),
+          child: const Text('OK'),
         ),
       ),
     );

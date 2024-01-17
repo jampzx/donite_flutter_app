@@ -69,6 +69,7 @@ class DisasterController extends GetxController {
   }) async {
     debugPrint(title);
     debugPrint(box.read('token'));
+    debugPrint("imagePath");
     debugPrint(imagePath);
     final url = Uri.parse('${baseUrl}disaster/store');
     final headers = {
@@ -81,13 +82,22 @@ class DisasterController extends GetxController {
     try {
       var request = http.MultipartRequest('POST', url);
       request.headers.addAll(headers);
-      request.fields['title'] = title;
-      request.fields['date'] = date;
-      request.fields['disasterType'] = disasterType;
-      request.fields['location'] = location;
-      request.fields['information'] = information;
-      request.fields['image'] = imagePath;
-      request.files.add(await http.MultipartFile.fromPath('image', imagePath));
+      if (imagePath != 'none') {
+        request.fields['title'] = title;
+        request.fields['date'] = date;
+        request.fields['disasterType'] = disasterType;
+        request.fields['location'] = location;
+        request.fields['information'] = information;
+        request.fields['image'] = imagePath;
+        request.files
+            .add(await http.MultipartFile.fromPath('image', imagePath));
+      } else {
+        request.fields['title'] = title;
+        request.fields['date'] = date;
+        request.fields['disasterType'] = disasterType;
+        request.fields['location'] = location;
+        request.fields['information'] = information;
+      }
 
       final response = await request.send();
       var jsonResponse = await response.stream.bytesToString();
@@ -347,14 +357,13 @@ class DisasterController extends GetxController {
   }
 
 // Function to save localy
-  Future saveLocally({
-    required String title,
-    required String date,
-    required String disasterType,
-    required String location,
-    required String information,
-    required String imagePath,
-  }) async {
+  Future saveLocally(
+      {required String title,
+      required String date,
+      required String disasterType,
+      required String location,
+      required String information,
+      String? imagePath}) async {
     final isConnected = await checkInternetConnectivity();
     if (!isConnected) {
       sqfliteFfiInit();
@@ -384,7 +393,7 @@ class DisasterController extends GetxController {
         'disasterType': disasterType,
         'location': location,
         'information': information,
-        'image': imagePath,
+        if (imagePath != null && imagePath.isNotEmpty) 'image': imagePath,
       };
 
       await database.insert('disasters', disasterMap);
@@ -397,13 +406,24 @@ class DisasterController extends GetxController {
         colorText: Colors.white,
       );
     } else {
-      createDisaster(
-          title: title,
-          date: date,
-          disasterType: disasterType,
-          location: location,
-          information: information,
-          imagePath: imagePath);
+      if (imagePath != null && imagePath.isNotEmpty) {
+        createDisaster(
+            title: title,
+            date: date,
+            disasterType: disasterType,
+            location: location,
+            information: information,
+            imagePath: imagePath);
+      } else {
+        createDisaster(
+            title: title,
+            date: date,
+            disasterType: disasterType,
+            location: location,
+            information: information,
+            imagePath: 'none');
+      }
+
       getAllDisasters();
       Get.snackbar(
         'Warning',
@@ -447,9 +467,14 @@ class DisasterController extends GetxController {
           request.fields['disasterType'] = result['disasterType'];
           request.fields['location'] = result['location'];
           request.fields['information'] = result['information'];
-          request.fields['image'] = result['image'];
-          request.files
-              .add(await http.MultipartFile.fromPath('image', result['image']));
+          if (result['image'] != null &&
+              result['image'] != 'none' &&
+              result['image'].isNotEmpty) {
+            // Only add the 'image' field and file if imagePath is not 'none' and not empty
+            request.fields['image'] = result['image'];
+            request.files.add(
+                await http.MultipartFile.fromPath('image', result['image']));
+          }
 
           final response = await request.send();
           var jsonResponse = await response.stream.bytesToString();

@@ -32,10 +32,64 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
   final DisasterController _disasterController = Get.put(DisasterController());
   TextEditingController controller = TextEditingController();
 
+  List<String> combinedFilterOptions = [
+    'All',
+    'Active',
+    'Inactive',
+    'Ashfall',
+    'Earthquake',
+    'El Nino',
+    'Flash floods',
+    'Flood',
+    'Flood due to heavy rainfall',
+    'Heatwaves',
+    'Landslide',
+    'Lava Flow',
+    'La Nina',
+    'Mudflow/Rockfall',
+    'Thunderstorm',
+    'Tornado',
+    'Tropical Cyclone',
+    'Tropical Depressions',
+    'Tropical Storms',
+    'Tsunami',
+    'Typhoon',
+    'Volcanic ashfall',
+    'Volcanic eruption',
+    'Wave/surge',
+    'Wind storm',
+    'Wildfire',
+  ];
+  String selectedFilter = 'All'; // Default value
+
   @override
   void initState() {
     filterDisasters.value = _disasterController.disasters.value;
     super.initState();
+  }
+
+  void filterData() {
+    setState(() {
+      if (selectedFilter == 'All') {
+        filterDisasters.value = _disasterController.disasters.value;
+      } else {
+        filterDisasters.value = _disasterController.disasters.value
+            .where((disaster) =>
+                getDisasterStatus(disaster) == selectedFilter ||
+                disaster.disasterType == selectedFilter)
+            .toList();
+      }
+    });
+  }
+
+  String getDisasterStatus(DisasterModel disaster) {
+    if (disaster.active == 1) {
+      return 'Active';
+    } else if (disaster.active == 0) {
+      return 'Inactive';
+    } else {
+      return 'Unknown Status';
+    }
   }
 
   void searchDisasters(String keyword) {
@@ -116,6 +170,35 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                               ),
                               const SizedBox(
                                 width: 10,
+                              ),
+                              SizedBox(
+                                width: 250,
+                                child: DropdownButtonFormField<String>(
+                                  value: selectedFilter,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedFilter = newValue!;
+                                      filterData();
+                                    });
+                                  },
+                                  items: combinedFilterOptions
+                                      .map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  decoration: const InputDecoration(
+                                    fillColor: Colors.white,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                width: 40,
                               ),
                               TextButton.icon(
                                 style: TextButton.styleFrom(
@@ -284,15 +367,15 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                           ),
                         ),
                       ),
-                      const DataColumn(
-                        label: Text(
-                          "ID",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+                      // const DataColumn(
+                      //   label: Text(
+                      //     "ID",
+                      //     style: TextStyle(
+                      //       fontWeight: FontWeight.w600,
+                      //       fontSize: 14,
+                      //     ),
+                      //   ),
+                      // ),
                       const DataColumn(
                         label: Text(
                           "Function",
@@ -302,15 +385,7 @@ class _DisastersDataTableWidgetState extends State<DisastersDataTableWidget> {
                           ),
                         ),
                       ),
-                      const DataColumn(
-                        label: Text(
-                          "Status",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ),
+
                       const DataColumn(
                         label: Text(
                           "Modify Status",
@@ -392,28 +467,63 @@ DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
       DataCell(InformationTrimmed(info)),
       DataCell(Text(data.location.toString())),
       DataCell(Text(data.disasterType.toString())),
-      DataCell(
-        GestureDetector(
-          onTap: () {
-            showFullSizeImage('${baseImageUrl}storage/${data.path}', context);
-          },
-          child: Image.network(
-            '${baseImageUrl}storage/${data.path}',
-            width: 30,
-            height: 30,
-          ),
-        ),
-      ),
+      DataCell(data.path != 'none'
+          ? GestureDetector(
+              onTap: () {
+                showFullSizeImage(
+                    '${baseImageUrl}storage/${data.path}', context);
+              },
+              child: Image.network(
+                '${baseImageUrl}storage/${data.path}',
+                width: 30,
+                height: 30,
+              ),
+            )
+          : const Text('No Image')),
       // ignore: unrelated_type_equality_checks
-      DataCell(Text(data.id.toString())),
+      //DataCell(Text(data.id.toString())),
       DataCell(Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.edit,
+          //     color: Color.fromARGB(255, 77, 234, 82),
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     showDialog(
+          //       context: context,
+          //       builder: (BuildContext context) => AlertUpdateDialogWidget(
+          //         id: data.id!,
+          //         title: data.title!,
+          //         date: data.date!,
+          //         disasterType: data.disasterType!,
+          //         location: data.location!,
+          //         information: data.information!,
+          //         path: data.path!,
+          //         alertFor: 'disaster',
+          //       ),
+          //     );
+          //   },
+          // ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(20), // Adjust the value as needed
+              ),
+              foregroundColor: Colors.white,
+              backgroundColor: const Color.fromARGB(255, 77, 234, 82),
+            ),
             icon: const Icon(
               Icons.edit,
-              color: Color.fromARGB(255, 77, 234, 82),
-              size: 18,
+              color: Colors.white,
+              size: 12,
+            ),
+            label: const Text(
+              "Edit",
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
             onPressed: () {
               showDialog(
@@ -431,11 +541,49 @@ DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
               );
             },
           ),
-          IconButton(
+
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.delete,
+          //     color: Colors.redAccent,
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     CoolAlert.show(
+          //       context: context,
+          //       type: CoolAlertType.confirm,
+          //       text: "Delete this post",
+          //       confirmBtnText: 'Yes',
+          //       cancelBtnText: 'No',
+          //       confirmBtnColor: const Color(0xFFFF5252),
+          //       width: MediaQuery.of(context).size.width * .18,
+          //       lottieAsset: "assets/delete2.json",
+          //       onConfirmBtnTap: () {
+          //         _disasterController.deleteDisaster(id: data.id.toString());
+          //       },
+          //     );
+          //   },
+          // ),
+          const SizedBox(
+            width: 10,
+          ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius:
+                    BorderRadius.circular(20), // Adjust the value as needed
+              ),
+              foregroundColor: Colors.white,
+              backgroundColor: Colors.redAccent,
+            ),
             icon: const Icon(
               Icons.delete,
-              color: Colors.redAccent,
-              size: 18,
+              color: Colors.white,
+              size: 12,
+            ),
+            label: const Text(
+              "Delete",
+              style: TextStyle(color: Colors.white, fontSize: 12),
             ),
             onPressed: () {
               CoolAlert.show(
@@ -455,62 +603,155 @@ DataRow recentFileDataRow(DisasterModel data, BuildContext context) {
           ),
         ],
       )),
-      DataCell(data.active == 0
-          ? const Text(
-              'Inactive',
-              style: TextStyle(color: Color(0xFFFF5252)),
-            )
-          : const Text('Active',
-              style: TextStyle(color: Color.fromARGB(255, 77, 234, 82)))),
       DataCell(Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          IconButton(
-            icon: const Icon(
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.check_circle,
+          //     color: Color.fromARGB(255, 77, 234, 82),
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     CoolAlert.show(
+          //       context: context,
+          //       type: CoolAlertType.confirm,
+          //       text: "Mark this disaster as active",
+          //       confirmBtnText: 'Yes',
+          //       cancelBtnText: 'No',
+          //       confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
+          //       width: MediaQuery.of(context).size.width * .18,
+          //       lottieAsset: "assets/question-mark.json",
+          //       onConfirmBtnTap: () {
+          //         _disasterController.updateActiveDisaster(
+          //             id: data.id.toString(), active: true);
+          //       },
+          //     );
+          //   },
+          // ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                    color: data.active == 0
+                        ? Color.fromARGB(255, 77, 234, 82)
+                        : Colors.white,
+                    width: 1.0,
+                  ),
+                  // Adjust the value as needed
+                ),
+                foregroundColor: data.active == 0
+                    ? Color.fromARGB(255, 77, 234, 82)
+                    : Colors.white,
+                backgroundColor: data.active == 0
+                    ? Colors.white
+                    : Color.fromARGB(255, 77, 234, 82)),
+            icon: Icon(
               Icons.check_circle,
-              color: Color.fromARGB(255, 77, 234, 82),
-              size: 18,
+              color: data.active == 0
+                  ? Color.fromARGB(255, 77, 234, 82)
+                  : Colors.white,
+              size: 12,
+            ),
+            label: Text(
+              "Active",
+              style: TextStyle(
+                  color: data.active == 0
+                      ? Color.fromARGB(255, 77, 234, 82)
+                      : Colors.white,
+                  fontSize: 12),
             ),
             onPressed: () {
-              CoolAlert.show(
-                context: context,
-                type: CoolAlertType.confirm,
-                text: "Mark this disaster as active",
-                confirmBtnText: 'Yes',
-                cancelBtnText: 'No',
-                confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
-                width: MediaQuery.of(context).size.width * .18,
-                lottieAsset: "assets/question-mark.json",
-                onConfirmBtnTap: () {
-                  _disasterController.updateActiveDisaster(
-                      id: data.id.toString(), active: true);
-                },
-              );
+              data.active == 0
+                  ? CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.confirm,
+                      text: "Mark this disaster as active",
+                      confirmBtnText: 'Yes',
+                      cancelBtnText: 'No',
+                      confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
+                      width: MediaQuery.of(context).size.width * .18,
+                      lottieAsset: "assets/question-mark.json",
+                      onConfirmBtnTap: () {
+                        _disasterController.updateActiveDisaster(
+                            id: data.id.toString(), active: true);
+                      },
+                    )
+                  : null;
             },
           ),
-          IconButton(
-            icon: const Icon(
+          SizedBox(
+            width: 5,
+          ),
+          TextButton.icon(
+            style: TextButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                  side: BorderSide(
+                    color: data.active == 1 ? Colors.redAccent : Colors.white,
+                    width: 1.0,
+                  ),
+                  // Adjust the value as needed
+                ),
+                foregroundColor:
+                    data.active == 1 ? Colors.redAccent : Colors.white,
+                backgroundColor:
+                    data.active == 1 ? Colors.white : Colors.redAccent),
+            icon: Icon(
               Icons.cancel,
-              color: Colors.redAccent,
-              size: 18,
+              color: data.active == 1 ? Colors.redAccent : Colors.white,
+              size: 12,
+            ),
+            label: Text(
+              "Inactive",
+              style: TextStyle(
+                  color: data.active == 1 ? Colors.redAccent : Colors.white,
+                  fontSize: 12),
             ),
             onPressed: () {
-              CoolAlert.show(
-                context: context,
-                type: CoolAlertType.confirm,
-                text: "Mark this disaster as inactive",
-                confirmBtnText: 'Yes',
-                cancelBtnText: 'No',
-                confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
-                width: MediaQuery.of(context).size.width * .18,
-                lottieAsset: "assets/question-mark.json",
-                onConfirmBtnTap: () {
-                  _disasterController.updateActiveDisaster(
-                      id: data.id.toString(), active: false);
-                },
-              );
+              data.active == 1
+                  ? CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.confirm,
+                      text: "Mark this disaster as inactive",
+                      confirmBtnText: 'Yes',
+                      cancelBtnText: 'No',
+                      confirmBtnColor: Colors.redAccent,
+                      width: MediaQuery.of(context).size.width * .18,
+                      lottieAsset: "assets/question-mark.json",
+                      onConfirmBtnTap: () {
+                        _disasterController.updateActiveDisaster(
+                            id: data.id.toString(), active: false);
+                      },
+                    )
+                  : null;
             },
           ),
+
+          // IconButton(
+          //   icon: const Icon(
+          //     Icons.cancel,
+          //     color: Colors.redAccent,
+          //     size: 18,
+          //   ),
+          //   onPressed: () {
+          //     CoolAlert.show(
+          //       context: context,
+          //       type: CoolAlertType.confirm,
+          //       text: "Mark this disaster as inactive",
+          //       confirmBtnText: 'Yes',
+          //       cancelBtnText: 'No',
+          //       confirmBtnColor: const Color.fromARGB(255, 77, 234, 82),
+          //       width: MediaQuery.of(context).size.width * .18,
+          //       lottieAsset: "assets/question-mark.json",
+          //       onConfirmBtnTap: () {
+          //         _disasterController.updateActiveDisaster(
+          //             id: data.id.toString(), active: false);
+          //       },
+          //     );
+          //   },
+          // ),
         ],
       )),
       DataCell(Row(
@@ -574,9 +815,11 @@ void showFullSizeImage(String imageUrl, BuildContext context) {
 Future<void> generatePDF(DisasterModel data) async {
   final pdf = pdfLib.Document();
 
-  // Fetch the image bytes
-  final Uint8List imageBytes =
-      await _getImageBytes('${baseImageUrl}storage/${data.path!}');
+  // Fetch the image bytes if path is not 'none'
+  Uint8List? imageBytes;
+  if (data.path != 'none') {
+    imageBytes = await _getImageBytes('${baseImageUrl}storage/${data.path!}');
+  }
 
   final Uint8List imageLogo1 = await _getAssetImageBytes('assets/mdrrmo.png');
   final Uint8List imageLogo2 =
@@ -623,12 +866,13 @@ Future<void> generatePDF(DisasterModel data) async {
             ),
             pdfLib.SizedBox(height: 10),
 
-            // Image
-            pdfLib.Center(
-              child: pdfLib.Image(
-                pdfLib.MemoryImage(imageBytes),
+            // Image (conditionally)
+            if (imageBytes != null)
+              pdfLib.Center(
+                child: pdfLib.Image(
+                  pdfLib.MemoryImage(imageBytes),
+                ),
               ),
-            ),
             pdfLib.SizedBox(height: 10),
 
             // Information
@@ -681,6 +925,117 @@ Future<void> generatePDF(DisasterModel data) async {
   // Open the PDF file
   OpenFile.open(file.path);
 }
+
+// Future<void> generatePDF(DisasterModel data) async {
+//   final pdf = pdfLib.Document();
+
+//   // Fetch the image bytes
+//   final Uint8List imageBytes =
+//       await _getImageBytes('${baseImageUrl}storage/${data.path!}');
+
+//   final Uint8List imageLogo1 = await _getAssetImageBytes('assets/mdrrmo.png');
+//   final Uint8List imageLogo2 =
+//       await _getAssetImageBytes('assets/donitelogo.jpeg');
+
+//   pdf.addPage(
+//     pdfLib.Page(
+//       build: (context) {
+//         return pdfLib.Column(
+//           crossAxisAlignment: pdfLib.CrossAxisAlignment.start,
+//           children: [
+//             pdfLib.Row(
+//               mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+//               children: [
+//                 pdfLib.Image(pdfLib.MemoryImage(imageLogo1),
+//                     width: 60, height: 60),
+//                 pdfLib.Text(
+//                   'DONITE: Donation & Volunteerism',
+//                   style: pdfLib.TextStyle(
+//                       fontWeight: pdfLib.FontWeight.bold, fontSize: 16),
+//                 ),
+//                 pdfLib.Image(pdfLib.MemoryImage(imageLogo2),
+//                     width: 60, height: 60),
+//               ],
+//             ),
+//             pdfLib.SizedBox(height: 40),
+
+//             pdfLib.Row(
+//               mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+//               children: [
+//                 pdfLib.Text('Title: ${data.title ?? ''}'),
+//                 pdfLib.Text('Location: ${data.location ?? ''}'),
+//               ],
+//             ),
+//             pdfLib.SizedBox(height: 10),
+
+//             // Location and Date
+//             pdfLib.Row(
+//               mainAxisAlignment: pdfLib.MainAxisAlignment.spaceBetween,
+//               children: [
+//                 pdfLib.Text('Date: ${data.date ?? ''}'),
+//                 pdfLib.Text('Type: ${data.disasterType ?? ''}'),
+//               ],
+//             ),
+//             pdfLib.SizedBox(height: 10),
+
+//             // Image
+//             pdfLib.Center(
+//               child: pdfLib.Image(
+//                 pdfLib.MemoryImage(imageBytes),
+//               ),
+//             ),
+//             pdfLib.SizedBox(height: 10),
+
+//             // Information
+//             pdfLib.Text('Information: ${data.information ?? ''}'),
+
+//             pdfLib.SizedBox(height: 30),
+
+//             // Contact Information
+//             pdfLib.Text(
+//               'Contact Information',
+//               style: pdfLib.TextStyle(
+//                 fontWeight: pdfLib.FontWeight.bold,
+//                 fontSize: 12,
+//               ),
+//             ),
+//             pdfLib.SizedBox(height: 10),
+
+//             pdfLib.Text(
+//               'Email: donitemanagementsystem@gmail.com',
+//               style: const pdfLib.TextStyle(
+//                 fontSize: 12,
+//               ),
+//             ),
+//             pdfLib.Text(
+//               'Facebook: www.facebook.com/donite',
+//               style: const pdfLib.TextStyle(
+//                 fontSize: 12,
+//               ),
+//             ),
+//             pdfLib.Text(
+//               'Address: Bauang La Union',
+//               style: const pdfLib.TextStyle(
+//                 fontSize: 12,
+//               ),
+//             ),
+//           ],
+//         );
+//       },
+//     ),
+//   );
+
+//   // Get the application documents directory
+//   final directory = await getApplicationDocumentsDirectory();
+//   final String path = '${directory.path}/disasters_report.pdf';
+
+//   // Save the PDF file
+//   final File file = File(path);
+//   await file.writeAsBytes(await pdf.save());
+
+//   // Open the PDF file
+//   OpenFile.open(file.path);
+// }
 
 // Helper function to fetch image bytes from a URL
 Future<Uint8List> _getImageBytes(String imageUrl) async {

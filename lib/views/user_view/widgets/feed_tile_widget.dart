@@ -34,34 +34,38 @@ class _FeedTileWidgetState extends State<FeedTileWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            GestureDetector(
-              child: Stack(
-                children: [
-                  Image.network('${baseImageUrl}storage/${widget.feed.path!}'),
-                  Positioned(
-                    bottom: 10,
-                    left: 5,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black.withOpacity(0.1),
-                      child: Text(
-                        widget.feed.title!,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xFFFFFFFF),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+            widget.feed.path != 'none'
+                ? GestureDetector(
+                    child: Stack(
+                      children: [
+                        Image.network(
+                            '${baseImageUrl}storage/${widget.feed.path!}'),
+                        Positioned(
+                          bottom: 10,
+                          left: 5,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.black.withOpacity(0.1),
+                            child: Text(
+                              widget.feed.title!,
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFFFFFFFF),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                showFullSizeImage(
-                    '${baseImageUrl}storage/${widget.feed.path!}', context);
-              },
-            ),
+                    onTap: () {
+                      showFullSizeImage(
+                          '${baseImageUrl}storage/${widget.feed.path!}',
+                          context);
+                    },
+                  )
+                : Container(),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Column(

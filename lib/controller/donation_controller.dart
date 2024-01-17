@@ -17,8 +17,11 @@ class DonationController extends GetxController {
   final isLoadingUnverified = false.obs;
   final box = GetStorage();
   String donationCount = '';
-  String verifiedCount = '';
-  String unverifiedCount = '';
+  //String verifiedCount = '';
+  //String unverifiedCount = '';
+  Rx<int> verifiedCount = 0.obs;
+  Rx<int> unverifiedCount = 0.obs;
+
   List<dynamic> donationsPerUser = [].obs;
 
   @override
@@ -73,7 +76,7 @@ class DonationController extends GetxController {
       if (response.statusCode == 200) {
         isLoadingVerified.value = false;
         final verified_donations_count = json.decode(response.body)['verified'];
-        verifiedCount = verified_donations_count.toString();
+        verifiedCount.value = verified_donations_count;
       } else {
         isLoadingVerified.value = false;
         Get.snackbar(
@@ -103,7 +106,7 @@ class DonationController extends GetxController {
         isLoadingUnverified.value = false;
         final unverified_donations_count =
             json.decode(response.body)['unverified'];
-        unverifiedCount = unverified_donations_count.toString();
+        unverifiedCount.value = unverified_donations_count;
       } else {
         isLoadingUnverified.value = false;
         Get.snackbar(
@@ -267,7 +270,7 @@ class DonationController extends GetxController {
 
   Future<void> updateDonation({
     required String id,
-    required bool verified,
+    required int verified,
   }) async {
     final token = box.read('token');
     final url = Uri.parse('${baseUrl}donation/update/$id');
@@ -279,7 +282,7 @@ class DonationController extends GetxController {
     };
 
     final body = {
-      'verified': verified == true ? 1 : 0,
+      'verified': verified,
     };
 
     try {

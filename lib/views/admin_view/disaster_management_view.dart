@@ -73,30 +73,34 @@ class _DisasterManagementViewState extends State<DisasterManagementView> {
                         MyBox(
                             color: Colors.redAccent,
                             icon: Icons.attach_money,
-                            textTitle: 'DONATIONS',
+                            textTitle: 'SUPPORTS',
                             textDetails: _donationController.donationCount),
                         MyBox(
                             color: Colors.blueAccent,
                             icon: Icons.verified,
                             textTitle: 'VERIFIED USERS',
-                            textDetails:
-                                _authenticationController.verifiedUserCount),
+                            textDetails: _authenticationController
+                                .verifiedUserCount
+                                .toString()),
                         MyBox(
                             color: Colors.blueAccent,
                             icon: Icons.pending,
                             textTitle: 'UNVERIFIED USERS',
-                            textDetails:
-                                _authenticationController.unverifiedUserCount),
+                            textDetails: _authenticationController
+                                .unverifiedUserCount
+                                .toString()),
                         MyBox(
                             color: Colors.purpleAccent,
                             icon: Icons.verified,
                             textTitle: 'VERIFIED SUPPORT',
-                            textDetails: _donationController.verifiedCount),
+                            textDetails:
+                                _donationController.verifiedCount.toString()),
                         MyBox(
                             color: Colors.purpleAccent,
                             icon: Icons.pending,
                             textTitle: 'UNVERIFIED SUPPORT',
-                            textDetails: _donationController.unverifiedCount)
+                            textDetails:
+                                _donationController.unverifiedCount.toString())
                       ],
                     ),
                   ),

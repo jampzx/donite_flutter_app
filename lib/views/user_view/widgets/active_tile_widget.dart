@@ -37,35 +37,38 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            GestureDetector(
-              child: Stack(
-                children: [
-                  Image.network(
-                      '${baseImageUrl}storage/${widget.disaster.path!}'),
-                  Positioned(
-                    bottom: 10,
-                    left: 5,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black.withOpacity(0.1),
-                      child: Text(
-                        widget.disaster.title!,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xFFFFFFFF),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+            widget.disaster.path != 'none'
+                ? GestureDetector(
+                    child: Stack(
+                      children: [
+                        Image.network(
+                            '${baseImageUrl}storage/${widget.disaster.path!}'),
+                        Positioned(
+                          bottom: 10,
+                          left: 5,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.black.withOpacity(0.1),
+                            child: Text(
+                              widget.disaster.title!,
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFFFFFFFF),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                showFullSizeImage(
-                    '${baseImageUrl}storage/${widget.disaster.path!}', context);
-              },
-            ),
+                    onTap: () {
+                      showFullSizeImage(
+                          '${baseImageUrl}storage/${widget.disaster.path!}',
+                          context);
+                    },
+                  )
+                : Container(),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Column(
@@ -119,26 +122,29 @@ class _ActiveTileWidgetState extends State<ActiveTileWidget> {
                             const SizedBox(
                               width: 8,
                             ),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.location_pin,
-                                  color: foregroundColor(),
-                                  size: 13,
-                                ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  widget.disaster.location!,
-                                  style: TextStyle(
-                                    color: foregroundColor(),
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
                           ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          color: foregroundColor(),
+                          size: 13,
+                        ),
+                        const SizedBox(
+                          width: 3,
+                        ),
+                        Text(
+                          widget.disaster.location!,
+                          style: TextStyle(
+                            color: foregroundColor(),
+                            fontSize: 12,
+                          ),
                         ),
                       ],
                     ),

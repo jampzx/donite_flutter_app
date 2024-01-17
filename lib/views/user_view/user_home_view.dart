@@ -59,7 +59,7 @@ class _UserHomeViewState extends State<UserHomeView> {
           BottomNavigationBarItem(icon: Icon(Icons.newspaper), label: 'News'),
           BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.handshake), label: 'Donations'),
+              icon: Icon(Icons.handshake), label: 'Supports'),
         ],
         onTap: (index) {
           setState(() {

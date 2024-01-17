@@ -97,13 +97,13 @@ class _LoginViewState extends State<LoginView> {
                     Center(
                       child: Image.asset(
                         'assets/donitelogo.jpeg',
-                        height: 60,
-                        width: 60,
+                        height: 85,
+                        width: 85,
                         fit: BoxFit.fill,
                       ),
                     ),
                     SizedBox(
-                      height: size.height * 0.075,
+                      height: size.height * 0.065,
                     ),
                     // Lottie.asset(
                     //   'assets/wave2.json',

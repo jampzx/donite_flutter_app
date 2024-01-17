@@ -76,7 +76,7 @@ class MyBox extends StatelessWidget {
                     Icon(
                       icon,
                       size: 12.0,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: Colors.black,
                     ),
                     const SizedBox(
                       width: 5.0,
@@ -84,9 +84,10 @@ class MyBox extends StatelessWidget {
                     Text(
                       textTitle,
                       style: const TextStyle(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromARGB(255, 255, 255, 255)),
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
                     )
                   ],
                 ),
@@ -96,9 +97,10 @@ class MyBox extends StatelessWidget {
                 Text(
                   textDetails,
                   style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color.fromARGB(255, 255, 255, 255)),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 )
               ],
             ),

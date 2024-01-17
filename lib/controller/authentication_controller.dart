@@ -40,8 +40,10 @@ class AuthenticationController extends GetxController {
   // String userId = '';
   // String userName = '';
   // String userEmail = '';
-  String verifiedUserCount = '';
-  String unverifiedUserCount = '';
+  //String verifiedUserCount = '';
+  //String unverifiedUserCount = '';
+  Rx<int> verifiedUserCount = 0.obs;
+  Rx<int> unverifiedUserCount = 0.obs;
 
   @override
   void onInit() {
@@ -65,8 +67,8 @@ class AuthenticationController extends GetxController {
         final content = json.decode(response.body)['data'];
         final verified = json.decode(response.body)['verified_users'];
         final unverified = json.decode(response.body)['unverified_users'];
-        verifiedUserCount = verified.toString();
-        unverifiedUserCount = unverified.toString();
+        verifiedUserCount.value = verified;
+        unverifiedUserCount.value = unverified;
 
         // verifiedUser = verified.toString();
         // unverifiedUser = unverified.toString();

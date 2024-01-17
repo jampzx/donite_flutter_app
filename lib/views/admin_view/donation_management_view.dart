@@ -60,30 +60,36 @@ class _DonationManagementViewState extends State<DonationManagementView> {
                         MyBox(
                             color: Colors.redAccent,
                             icon: Icons.attach_money,
-                            textTitle: 'DONATIONS',
+                            textTitle: 'SUPPORTS',
                             textDetails: _donationController.donationCount),
                         MyBox(
                             color: Colors.blueAccent,
                             icon: Icons.verified,
                             textTitle: 'VERIFIED USERS',
-                            textDetails:
-                                _authenticationController.verifiedUserCount),
+                            textDetails: _authenticationController
+                                .verifiedUserCount
+                                .toString()),
                         MyBox(
                             color: Colors.blueAccent,
                             icon: Icons.pending,
                             textTitle: 'UNVERIFIED USERS',
-                            textDetails:
-                                _authenticationController.unverifiedUserCount),
-                        MyBox(
-                            color: Colors.purpleAccent,
-                            icon: Icons.verified,
-                            textTitle: 'VERIFIED SUPPORT',
-                            textDetails: _donationController.verifiedCount),
-                        MyBox(
-                            color: Colors.purpleAccent,
-                            icon: Icons.pending,
-                            textTitle: 'UNVERIFIED SUPPORT',
-                            textDetails: _donationController.unverifiedCount)
+                            textDetails: _authenticationController
+                                .unverifiedUserCount
+                                .toString()),
+                        Obx(() => MyBox(
+                              color: Colors.purpleAccent,
+                              icon: Icons.verified,
+                              textTitle: 'VERIFIED SUPPORT',
+                              textDetails:
+                                  _donationController.verifiedCount.toString(),
+                            )),
+                        Obx(() => MyBox(
+                              color: Colors.purpleAccent,
+                              icon: Icons.verified,
+                              textTitle: 'UNVERIFIED SUPPORT',
+                              textDetails: _donationController.unverifiedCount
+                                  .toString(),
+                            )),
                       ],
                     ),
                   ),
@@ -95,7 +101,10 @@ class _DonationManagementViewState extends State<DonationManagementView> {
                     child: Obx(() {
                       return _donationController.isLoading.value
                           ? const Center(child: CircularProgressIndicator())
-                          : const DonationsDataTableWidget();
+                          : DonationsDataTableWidget(
+                              updateVerificationCountsCallback:
+                                  updateVerificationCounts,
+                            );
                     }),
                   ),
                 ],
@@ -105,5 +114,10 @@ class _DonationManagementViewState extends State<DonationManagementView> {
         ),
       ),
     );
+  }
+
+  void updateVerificationCounts() {
+    _donationController.getUnverified();
+    _donationController.getVerified();
   }
 }

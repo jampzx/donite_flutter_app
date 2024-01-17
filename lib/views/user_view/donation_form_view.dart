@@ -372,7 +372,9 @@ class _DonationFormViewState extends State<DonationFormView> {
                     donationType: donationType,
                     donationInfo: _donationInformationController.text.trim(),
                     goods_type: donationType == 'Goods donation'
-                        ? _goodsTypeController.text.trim()
+                        ? _goodsTypeController.text != 'Others'
+                            ? _goodsTypeController.text.trim()
+                            : _othersController.text.trim()
                         : 'not applicable',
                     context: context,
                   );

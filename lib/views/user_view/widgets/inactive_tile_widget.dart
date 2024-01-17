@@ -37,35 +37,38 @@ class _InactiveTileWidgetState extends State<InactiveTileWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            GestureDetector(
-              child: Stack(
-                children: [
-                  Image.network(
-                      '${baseImageUrl}storage/${widget.disaster.path!}'),
-                  Positioned(
-                    bottom: 10,
-                    left: 5,
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black.withOpacity(0.1),
-                      child: Text(
-                        widget.disaster.title!,
-                        style: GoogleFonts.poppins(
-                          color: const Color(0xFFFFFFFF),
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
+            widget.disaster.path != 'none'
+                ? GestureDetector(
+                    child: Stack(
+                      children: [
+                        Image.network(
+                            '${baseImageUrl}storage/${widget.disaster.path!}'),
+                        Positioned(
+                          bottom: 10,
+                          left: 5,
+                          right: 0,
+                          child: Container(
+                            padding: const EdgeInsets.all(8),
+                            color: Colors.black.withOpacity(0.1),
+                            child: Text(
+                              widget.disaster.title!,
+                              style: GoogleFonts.poppins(
+                                color: const Color(0xFFFFFFFF),
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              onTap: () {
-                showFullSizeImage(
-                    '${baseImageUrl}storage/${widget.disaster.path!}', context);
-              },
-            ),
+                    onTap: () {
+                      showFullSizeImage(
+                          '${baseImageUrl}storage/${widget.disaster.path!}',
+                          context);
+                    },
+                  )
+                : Container(),
             Container(
               padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
               child: Column(

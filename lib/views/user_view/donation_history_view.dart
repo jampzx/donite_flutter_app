@@ -112,7 +112,7 @@ Age: ${donation['age']}
 Contact number: ${donation['contact_number']}
 Email: ${donation['email']}
 ''',
-                                  confirmBtnText: 'CONFIRM',
+                                  confirmBtnText: 'OK',
                                   confirmBtnColor: foregroundColor(),
                                   lottieAsset: "assets/successful.json",
                                   title: 'Goods Donation',

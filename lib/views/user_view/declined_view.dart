@@ -102,7 +102,7 @@ class _DeclinedViewState extends State<DeclinedView> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (ctx) => LoginView()));
           },
-          child: const Text('CONFIRM'),
+          child: const Text('OK'),
         ),
       ),
     );

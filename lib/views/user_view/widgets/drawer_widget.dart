@@ -64,35 +64,35 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               ],
             ),
           ),
-          ListTile(
-            leading: const Icon(Icons.home),
-            title: const Text("Home"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.newspaper),
-            title: const Text("News"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.history),
-            title: const Text("History"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.check_circle),
-            title: const Text("Donations"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          const Divider(),
+          // ListTile(
+          //   leading: const Icon(Icons.home),
+          //   title: const Text("Home"),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.newspaper),
+          //   title: const Text("News"),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.history),
+          //   title: const Text("History"),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.check_circle),
+          //   title: const Text("Supports"),
+          //   onTap: () {
+          //     Navigator.pop(context);
+          //   },
+          // ),
+          // const Divider(),
           ListTile(
             leading: const Icon(Icons.lock),
             title: const Text("Change password"),
@@ -116,6 +116,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               _authenticationController.logout();
             },
           ),
+          const Divider(),
         ],
       ),
     );
