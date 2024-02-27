@@ -153,6 +153,7 @@ class DonationController extends GetxController {
     required String donationType,
     required String donationInfo,
     required String goods_type,
+    required String donor_type,
     required BuildContext context,
   }) async {
     final url = Uri.parse('${baseUrl}donation/store');
@@ -175,6 +176,7 @@ class DonationController extends GetxController {
       request.fields['donation_type'] = donationType;
       request.fields['donation_info'] = donationInfo;
       request.fields['goods_type'] = goods_type;
+      request.fields['donor_type'] = donor_type;
 
       final response = await request.send();
       var jsonResponse = await response.stream.bytesToString();

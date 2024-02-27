@@ -91,7 +91,30 @@ class _LoginViewState extends State<LoginView> {
             : MainAxisAlignment.start,
         children: [
           size.width > 600
-              ? Container()
+              ? Column(
+                  children: [
+                    SizedBox(
+                      height: size.height * 0.075,
+                    ),
+                    Center(
+                      child: Image.asset(
+                        'assets/donitelogo.jpeg',
+                        height: 85,
+                        width: 85,
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                    SizedBox(
+                      height: size.height * 0.065,
+                    ),
+                    // Lottie.asset(
+                    //   'assets/wave2.json',
+                    //   height: size.height * 0.1,
+                    //   width: size.width,
+                    //   fit: BoxFit.fill,
+                    // ),
+                  ],
+                )
               : Column(
                   children: [
                     Center(

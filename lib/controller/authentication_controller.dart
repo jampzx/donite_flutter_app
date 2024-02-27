@@ -34,6 +34,7 @@ class AuthenticationController extends GetxController {
   final userId = ''.obs;
   final userName = ''.obs;
   final userEmail = ''.obs;
+  final userTypeIdentifier = ''.obs;
 
   // String verifiedUser = '';
   // String unverifiedUser = '';
@@ -207,7 +208,11 @@ class AuthenticationController extends GetxController {
         isLoadingLogin.value = false;
 
         final responseData = json.decode(response.body);
-        debugPrint(responseData['user']['user_type']);
+        debugPrint('USER TYPE');
+        userTypeIdentifier.value =
+            responseData['user']['user_type'] == 'admin' ? 'admin' : 'user';
+        debugPrint(userTypeIdentifier.value);
+
         int isVerified = responseData['user']['verified'];
 
         final userid = json.decode(response.body)['user']['id'];

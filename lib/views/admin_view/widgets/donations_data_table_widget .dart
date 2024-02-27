@@ -38,7 +38,9 @@ class _DonationsDataTableWidgetState extends State<DonationsDataTableWidget> {
     'Declined',
     'Cash donation',
     'Goods donation',
-    'Volunteer'
+    'Volunteer',
+    'walk-in',
+    'online'
   ];
   String selectedFilter = 'All'; // Default value
 
@@ -58,7 +60,8 @@ class _DonationsDataTableWidgetState extends State<DonationsDataTableWidget> {
         filterDonations.value = _donationController.donations.value
             .where((donation) =>
                 getDonationStatus(donation) == selectedFilter ||
-                donation.donationType == selectedFilter)
+                donation.donationType == selectedFilter ||
+                donation.donorType == selectedFilter)
             .toList();
       }
     });
@@ -307,6 +310,15 @@ class _DonationsDataTableWidgetState extends State<DonationsDataTableWidget> {
                       ),
                       const DataColumn(
                         label: Text(
+                          "Donor Type",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                      const DataColumn(
+                        label: Text(
                           "Quantity/Info",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
@@ -446,8 +458,8 @@ DataRow recentFileDataRow(DonationModel data, BuildContext context,
   return DataRow(
     cells: [
       DataCell(Text(data.name.toString())),
-
       DataCell(Text(data.donationType.toString())),
+      DataCell(Text(data.donorType.toString())),
       DataCell(Text(data.donationInfo.toString())),
       DataCell(Text(data.goodsType.toString())),
       DataCell(Text(data.email.toString())),

@@ -1,3 +1,4 @@
+import 'package:donite/controller/authentication_controller.dart';
 import 'package:donite/controller/donation_controller.dart';
 import 'package:donite/views/user_view/user_constants.dart';
 import 'package:donite/views/constants.dart';
@@ -29,6 +30,9 @@ class _DonationFormViewState extends State<DonationFormView> {
   final TextEditingController _emailController = TextEditingController();
 
   final DonationController _donationController = Get.put(DonationController());
+  final AuthenticationController _authenticationController =
+      Get.put(AuthenticationController());
+
   final TextEditingController _othersController = TextEditingController();
   List<String> dropdownItems = ['Cash donation', 'Goods donation', 'Volunteer'];
   List<String> goodsTypeItems = [
@@ -364,20 +368,25 @@ class _DonationFormViewState extends State<DonationFormView> {
                     );
                   }
                   _donationController.createDonation(
-                    disasterId: widget.disaster_id,
-                    name: _nameController.text.trim(),
-                    age: _ageController.text.trim(),
-                    contactNumber: _contactNumberController.text.trim(),
-                    email: _emailController.text.trim(),
-                    donationType: donationType,
-                    donationInfo: _donationInformationController.text.trim(),
-                    goods_type: donationType == 'Goods donation'
-                        ? _goodsTypeController.text != 'Others'
-                            ? _goodsTypeController.text.trim()
-                            : _othersController.text.trim()
-                        : 'not applicable',
-                    context: context,
-                  );
+                      disasterId: widget.disaster_id,
+                      name: _nameController.text.trim(),
+                      age: _ageController.text.trim(),
+                      contactNumber: _contactNumberController.text.trim(),
+                      email: _emailController.text.trim(),
+                      donationType: donationType,
+                      donationInfo: _donationInformationController.text.trim(),
+                      goods_type: donationType == 'Goods donation'
+                          ? _goodsTypeController.text != 'Others'
+                              ? _goodsTypeController.text.trim()
+                              : _othersController.text.trim()
+                          : 'not applicable',
+                      context: context,
+                      donor_type:
+                          // ignore: unrelated_type_equality_checks
+                          _authenticationController.userTypeIdentifier ==
+                                  'admin'
+                              ? 'walk-in'
+                              : 'online');
                 },
                 child: const Text('COMPLETE'),
               );
